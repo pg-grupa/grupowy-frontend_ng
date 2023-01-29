@@ -1,0 +1,53 @@
+#pin {
+  width: 1em;
+  height: 1em;
+  border-radius: 50% 50% 50% 0;
+  border-style: solid;
+  border-width: 0.3em;
+  // border: 0.3em solid red;
+  // transform: rotate(-45deg);
+
+  animation: bounce 1s linear infinite;
+}
+
+#shadow {
+  content: "";
+  width: 1em;
+  height: 0.1em;
+  background: #000;
+  opacity: 0.25;
+  position: relative;
+  top: 1.35em;
+  border-radius: 50%;
+  animation: shadow 1s linear infinite;
+}
+
+@keyframes bounce {
+  0%,
+  100% {
+    transform: translateY(-0.2em) rotate(-45deg);
+  }
+  20%,
+  80% {
+    transform: translateY(-0.1em) rotate(-45deg);
+  }
+  30%,
+  70% {
+    transform: translateY(0em) rotate(-45deg);
+    border-radius: 50% 50% 50% 0%;
+  }
+  50% {
+    transform: translateY(0.5em) scale(1, 0.7) rotate(-45deg);
+    border-radius: 50% 50% 50% 50%;
+  }
+}
+
+@keyframes shadow {
+  0%,
+  100% {
+    transform: scale(0.8, 0.8);
+  }
+  50% {
+    transform: scale(1, 1);
+  }
+}
