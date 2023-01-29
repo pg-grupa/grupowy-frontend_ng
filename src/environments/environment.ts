@@ -1,6 +1,14 @@
+import { LoggerType, LogLevel } from 'src/app/core/services/logger.service';
+
 export const environment = {
   production: false,
-  loggingLevel: 'DEBUG',
+  logging: [
+    {
+      type: LoggerType.CONSOLE,
+      level: LogLevel.DEBUG,
+    },
+  ],
+  apiUrl: 'http://localhost:8000/api/',
   initMapConfig: {
     center: [54.352024, 18.646639] as [number, number],
     zoom: 12,

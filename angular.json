@@ -25,7 +25,10 @@
             "inlineStyleLanguage": "scss",
             "assets": ["src/favicon.ico", "src/assets"],
             "styles": [
+              "node_modules/@fortawesome/fontawesome-free/css/all.min.css",
               "node_modules/leaflet/dist/leaflet.css",
+              "node_modules/leaflet-extra-markers/dist/css/leaflet.extra-markers.min.css",
+              "node_modules/leaflet-routing-machine/dist/leaflet-routing-machine.css",
               "src/styles/main.scss"
             ],
             "scripts": []

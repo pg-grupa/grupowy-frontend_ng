@@ -1,0 +1,19 @@
+#loading-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100vh;
+  z-index: 9999;
+  backdrop-filter: blur(2px);
+}
+
+@supports not (backdrop-filter: blur(2px)) {
+  #loading-container {
+    background: rgba(201, 201, 201, 0.5);
+  }
+}

@@ -1,6 +1,7 @@
 import { AfterViewInit, Component } from '@angular/core';
 import * as L from 'leaflet';
 import { environment } from 'src/environments/environment';
+import { LoadingService } from '../../services/loading.service';
 import { MapService } from '../../services/map.service';
 
 @Component({
@@ -15,7 +16,6 @@ export class MapComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
     this.initializeMap();
-    this.mapService.mapBounds$.subscribe(console.log);
   }
 
   private initializeMap(): void {
