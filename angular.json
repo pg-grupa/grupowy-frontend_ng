@@ -31,7 +31,8 @@
               "node_modules/leaflet-routing-machine/dist/leaflet-routing-machine.css",
               "src/styles/main.scss"
             ],
-            "scripts": []
+            "scripts": [],
+            "allowedCommonJsDependencies": ["leaflet"]
           },
           "configurations": {
             "production": {

@@ -7,6 +7,11 @@ export const environment = {
       type: LoggerType.CONSOLE,
       level: LogLevel.DEBUG,
     },
+    {
+      type: LoggerType.SESSION_STORAGE,
+      level: LogLevel.DEBUG,
+      storageKey: 'SessionLogger',
+    },
   ],
   apiUrl: 'http://localhost:8000/api/',
   initMapConfig: {

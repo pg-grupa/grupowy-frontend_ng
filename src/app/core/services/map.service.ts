@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
-import { LatLngBounds } from 'leaflet';
-import { ReplaySubject } from 'rxjs';
-import { LocationQueryParams } from '../interfaces/LocationQueryParams';
+import { Subject } from 'rxjs';
+import { IMapEvent, MapEventType } from '../interfaces/map-event';
 import { APIService } from './api.service';
 import { LoggerService } from './logger.service';
 
@@ -9,29 +8,22 @@ import { LoggerService } from './logger.service';
   providedIn: 'root',
 })
 export class MapService {
-  private mapBoundsSubject: ReplaySubject<LatLngBounds> = new ReplaySubject(1);
+  // private mapBoundsSubject: ReplaySubject<LatLngBounds> = new ReplaySubject(1);
+  private mapEventsSubject: Subject<IMapEvent> = new Subject();
 
   /* Emit map's new bounds everytime user stops moving in MapComponent */
-  public readonly mapBounds$ = this.mapBoundsSubject.asObservable();
+  // public readonly mapBounds$ = this.mapBoundsSubject.asObservable();
 
-  constructor(private _api: APIService, private _logger: LoggerService) {
-    // this._api.getTypes().subscribe((res) => {
-    //   this._logger.error('APIService', '', res);
-    //   this._logger.warn('APIService', '', res);
-    //   this._logger.info('APIService', '', res);
-    //   this._logger.debug('APIService', '', res);
-    // });
-  }
+  public readonly mapEvents$ = this.mapEventsSubject.asObservable();
 
-  public onBoundsChanged(bounds: LatLngBounds) {
-    this._logger.debug('MapService', 'Bounds changed:', bounds);
-    this.mapBoundsSubject.next(bounds);
-    // const params: LocationQueryParams = {
-    //   longitude__gte: bounds.getWest(),
-    //   longitude__lt: bounds.getEast(),
-    //   latitude__gte: bounds.getSouth(),
-    //   latitude__lt: bounds.getNorth(),
-    // };
-    // this._api.getLocations(params).subscribe(console.log);
+  constructor(private _api: APIService, private _logger: LoggerService) {}
+
+  public newMapEvent(mapEvent: IMapEvent): void {
+    this._logger.debug(
+      'MapService',
+      `Map event: ${MapEventType[mapEvent.type]}`,
+      mapEvent
+    );
+    this.mapEventsSubject.next(mapEvent);
   }
 }

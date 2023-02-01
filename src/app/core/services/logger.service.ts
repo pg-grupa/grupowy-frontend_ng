@@ -12,16 +12,16 @@ export enum LogLevel {
 export enum LoggerType {
   CONSOLE,
   SESSION_STORAGE,
+  LOCAL_STORAGE,
 }
 
-const defaultLogging = [
-  {
-    type: LoggerType.CONSOLE,
-    level: LogLevel.ERROR,
-  },
-];
+export interface ILoggerConfig {
+  type: LoggerType;
+  level: LogLevel;
+  storageKey?: string;
+}
 
-interface LogEntry {
+interface ILogEntry {
   label: string;
   timeStamp: Date;
   level: LogLevel;
@@ -29,14 +29,25 @@ interface LogEntry {
   optionalParams: any[];
 }
 
-abstract class Logger {
-  private _level: LogLevel = LogLevel.ERROR;
+interface IStorageLogs {
+  [label: string]: ILogEntry[];
+}
+
+const DEFAULT_CONFIG: ILoggerConfig[] = [
+  {
+    type: LoggerType.CONSOLE,
+    level: LogLevel.ERROR,
+  },
+];
+
+export abstract class BaseLogger {
+  protected _level: LogLevel = LogLevel.ERROR;
 
   constructor(level: LogLevel) {
     this._level = level;
   }
 
-  protected abstract _print(logEntry: LogEntry): void;
+  protected abstract _log(logEntry: ILogEntry): void;
 
   protected _shouldLog(logLevel: LogLevel): boolean {
     if (this._level === LogLevel.NONE) {
@@ -45,18 +56,17 @@ abstract class Logger {
     return logLevel <= this._level;
   }
 
-  public log(logEntry: LogEntry): void {
-    if (this._shouldLog(logEntry.level)) this._print(logEntry);
+  public log(logEntry: ILogEntry): void {
+    if (this._shouldLog(logEntry.level)) this._log(logEntry);
   }
 }
 
-class ConsoleLogger extends Logger {
-  private _formatMessage(logEntry: LogEntry): string {
-    return `[${logEntry.timeStamp.toLocaleTimeString()}][${
-      LogLevel[logEntry.level]
-    }][${logEntry.label}]\n ${logEntry.message}`;
+export class ConsoleLogger extends BaseLogger {
+  protected _log(logEntry: ILogEntry): void {
+    this._printEntry(logEntry);
   }
-  protected _print(logEntry: LogEntry): void {
+
+  protected _printEntry(logEntry: ILogEntry): void {
     let callFunc: Function;
     switch (logEntry.level) {
       case LogLevel.ERROR:
@@ -74,32 +84,104 @@ class ConsoleLogger extends Logger {
     }
     callFunc(this._formatMessage(logEntry), ...logEntry.optionalParams);
   }
+  protected _formatMessage(logEntry: ILogEntry): string {
+    return `[${
+      LogLevel[logEntry.level]
+    }][${logEntry.timeStamp.toLocaleTimeString()}][${logEntry.label}] ${
+      logEntry.message
+    }\n`;
+  }
+}
+
+abstract class StorageLogger extends BaseLogger {
+  protected _storage!: Storage;
+  private _storageKey: string;
+
+  constructor(level: LogLevel, storageKey: string) {
+    super(level);
+    this._storageKey = storageKey;
+  }
+
+  protected _log(logEntry: ILogEntry): void {
+    let logs = this._retrieveAll();
+    if (logEntry.label in logs === false) logs[logEntry.label] = [];
+    try {
+      // Check if optionalParams can be stringified.
+      // Note: JSON.stringify can't handle objects with circular references,
+      // ie. objects having DOM ref like 'events'
+      JSON.stringify(logEntry.optionalParams);
+    } catch (e) {
+      logEntry.optionalParams = ['Error stringifying optionalParams.'];
+    }
+    logs[logEntry.label].push(logEntry);
+    this._storage.setItem(this._storageKey, JSON.stringify(logs));
+  }
+
+  protected _retrieve(label: string): ILogEntry[] {
+    let logs = this._retrieveAll();
+    if (label in logs) return logs[label];
+    else return [];
+  }
+
+  protected _retrieveAll(): IStorageLogs {
+    return JSON.parse(this._storage.getItem(this._storageKey) || '{}');
+  }
+}
+
+export class SessionStorageLogger extends StorageLogger {
+  constructor(level: LogLevel, storageKey: string = 'SessionLogs') {
+    super(level, storageKey);
+    this._storage = sessionStorage;
+  }
+}
+
+export class LocalStorageLogger extends StorageLogger {
+  constructor(level: LogLevel, storageKey: string = 'LocalLogs') {
+    super(level, storageKey);
+    this._storage = localStorage;
+  }
 }
 
 @Injectable({
   providedIn: 'root',
 })
 export class LoggerService {
-  private _loggers: Logger[] = [];
+  private _loggers: BaseLogger[] = [];
 
   constructor() {
+    // load loggers configuration
     let config;
     if ('logging' in environment) {
-      config = environment.logging;
+      config = environment.logging as ILoggerConfig[];
     } else {
-      config = defaultLogging;
+      config = DEFAULT_CONFIG;
     }
+
+    // create loggers
     config.forEach((loggerConfig) => {
+      let logger: BaseLogger;
       switch (loggerConfig.type) {
         case LoggerType.CONSOLE:
-          this._loggers.push(new ConsoleLogger(loggerConfig.level));
+          logger = new ConsoleLogger(loggerConfig.level);
           break;
-        // case LoggerType.SESSION_STORAGE: // TODO
+        case LoggerType.SESSION_STORAGE:
+          logger = new SessionStorageLogger(
+            loggerConfig.level,
+            loggerConfig.storageKey!
+          );
+          break;
+        case LoggerType.LOCAL_STORAGE:
+          logger = new LocalStorageLogger(
+            loggerConfig.level,
+            loggerConfig.storageKey!
+          );
+          break;
       }
+      this._loggers.push(logger);
     });
   }
 
-  private _log(logEntry: LogEntry): void {
+  private _log(logEntry: ILogEntry): void {
     this._loggers.forEach((logger) => {
       logger.log(logEntry);
     });
