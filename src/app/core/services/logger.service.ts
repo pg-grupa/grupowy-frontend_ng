@@ -1,19 +1,6 @@
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-
-export enum LogLevel {
-  NONE,
-  ERROR,
-  WARNING,
-  INFO,
-  DEBUG,
-}
-
-export enum LoggerType {
-  CONSOLE,
-  SESSION_STORAGE,
-  LOCAL_STORAGE,
-}
+import { LoggerType, LogLevel } from '../enums/logs';
 
 export interface ILoggerConfig {
   type: LoggerType;

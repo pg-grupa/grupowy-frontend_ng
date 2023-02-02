@@ -1,6 +1,17 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-const routes: Routes = [];
+import { OverviewComponent } from './pages/overview/overview.component';
+const routes: Routes = [
+  {
+    path: 'overview',
+    component: OverviewComponent,
+  },
+  {
+    path: '',
+    redirectTo: 'overview',
+    pathMatch: 'full',
+  },
+];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

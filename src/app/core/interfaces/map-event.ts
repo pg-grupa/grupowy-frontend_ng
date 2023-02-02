@@ -1,6 +1,8 @@
 import { LatLng, LatLngBounds } from 'leaflet';
+import { IMapState } from './map-state';
 
 export enum MapEventType {
+  MapInitialized,
   MoveEnd,
   ZoomEnd,
   ClickMap,
@@ -10,24 +12,28 @@ export enum MapEventType {
 export interface IMapEvent {
   type: MapEventType;
   payload?: any;
+  state?: IMapState;
 }
 
-export class MoveEndEvent implements IMapEvent {
+export abstract class MapStateChangeEvent implements IMapEvent {
+  abstract type: MapEventType;
+  state: IMapState;
+
+  constructor(state: IMapState) {
+    this.state = state;
+  }
+}
+
+export class MapInitializedEvent extends MapStateChangeEvent {
+  type = MapEventType.MapInitialized;
+}
+
+export class MoveEndEvent extends MapStateChangeEvent {
   type = MapEventType.MoveEnd;
-  payload: LatLngBounds;
-
-  constructor(bounds: LatLngBounds) {
-    this.payload = bounds;
-  }
 }
 
-export class ZoomEndEvent implements IMapEvent {
+export class ZoomEndEvent extends MapStateChangeEvent {
   type = MapEventType.ZoomEnd;
-  payload: number;
-
-  constructor(zoom: number) {
-    this.payload = zoom;
-  }
 }
 
 export class ClickMapEvent implements IMapEvent {

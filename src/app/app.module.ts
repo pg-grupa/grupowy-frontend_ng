@@ -7,11 +7,12 @@ import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
 import { APIInterceptor } from './core/interceptors/api.interceptor';
 import { LoadingInterceptor } from './core/interceptors/loading.interceptor';
-import { RouterModule } from '@angular/router';
+import { OverviewComponent } from './pages/overview/overview.component';
+import { LocationDetailsComponent } from './pages/location-details/location-details.component';
 
 @NgModule({
-  declarations: [AppComponent],
-  imports: [BrowserModule, AppRoutingModule, CoreModule, RouterModule],
+  declarations: [AppComponent, OverviewComponent, LocationDetailsComponent],
+  imports: [BrowserModule, AppRoutingModule, CoreModule],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
