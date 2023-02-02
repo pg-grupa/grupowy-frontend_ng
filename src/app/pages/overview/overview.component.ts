@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { FilteringService } from 'src/app/core/services/filtering.service';
 import { LoggerService } from 'src/app/core/services/logger.service';
 
@@ -11,6 +12,7 @@ import { LoggerService } from 'src/app/core/services/logger.service';
 export class OverviewComponent {
   constructor(
     private _logger: LoggerService,
-    private _filteringService: FilteringService
+    private _filteringService: FilteringService,
+    private _route: ActivatedRoute
   ) {}
 }

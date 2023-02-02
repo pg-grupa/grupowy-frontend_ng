@@ -21,19 +21,19 @@ export class FilteringService implements OnDestroy {
     private _router: Router
   ) {
     this._logger.debug('FilteringService', 'Initializing.');
-    forkJoin({
-      locationTypes: this._api.getTypes(),
-      queryParams: this._route.queryParams.pipe(take(1)),
-    }).subscribe(({ locationTypes, queryParams }) => {
-      this._locationTypes = locationTypes;
-      this._logger.debug(
-        'FilteringService',
-        'Location types:',
-        this._locationTypes
-      );
+    // forkJoin({
+    //   locationTypes: this._api.getTypes(),
+    //   queryParams: this._route.queryParams.pipe(take(1)),
+    // }).subscribe(({ locationTypes, queryParams }) => {
+    //   this._locationTypes = locationTypes;
+    //   this._logger.debug(
+    //     'FilteringService',
+    //     'Location types:',
+    //     this._locationTypes
+    //   );
 
-      this._logger.debug('FilteringService', 'Query params:', queryParams);
-    });
+    //   this._logger.debug('FilteringService', 'Query params:', queryParams);
+    // });
 
     this._mapStateSubscription = this._map.mapState$.subscribe(
       (state: IMapState) => {

@@ -31,27 +31,37 @@ export class MapComponent implements AfterViewInit {
   ) {}
 
   ngAfterViewInit(): void {
+    this._logger.debug('MapComponent', 'AfterViewInit');
     this._loading.start();
-    this._route.queryParamMap.pipe(skip(1), take(1)).subscribe((params) => {
-      let config = environment.initMapConfig;
-      if (params.has('lat')) {
-        config.lat = +params.get('lat')!;
-      }
-      if (params.has('lng')) {
-        config.lng = +params.get('lng')!;
-      }
-      if (params.has('zoom')) {
-        config.zoom = +params.get('zoom')!;
-      }
-      this._router.navigate([], {
-        relativeTo: this._route,
-        queryParams: config,
-        queryParamsHandling: 'merge',
-        skipLocationChange: true,
-      });
-      this._initializeMap(config);
-      this._loading.stop();
-    });
+
+    const url = new URL(window.location.href);
+    const params = url.searchParams;
+
+    // ! structuredClone not supported by all/older browsers
+    // TODO: change cloning method
+    let config = structuredClone(environment.initMapConfig);
+
+    if (params.has('lat')) {
+      config.lat = +params.get('lat')!;
+    }
+    if (params.has('lng')) {
+      config.lng = +params.get('lng')!;
+    }
+    if (params.has('zoom')) {
+      config.zoom = +params.get('zoom')!;
+    }
+
+    if (isNaN(config.lat) || isNaN(config.lng) || isNaN(config.zoom)) {
+      this._logger.error(
+        'MapComponent',
+        'Error parsing initial query params.',
+        config
+      );
+      config = environment.initMapConfig;
+    }
+
+    this._initializeMap(config);
+    this._loading.stop();
   }
 
   private _getState(): IMapState {
