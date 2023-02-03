@@ -20,4 +20,7 @@ export const environment = {
     // center: [54.352024, 18.646639] as [number, number],
     zoom: 12,
   },
+  markersConfig: {
+    maxAmount: 500,
+  },
 };

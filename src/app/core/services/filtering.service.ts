@@ -1,18 +1,20 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { forkJoin, Subscription, take } from 'rxjs';
+import { filter, forkJoin, Subscription, take } from 'rxjs';
 import { IMapState } from '../interfaces/map-state';
 import { ILocationType } from '../models/location-type';
 import { APIService } from './api.service';
 import { LoggerService } from './logger.service';
 import { MapService } from './map.service';
 import { ILocationQueryParams } from '../interfaces/location-query-params';
+import { IMapEvent, MapEventType, MoveEndEvent } from '../interfaces/map-event';
 
 @Injectable()
 export class FilteringService implements OnDestroy {
   private _locationTypes: ILocationType[] = [];
 
-  private _mapStateSubscription: Subscription;
+  // private _mapStateSubscription: Subscription;
+  private _mapServiceSubscription: Subscription;
 
   constructor(
     private _logger: LoggerService,
@@ -23,16 +25,28 @@ export class FilteringService implements OnDestroy {
   ) {
     this._logger.debug('FilteringService', 'Constructor');
 
-    this._mapStateSubscription = this._map.mapState$.subscribe(
-      (state: IMapState) => {
-        this._updateQueryParams(state);
-        this._loadLocations(state);
-      }
-    );
+    // this._mapStateSubscription = this._map.mapState$.subscribe(
+    //   (state: IMapState) => {
+    //     this._updateQueryParams(state);
+    //     this._loadLocations(state);
+    //   }
+    // );
+
+    this._map.mapState$.pipe(take(1)).subscribe((state: IMapState) => {
+      this._updateQueryParams(state);
+      this._loadLocations(state);
+    });
+
+    this._mapServiceSubscription = this._map.mapEvents$
+      .pipe(filter((event) => event.type === MapEventType.MoveEnd))
+      .subscribe((event: IMapEvent) => {
+        this._updateQueryParams(event.state!);
+        this._loadLocations(event.state!);
+      });
   }
 
   ngOnDestroy(): void {
-    this._mapStateSubscription.unsubscribe();
+    // this._mapStateSubscription.unsubscribe();
     this._logger.debug('FilteringService', 'OnDestroy');
   }
 
@@ -64,7 +78,7 @@ export class FilteringService implements OnDestroy {
     };
     this._logger.debug('FilteringService', 'Loading locations');
     this._api.getLocations(query).subscribe((locations) => {
-      this._map.addLocationsMarkers(locations);
+      this._map.drawLocationsMarkers(locations);
     });
   }
 
