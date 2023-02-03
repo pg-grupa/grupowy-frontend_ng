@@ -1,8 +1,10 @@
 import { AfterViewInit, Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as L from 'leaflet';
+import 'leaflet-extra-markers';
 import { skip, take } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { IMapCommand, MapCommandType } from '../../interfaces/map-commands';
 import {
   ClickMapEvent,
   MapInitializedEvent,
@@ -10,6 +12,8 @@ import {
   ZoomEndEvent,
 } from '../../interfaces/map-event';
 import { IMapState } from '../../interfaces/map-state';
+import { ILocation } from '../../models/location';
+import { CacheService } from '../../services/cache.service';
 import { LoadingService } from '../../services/loading.service';
 import { LoggerService } from '../../services/logger.service';
 import { MapService } from '../../services/map.service';
@@ -20,12 +24,14 @@ import { MapService } from '../../services/map.service';
   styleUrls: ['./map.component.scss'],
 })
 export class MapComponent implements AfterViewInit {
-  private map!: L.Map;
+  private _map!: L.Map;
+  private _locationsMarkersGroup!: L.FeatureGroup;
 
   constructor(
     private _mapService: MapService,
     private _logger: LoggerService,
     private _loading: LoadingService,
+    private _cache: CacheService,
     private _route: ActivatedRoute,
     private _router: Router
   ) {}
@@ -37,9 +43,7 @@ export class MapComponent implements AfterViewInit {
     const url = new URL(window.location.href);
     const params = url.searchParams;
 
-    // ! structuredClone not supported by all/older browsers
-    // TODO: change cloning method
-    let config = structuredClone(environment.initMapConfig);
+    let config = { ...environment.initMapConfig };
 
     if (params.has('lat')) {
       config.lat = +params.get('lat')!;
@@ -66,44 +70,98 @@ export class MapComponent implements AfterViewInit {
 
   private _getState(): IMapState {
     return {
-      zoom: this.map.getZoom(),
-      center: this.map.getCenter(),
-      bounds: this.map.getBounds(),
+      zoom: this._map.getZoom(),
+      center: this._map.getCenter(),
+      bounds: this._map.getBounds(),
     };
   }
 
   private _initializeMap(config: any): void {
     this._logger.debug('MapComponent', 'Initializing map.', config);
-    this.map = L.map('map', {
+    this._map = L.map('map', {
       center: [config.lat, config.lng],
       zoom: config.zoom,
       zoomControl: false,
     });
-    this.map.addLayer(
+    this._map.addLayer(
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png')
     );
 
     // listen for bounds changes
-    this.map.on('moveend', () => {
+    this._map.on('moveend', () => {
       this._mapService.onMapEvent(new MoveEndEvent(this._getState()));
     });
 
     // listen for zoom changes
-    this.map.on('zoomend', () => {
+    this._map.on('zoomend', () => {
       this._mapService.onMapEvent(new ZoomEndEvent(this._getState()));
     });
 
     // listen for map clicks
-    this.map.on('click', (event) => {
+    this._map.on('click', (event) => {
       this._mapService.onMapEvent(new ClickMapEvent(event.latlng));
     });
+
+    // initialize markers group
+    this._locationsMarkersGroup = new L.FeatureGroup();
+
     this._logger.debug('MapComponent', 'Map initialized.');
     this._mapService.onMapEvent(
       new MapInitializedEvent({
-        zoom: this.map.getZoom(),
-        center: this.map.getCenter(),
-        bounds: this.map.getBounds(),
+        zoom: this._map.getZoom(),
+        center: this._map.getCenter(),
+        bounds: this._map.getBounds(),
       })
     );
+
+    // start listening for commands sent from MapService
+    this._mapService.mapCommands$.subscribe((command) =>
+      this._handleMapCommand(command)
+    );
+  }
+
+  private _handleMapCommand(command: IMapCommand) {
+    switch (command.type) {
+      case MapCommandType.ClearMarkers:
+        this._clearMarkers();
+        break;
+      case MapCommandType.AddLocationsMarkers:
+        this._clearMarkers();
+        this._addLocationsMarkers(command.payload);
+        break;
+    }
+  }
+
+  private _clearMarkers() {
+    this._logger.debug('MapComponent', 'Clearing markers.');
+    if (this._map.hasLayer(this._locationsMarkersGroup)) {
+      this._locationsMarkersGroup.clearLayers();
+      this._map.removeLayer(this._locationsMarkersGroup);
+    }
+  }
+
+  private _addLocationsMarkers(locations: ILocation[]) {
+    locations.forEach((location) => {
+      const iconName = this._cache.getLocationType(
+        location.type as number
+      )?.icon;
+      const icon = new L.ExtraMarkers.Icon({
+        icon: iconName,
+        markerColor: 'cyan',
+        prefix: 'fa',
+      });
+      const marker = L.marker([location.latitude, location.longitude], {
+        icon: icon,
+      });
+      marker.bindTooltip(location.name, {
+        offset: [15, -22.5],
+      });
+      marker.addTo(this._locationsMarkersGroup);
+      // marker.on('click', () => {
+      //   placeService.selectPlace(place);
+      // });
+    });
+    if (!this._map.hasLayer(this._locationsMarkersGroup))
+      this._map.addLayer(this._locationsMarkersGroup);
   }
 }

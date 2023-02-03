@@ -32,7 +32,7 @@
               "src/styles/main.scss"
             ],
             "scripts": [],
-            "allowedCommonJsDependencies": ["leaflet"]
+            "allowedCommonJsDependencies": ["leaflet", "leaflet-extra-markers"]
           },
           "configurations": {
             "production": {

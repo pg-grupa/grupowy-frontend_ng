@@ -1,6 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ILocationQueryParams } from '../interfaces/location-query-params';
+import { ILocation } from '../models/location';
 import { ILocationType } from '../models/location-type';
 
 @Injectable({
@@ -20,6 +21,8 @@ export class APIService {
   }
 
   getLocations(params: ILocationQueryParams) {
-    return this._http.get(this._apiUrls.locations, { params: params as any });
+    return this._http.get<ILocation[]>(this._apiUrls.locations, {
+      params: params as any,
+    });
   }
 }
