@@ -29,10 +29,18 @@
               "node_modules/leaflet/dist/leaflet.css",
               "node_modules/leaflet-extra-markers/dist/css/leaflet.extra-markers.min.css",
               "node_modules/leaflet-routing-machine/dist/leaflet-routing-machine.css",
+              "node_modules/leaflet.markercluster/dist/MarkerCluster.Default.css",
               "src/styles/main.scss"
             ],
-            "scripts": [],
-            "allowedCommonJsDependencies": ["leaflet", "leaflet-extra-markers"]
+            "scripts": [
+              "node_modules/leaflet/dist/leaflet.js",
+              "node_modules/leaflet-extra-markers/dist/js/leaflet.extra-markers.js"
+            ],
+            "allowedCommonJsDependencies": [
+              "leaflet",
+              "leaflet-extra-markers",
+              "leaflet.markercluster"
+            ]
           },
           "configurations": {
             "production": {

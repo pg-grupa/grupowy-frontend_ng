@@ -12,6 +12,8 @@ import { IMapState } from '../interfaces/map-state';
 import { ILocation } from '../models/location';
 import { LoggerService } from './logger.service';
 import * as L from 'leaflet';
+import 'leaflet-extra-markers';
+import 'leaflet.markercluster';
 import { CacheService } from './cache.service';
 import { LoadingService } from './loading.service';
 import { environment } from 'src/environments/environment';
@@ -25,6 +27,7 @@ export class MapService {
 
   private _map!: L.Map;
   private _locationsMarkersGroup!: L.FeatureGroup;
+  private _clusterMarkersGroup!: L.MarkerClusterGroup;
 
   public readonly mapEvents$ = this._mapEventsSubject.asObservable();
   public readonly mapState$ = this._mapStateSubject.asObservable();
@@ -35,6 +38,24 @@ export class MapService {
     private _loading: LoadingService
   ) {
     this._logger.debug('MapService', 'Instantiated.');
+  }
+
+  initializeService(): void {
+    this._loading.start();
+    this._logger.debug('MapService', 'Initializing service.');
+
+    this._initMap();
+    this._initEvents();
+
+    this._logger.debug('MapService', 'Service initialized.');
+    this._onMapEvent(
+      new MapInitializedEvent({
+        zoom: this._map.getZoom(),
+        center: this._map.getCenter(),
+        bounds: this._map.getBounds(),
+      })
+    );
+    this._loading.stop();
   }
 
   private _getInitialConfig() {
@@ -79,6 +100,7 @@ export class MapService {
 
     // initialize markers group
     this._locationsMarkersGroup = new L.FeatureGroup();
+    this._clusterMarkersGroup = new L.MarkerClusterGroup();
 
     this._logger.debug('MapService', 'Map initialized.');
   }
@@ -86,45 +108,27 @@ export class MapService {
   private _initEvents(): void {
     // listen for bounds changes
     this._map.on('moveend', () => {
-      this.onMapEvent(new MoveEndEvent(this._getState()));
+      this._onMapEvent(new MoveEndEvent(this._getState()));
     });
 
     // listen for zoom changes
     this._map.on('zoomend', () => {
-      this.onMapEvent(new ZoomEndEvent(this._getState()));
+      this._onMapEvent(new ZoomEndEvent(this._getState()));
     });
 
     // listen for map clicks
     this._map.on('click', (event) => {
-      this.onMapEvent(new ClickMapEvent(event.latlng));
+      this._onMapEvent(new ClickMapEvent(event.latlng));
     });
     this._logger.debug('MapService', 'Map events initialized.');
   }
 
-  initializeService(): void {
-    this._loading.start();
-    this._logger.debug('MapService', 'Initializing service.');
-
-    this._initMap();
-    this._initEvents();
-
-    this._logger.debug('MapService', 'Service initialized.');
-    this.onMapEvent(
-      new MapInitializedEvent({
-        zoom: this._map.getZoom(),
-        center: this._map.getCenter(),
-        bounds: this._map.getBounds(),
-      })
-    );
-    this._loading.stop();
-  }
-
-  onMapStateChange(mapState: IMapState) {
+  private _onMapStateChange(mapState: IMapState) {
     this._logger.debug('MapService', 'Map state changed:', mapState);
     this._mapStateSubject.next(mapState);
   }
 
-  onMapEvent(mapEvent: IMapEvent): void {
+  private _onMapEvent(mapEvent: IMapEvent): void {
     // this._logger.debug(
     //   'MapService',
     //   `Map event: ${MapEventType[mapEvent.type]}`,
@@ -132,7 +136,7 @@ export class MapService {
     // );
     this._mapEventsSubject.next(mapEvent);
     if ('state' in mapEvent) {
-      this.onMapStateChange(mapEvent.state!);
+      this._onMapStateChange(mapEvent.state!);
     }
   }
 
@@ -144,53 +148,49 @@ export class MapService {
     };
   }
 
-  public clearMarkers() {
-    this._logger.debug('MapService', 'Clearing markers.');
-    if (this._map.hasLayer(this._locationsMarkersGroup)) {
-      this._locationsMarkersGroup.clearLayers();
-      this._map.removeLayer(this._locationsMarkersGroup);
+  private _getMarkersMode(): 'none' | 'marker' | 'cluster' {
+    const zoom = this._getState().zoom;
+    const configs = environment.markersConfig;
+
+    for (let index = 0; index < configs.length; index++) {
+      const config = configs[index];
+      if (zoom >= config.minZoom && zoom <= config.maxZoom) return config.mode;
     }
+    this._logger.error(
+      'MapService',
+      `Improperly configured - couldn't specify markers mode for zoom: ${zoom}`
+    );
+    return 'none';
   }
 
-  private _limitLocationsMarkers(
+  drawLocationsMarkers(
     locations: ILocation[],
-    aboveLimitBehavior: 'cut' | 'draw' | 'clear'
+    enforceDrawingMode?: 'marker' | 'cluster'
   ) {
-    const limit = environment.markersConfig.maxAmount;
-    if (locations.length > limit) {
-      switch (aboveLimitBehavior) {
-        case 'cut':
-          this._logger.warn(
-            'MapService',
-            `Drawing ${limit} markers, ${locations.length - limit} omitted.`
-          );
-          locations.splice(limit);
-          return locations;
-        case 'clear':
-          this._logger.warn(
-            'MapService',
-            'Locations number exceeded limit. Clearing map.'
-          );
-          return [];
-        default:
-          this._logger.warn(
-            'MapService',
-            `Drawing ${locations.length} markers, ${
-              locations.length - limit
-            } above limit. App may work slowly.`
-          );
-      }
-    }
-    return locations;
-  }
-
-  public drawLocationsMarkers(
-    locations: ILocation[],
-    aboveLimitBehavior: 'cut' | 'draw' | 'clear' = 'clear'
-  ) {
-    locations = this._limitLocationsMarkers(locations, aboveLimitBehavior);
+    // locations = this._limitLocationsMarkers(locations, aboveLimitBehavior);
     this.clearMarkers();
     // this._logger.debug('MapService', 'Drawing markers.', locations);
+    let mode: string;
+    if (enforceDrawingMode) {
+      mode = enforceDrawingMode;
+    } else {
+      mode = this._getMarkersMode();
+    }
+    this._logger.debug('MapService', `Drawing mode: ${mode}`);
+    let targetLayer: L.LayerGroup;
+    switch (mode) {
+      case 'marker':
+        targetLayer = this._locationsMarkersGroup;
+        break;
+      case 'cluster':
+        targetLayer = this._clusterMarkersGroup;
+        break;
+      case 'none':
+        return;
+      default:
+        targetLayer = this._locationsMarkersGroup;
+    }
+
     locations.forEach((location) => {
       const iconName = this._cache.getLocationType(
         location.type as number
@@ -206,12 +206,24 @@ export class MapService {
       marker.bindTooltip(location.name, {
         offset: [15, -22.5],
       });
-      marker.addTo(this._locationsMarkersGroup);
+      // marker.addTo(this._locationsMarkersGroup);
+      marker.addTo(targetLayer);
       // marker.on('click', () => {
       //   placeService.selectPlace(place);
       // });
     });
-    if (!this._map.hasLayer(this._locationsMarkersGroup))
-      this._map.addLayer(this._locationsMarkersGroup);
+    if (!this._map.hasLayer(targetLayer)) this._map.addLayer(targetLayer);
+  }
+
+  clearMarkers() {
+    this._logger.debug('MapService', 'Clearing markers.');
+    if (this._map.hasLayer(this._locationsMarkersGroup)) {
+      this._locationsMarkersGroup.clearLayers();
+      this._map.removeLayer(this._locationsMarkersGroup);
+    }
+    if (this._map.hasLayer(this._clusterMarkersGroup)) {
+      this._clusterMarkersGroup.clearLayers();
+      this._map.removeLayer(this._clusterMarkersGroup);
+    }
   }
 }

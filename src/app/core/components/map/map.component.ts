@@ -1,5 +1,4 @@
 import { AfterViewInit, Component } from '@angular/core';
-import 'leaflet-extra-markers';
 import { LoggerService } from '../../services/logger.service';
 import { MapService } from '../../services/map.service';
 
