@@ -11,13 +11,17 @@ import {
 import { IMapState } from '../interfaces/map-state';
 import { ILocation } from '../models/location';
 import { LoggerService } from './logger.service';
-import * as L from 'leaflet';
-import 'leaflet-extra-markers';
-import 'leaflet.markercluster';
 import { CacheService } from './cache.service';
 import { LoadingService } from './loading.service';
 import { environment } from 'src/environments/environment';
+import * as L from 'leaflet';
+import 'leaflet-extra-markers';
+import 'leaflet.markercluster';
 
+/**
+ * Service responsible for managing map component
+ * and communication with other elements
+ */
 @Injectable({
   providedIn: 'root',
 })
@@ -26,28 +30,33 @@ export class MapService {
   private _mapStateSubject: ReplaySubject<IMapState> = new ReplaySubject(1);
 
   private _map!: L.Map;
+
+  /** Map layer containing locations markers. */
   private _locationsMarkersGroup!: L.FeatureGroup;
+  /** Map layer containing markers clusters. */
   private _clusterMarkersGroup!: L.MarkerClusterGroup;
 
+  /** Observable of map events. Emits {@link IMapEvent} */
   public readonly mapEvents$ = this._mapEventsSubject.asObservable();
+  /** Observable of map state. Emits {@link IMapState} */
   public readonly mapState$ = this._mapStateSubject.asObservable();
 
   constructor(
     private _logger: LoggerService,
     private _cache: CacheService,
     private _loading: LoadingService
-  ) {
-    this._logger.debug('MapService', 'Instantiated.');
-  }
+  ) {}
 
+  /**
+   * Initialize service, needs to be called once, after {@link MapComponent}
+   * finished initializing.
+   */
   initializeService(): void {
     this._loading.start();
-    this._logger.debug('MapService', 'Initializing service.');
 
     this._initMap();
     this._initEvents();
 
-    this._logger.debug('MapService', 'Service initialized.');
     this._onMapEvent(
       new MapInitializedEvent({
         zoom: this._map.getZoom(),
@@ -58,12 +67,16 @@ export class MapService {
     this._loading.stop();
   }
 
+  /**
+   * Creates initial map configuration, gets settings from query params if present,
+   * form environment file otherwise.
+   */
   private _getInitialConfig() {
+    // check query params for initial config
     const url = new URL(window.location.href);
     const params = url.searchParams;
 
     let config = { ...environment.initMapConfig };
-
     if (params.has('lat')) {
       config.lat = +params.get('lat')!;
     }
@@ -74,18 +87,22 @@ export class MapService {
       config.zoom = +params.get('zoom')!;
     }
 
+    // if any of the variables is not a number
+    // returns config to default value from environment file
     if (isNaN(config.lat) || isNaN(config.lng) || isNaN(config.zoom)) {
-      this._logger.error(
+      this._logger.warn(
         'MapComponent',
         'Error parsing initial query params.',
         config
       );
       config = environment.initMapConfig;
     }
-    this._logger.debug('MapService', 'Initial config:', config);
     return config;
   }
 
+  /**
+   * Initialize {@link _map} with {@link L.Map} object.
+   */
   private _initMap(): void {
     const config = this._getInitialConfig();
 
@@ -98,13 +115,14 @@ export class MapService {
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png')
     );
 
-    // initialize markers group
+    // initialize markers groups
     this._locationsMarkersGroup = new L.FeatureGroup();
     this._clusterMarkersGroup = new L.MarkerClusterGroup();
-
-    this._logger.debug('MapService', 'Map initialized.');
   }
 
+  /**
+   * Initialize map events listeners.
+   */
   private _initEvents(): void {
     // listen for bounds changes
     this._map.on('moveend', () => {
@@ -120,26 +138,34 @@ export class MapService {
     this._map.on('click', (event) => {
       this._onMapEvent(new ClickMapEvent(event.latlng));
     });
-    this._logger.debug('MapService', 'Map events initialized.');
   }
 
+  /**
+   * @deprecated not needed, since it's just one-liner
+   *
+   * Emit new map state on {@link MoveEndEvent} and {@link ZoomEndEvent} events.
+   * @param {IMapState} mapState
+   */
   private _onMapStateChange(mapState: IMapState) {
-    this._logger.debug('MapService', 'Map state changed:', mapState);
     this._mapStateSubject.next(mapState);
   }
 
+  /**
+   * Handle map events.
+   */
   private _onMapEvent(mapEvent: IMapEvent): void {
-    // this._logger.debug(
-    //   'MapService',
-    //   `Map event: ${MapEventType[mapEvent.type]}`,
-    //   mapEvent
-    // );
     this._mapEventsSubject.next(mapEvent);
+
+    // if map state changed, emit new one
     if ('state' in mapEvent) {
-      this._onMapStateChange(mapEvent.state!);
+      this._mapStateSubject.next(mapEvent.state!);
     }
   }
 
+  /**
+   * Returns current map state.
+   * @return {IMapState}
+   */
   private _getState(): IMapState {
     return {
       zoom: this._map.getZoom(),
@@ -148,14 +174,24 @@ export class MapService {
     };
   }
 
+  /**
+   * Returns if/how should markers be drawn on the map,
+   * depending on current map zoom and configuration from environment file.
+   * - 'none' - markers shouldn't be drawn
+   * - 'marker' - each marker drawn separately
+   * - 'cluster' - markers shoul be drawn in clusters
+   */
   private _getMarkersMode(): 'none' | 'marker' | 'cluster' {
     const zoom = this._getState().zoom;
     const configs = environment.markersConfig;
 
+    // check config for proper mode
     for (let index = 0; index < configs.length; index++) {
       const config = configs[index];
       if (zoom >= config.minZoom && zoom <= config.maxZoom) return config.mode;
     }
+
+    // if proper config not found
     this._logger.error(
       'MapService',
       `Improperly configured - couldn't specify markers mode for zoom: ${zoom}`
@@ -163,20 +199,27 @@ export class MapService {
     return 'none';
   }
 
+  /**
+   * Draw markers for provided locations.
+   * Drawing mode is specified by {@link _getMarkersMode}, but can be enforced
+   * by providing enforceDrawingMode param.
+   */
   drawLocationsMarkers(
     locations: ILocation[],
     enforceDrawingMode?: 'marker' | 'cluster'
   ) {
-    // locations = this._limitLocationsMarkers(locations, aboveLimitBehavior);
+    // clear markers before drawing new ones
     this.clearMarkers();
-    // this._logger.debug('MapService', 'Drawing markers.', locations);
+
+    // set drawing mode
     let mode: string;
     if (enforceDrawingMode) {
       mode = enforceDrawingMode;
     } else {
       mode = this._getMarkersMode();
     }
-    this._logger.debug('MapService', `Drawing mode: ${mode}`);
+
+    // set target layer - markers/cluster
     let targetLayer: L.LayerGroup;
     switch (mode) {
       case 'marker':
@@ -186,35 +229,44 @@ export class MapService {
         targetLayer = this._clusterMarkersGroup;
         break;
       case 'none':
-        return;
+        return; // exit function without drawing
       default:
         targetLayer = this._locationsMarkersGroup;
     }
 
+    // generate and add markers to the layer for each location
     locations.forEach((location) => {
+      // get icon css class
       const iconName = this._cache.getLocationType(
         location.type as number
       )?.icon;
+      // create icon
       const icon = new L.ExtraMarkers.Icon({
         icon: iconName,
         markerColor: 'cyan',
         prefix: 'fa',
       });
+
+      // create marker
       const marker = L.marker([location.latitude, location.longitude], {
         icon: icon,
       });
       marker.bindTooltip(location.name, {
         offset: [15, -22.5],
       });
-      // marker.addTo(this._locationsMarkersGroup);
       marker.addTo(targetLayer);
+
+      // TODO: add event listeners for marker click
       // marker.on('click', () => {
       //   placeService.selectPlace(place);
       // });
     });
+
+    // add markers layer to the map
     if (!this._map.hasLayer(targetLayer)) this._map.addLayer(targetLayer);
   }
 
+  /** Clear markers from the map */
   clearMarkers() {
     this._logger.debug('MapService', 'Clearing markers.');
     if (this._map.hasLayer(this._locationsMarkersGroup)) {
