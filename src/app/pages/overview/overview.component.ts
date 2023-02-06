@@ -16,7 +16,5 @@ export class OverviewComponent {
     private _filteringService: FilteringService,
     private _cache: CacheService,
     private _route: ActivatedRoute
-  ) {
-    this._cache.setLocationTypes(this._route.snapshot.data['locationTypes']);
-  }
+  ) {}
 }

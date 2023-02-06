@@ -13,7 +13,6 @@ import { IMapEvent, MapEventType, MoveEndEvent } from '../interfaces/map-event';
 export class FilteringService implements OnDestroy {
   private _locationTypes: ILocationType[] = [];
 
-  // private _mapStateSubscription: Subscription;
   private _mapServiceSubscription: Subscription;
 
   constructor(
@@ -23,15 +22,6 @@ export class FilteringService implements OnDestroy {
     private _route: ActivatedRoute,
     private _router: Router
   ) {
-    this._logger.debug('FilteringService', 'Constructor');
-
-    // this._mapStateSubscription = this._map.mapState$.subscribe(
-    //   (state: IMapState) => {
-    //     this._updateQueryParams(state);
-    //     this._loadLocations(state);
-    //   }
-    // );
-
     this._map.mapState$.pipe(take(1)).subscribe((state: IMapState) => {
       this._updateQueryParams(state);
       this._loadLocations(state);
@@ -46,12 +36,8 @@ export class FilteringService implements OnDestroy {
   }
 
   ngOnDestroy(): void {
-    // this._mapStateSubscription.unsubscribe();
+    this._mapServiceSubscription.unsubscribe();
     this._logger.debug('FilteringService', 'OnDestroy');
-  }
-
-  setTypes(locationTypes: ILocationType[]): void {
-    this._locationTypes = locationTypes;
   }
 
   private _updateQueryParams(mapState: IMapState) {
@@ -80,6 +66,10 @@ export class FilteringService implements OnDestroy {
     this._api.getLocations(query).subscribe((locations) => {
       this._map.drawLocationsMarkers(locations);
     });
+  }
+
+  setTypes(locationTypes: ILocationType[]): void {
+    this._locationTypes = locationTypes;
   }
 
   getLocationType(id: number) {

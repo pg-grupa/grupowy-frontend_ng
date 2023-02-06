@@ -14,7 +14,6 @@ export class MapComponent implements AfterViewInit {
   ) {}
 
   ngAfterViewInit(): void {
-    this._logger.debug('MapComponent', 'AfterViewInit');
     this._mapService.initializeService();
   }
 }

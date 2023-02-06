@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ReplaySubject, Subject } from 'rxjs';
+import { ReplaySubject, Subject, tap } from 'rxjs';
 import {
   ClickMapEvent,
   IMapEvent,
@@ -31,10 +31,12 @@ export class MapService {
 
   private _map!: L.Map;
 
-  /** Map layer containing locations markers. */
-  private _locationsMarkersGroup!: L.FeatureGroup;
-  /** Map layer containing markers clusters. */
-  private _clusterMarkersGroup!: L.MarkerClusterGroup;
+  private _layers = {
+    /** Map layer containing locations markers. */
+    markers: new L.FeatureGroup(),
+    /** Map layer containing markers clusters. */
+    clusters: new L.MarkerClusterGroup(),
+  };
 
   /** Observable of map events. Emits {@link IMapEvent} */
   public readonly mapEvents$ = this._mapEventsSubject.asObservable();
@@ -114,10 +116,6 @@ export class MapService {
     this._map.addLayer(
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png')
     );
-
-    // initialize markers groups
-    this._locationsMarkersGroup = new L.FeatureGroup();
-    this._clusterMarkersGroup = new L.MarkerClusterGroup();
   }
 
   /**
@@ -223,15 +221,15 @@ export class MapService {
     let targetLayer: L.LayerGroup;
     switch (mode) {
       case 'marker':
-        targetLayer = this._locationsMarkersGroup;
+        targetLayer = this._layers['markers'];
         break;
       case 'cluster':
-        targetLayer = this._clusterMarkersGroup;
+        targetLayer = this._layers['clusters'];
         break;
       case 'none':
         return; // exit function without drawing
       default:
-        targetLayer = this._locationsMarkersGroup;
+        targetLayer = this._layers['markers'];
     }
 
     // generate and add markers to the layer for each location
@@ -268,14 +266,38 @@ export class MapService {
 
   /** Clear markers from the map */
   clearMarkers() {
-    this._logger.debug('MapService', 'Clearing markers.');
-    if (this._map.hasLayer(this._locationsMarkersGroup)) {
-      this._locationsMarkersGroup.clearLayers();
-      this._map.removeLayer(this._locationsMarkersGroup);
-    }
-    if (this._map.hasLayer(this._clusterMarkersGroup)) {
-      this._clusterMarkersGroup.clearLayers();
-      this._map.removeLayer(this._clusterMarkersGroup);
-    }
+    // this._logger.debug('MapService', 'Clearing markers.');
+    // if (this._map.hasLayer(this._layers.markers)) {
+    //   this._layers.markers.clearLayers();
+    //   this._map.removeLayer(this._layers.markers);
+    // }
+    // if (this._map.hasLayer(this._layers.clusters)) {
+    //   this._layers.clusters.clearLayers();
+    //   this._map.removeLayer(this._layers.clusters);
+    // }
+    this.hideLayers('markers', 'clusters');
+    this.clearLayers('markers', 'clusters');
+  }
+
+  hideLayers(...layers: (keyof typeof this._layers)[]) {
+    layers.forEach((layer) => {
+      if (this._map.hasLayer(this._layers[layer])) {
+        this._map.removeLayer(this._layers[layer]);
+      }
+    });
+  }
+
+  showLayers(...layers: (keyof typeof this._layers)[]) {
+    layers.forEach((layer) => {
+      if (!this._map.hasLayer(this._layers[layer])) {
+        this._map.addLayer(this._layers[layer]);
+      }
+    });
+  }
+
+  clearLayers(...layers: (keyof typeof this._layers)[]) {
+    layers.forEach((layer) => {
+      this._layers[layer].clearLayers();
+    });
   }
 }
