@@ -1,7 +1,9 @@
 import { LoggerType, LogLevel } from 'src/app/core/enums/logs';
+import { IEnvironment } from 'src/app/core/interfaces/environment';
+import { defaultEnv } from './environment.default';
 
-export const environment = {
-  production: false,
+export const environment: IEnvironment = {
+  ...defaultEnv,
   logging: [
     {
       type: LoggerType.CONSOLE,
@@ -13,11 +15,4 @@ export const environment = {
       storageKey: 'SessionLogger',
     },
   ],
-  apiUrl: 'http://localhost:8000/api/',
-  initMapConfig: {
-    lat: 54.352024,
-    lng: 18.646639,
-    // center: [54.352024, 18.646639] as [number, number],
-    zoom: 12,
-  },
 };
