@@ -1,0 +1,11 @@
+@mixin shadow-color($color, $spread: 6px) {
+  box-shadow: 0px 0px 0px $spread $color;
+}
+
+.shadow-gray {
+  @include shadow-color(rgba(0, 0, 0, 0.2));
+}
+
+.shadow-blue {
+  @include shadow-color(rgba(0, 0, 255, 0.2));
+}

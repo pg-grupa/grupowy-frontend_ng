@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ILocationQueryParams } from '../interfaces/location-query-params';
+import { IBoundsQueryParams } from '../interfaces/location-query-params';
 import { ILocation } from '../models/location';
 import { ILocationType } from '../models/location-type';
 
@@ -25,7 +25,7 @@ export class APIService {
   }
 
   /** Returns observable of locations meeting the given query params. */
-  getLocations(params: ILocationQueryParams) {
+  getLocations(params: IBoundsQueryParams) {
     return this._http.get<ILocation[]>(this._apiUrls.locations, {
       params: params as any,
     });

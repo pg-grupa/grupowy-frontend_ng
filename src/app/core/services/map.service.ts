@@ -75,7 +75,7 @@ export class MapService {
     // Wait for navigation end, before updating window location with map state.
     // route.queryParamMap emits empty object until NavigationEnd event is fired,
     // if router.navigate is called before NavigationEnd event, all query parameters
-    // are overwritten (even if queryParamsHandling set to 'merge'). We need to wait
+    // are overwritten (even if queryParamsHandling set to 'merge'). Need to wait
     // for queryParamMap to be populated with actual values, so they can be preserved
     // on navigation.
     this._router.events
@@ -136,7 +136,11 @@ export class MapService {
       zoomControl: false,
     });
     this._map.addLayer(
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png')
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution:
+          '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        className: 'map-tiles',
+      })
     );
   }
 

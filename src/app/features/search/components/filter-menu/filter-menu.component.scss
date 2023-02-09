@@ -1,0 +1,103 @@
+@use "/src/styles/breakpoints.scss" as breakpoint;
+
+$btn-size: 3rem;
+
+#filter-menu {
+  padding: 1rem 2rem;
+  display: flex;
+  flex-direction: column;
+  z-index: 1000;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #fff;
+  transition: transform 0.4s ease-in-out;
+  transform: translatex(-100%);
+
+  &.open {
+    transform: translatex(0);
+  }
+}
+
+@mixin filter-button {
+  position: absolute;
+  width: $btn-size;
+  height: $btn-size;
+  margin: 0;
+  padding: 0;
+  font-size: calc($btn-size / 2);
+  line-height: $btn-size;
+  text-align: center;
+  cursor: pointer;
+}
+
+#close-button {
+  @include filter-button;
+  top: 0;
+  right: 0;
+}
+
+#filter-toggle {
+  @include filter-button;
+  z-index: 999;
+  top: 5rem;
+  right: 0 - $btn-size;
+  // right: 0;
+  border: 1px solid rgba(0, 0, 0, 0.4);
+  border-left: 0;
+  border-top-right-radius: 0.5rem;
+  border-bottom-right-radius: 0.5rem;
+  background-color: #fff;
+  // transform: translatex($btn-size);
+
+  // transition: display 0.4s ease-in-out;
+  overflow: hidden;
+
+  > span {
+    display: none;
+  }
+}
+
+.open > #filter-toggle {
+  width: 0;
+  right: 0;
+  border: 0;
+}
+
+@include breakpoint.up("sm") {
+  #filter-menu {
+    width: 500px;
+    border-right: 1px solid rgba(0, 0, 0, 0.4);
+  }
+
+  #close-button {
+    display: none;
+  }
+
+  #filter-toggle {
+    height: 9rem;
+
+    > span {
+      display: block;
+      position: absolute;
+      top: $btn-size;
+      left: $btn-size;
+      height: $btn-size;
+      font-size: calc($btn-size / 3);
+      line-height: $btn-size;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      transform: rotate(90deg);
+      transform-origin: 0 0;
+    }
+  }
+
+  .open > #filter-toggle {
+    width: $btn-size;
+    right: 0 - $btn-size;
+    border: 1px solid rgba(0, 0, 0, 0.4);
+    border-left: 0;
+  }
+}
