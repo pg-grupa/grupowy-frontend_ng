@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { filter } from 'rxjs';
 import { ILocationType } from 'src/app/core/models/location-type';
 import { CacheService } from 'src/app/core/services/cache.service';
@@ -13,20 +13,25 @@ import { FilteringService } from '../../services/filtering.service';
 export class TypeSelectorComponent {
   locationTypes = new Map<number, ILocationType>();
 
-  @Output() selectedTypes: EventEmitter<number[]> = new EventEmitter<
+  @Input()
+  set selectedTypes(inputTypes: number[]) {
+    this.resetSelection(false);
+    inputTypes.forEach((inputType) => {
+      this.locationTypes.get(inputType)!.selected = true;
+    });
+    this.getSelectedTypes();
+  }
+
+  @Output() selectedTypesChange: EventEmitter<number[]> = new EventEmitter<
     number[]
   >();
 
-  constructor(
-    private _filteringService: FilteringService,
-    private _cacheService: CacheService
-  ) {
+  allTypes: boolean = true;
+
+  constructor(private _cacheService: CacheService) {
     let cacheTypes = this._cacheService.getLocationTypes();
     cacheTypes.forEach((type) => {
       this.locationTypes.set(type.id, type);
-    });
-    this._filteringService.query$.subscribe((query) => {
-      this._updateFromQuery(query);
     });
   }
 
@@ -37,13 +42,18 @@ export class TypeSelectorComponent {
         selectedTypes.push(locationType.id);
       }
     }
+    if (selectedTypes.length > 0) {
+      this.allTypes = false;
+    } else {
+      this.allTypes = true;
+    }
     return selectedTypes;
   }
 
   toggleTypeSelection(id: number) {
     this.locationTypes.get(id)!.selected =
       !this.locationTypes.get(id)!.selected;
-    this.selectedTypes.emit(this.getSelectedTypes());
+    this.selectedTypesChange.emit(this.getSelectedTypes());
   }
 
   resetSelection(emit: boolean = true) {
@@ -51,20 +61,9 @@ export class TypeSelectorComponent {
       locationType.selected = false;
     }
     if (emit) {
-      this.selectedTypes.emit([]);
+      this.selectedTypesChange.emit([]);
     }
-  }
-
-  private _updateFromQuery(query: IFilterQuery) {
-    this.resetSelection(false);
-
-    let queryTypes: number[] = [];
-    if (query.type && query.type.length > 0) {
-      queryTypes = query.type;
-    }
-    queryTypes.forEach((queryType) => {
-      this.locationTypes.get(queryType)!.selected = true;
-    });
+    this.getSelectedTypes(); // update allTypes flag
   }
 
   preserveOrder() {

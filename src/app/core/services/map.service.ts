@@ -292,9 +292,11 @@ export class MapService {
       marker.addTo(targetLayer);
 
       // TODO: add event listeners for marker click
-      // marker.on('click', () => {
-      //   placeService.selectPlace(place);
-      // });
+      marker.on('click', () => {
+        this._router.navigate(['/', 'search', 'details', location.id], {
+          queryParamsHandling: 'preserve',
+        });
+      });
     });
 
     // add markers layer to the map
@@ -336,5 +338,9 @@ export class MapService {
     layers.forEach((layer) => {
       this._layers[layer].clearLayers();
     });
+  }
+
+  flyTo(latitude: number, longitude: number, zoom?: number) {
+    this._map.flyTo([latitude, longitude], zoom);
   }
 }

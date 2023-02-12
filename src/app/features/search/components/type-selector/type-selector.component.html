@@ -1,4 +1,9 @@
-<ng-container *ngFor="let locationType of locationTypes | keyvalue: preserveOrder">
+<a class="type-select" [class.selected]="allTypes" (click)="resetSelection()">
+  All
+</a>
+<ng-container
+  *ngFor="let locationType of locationTypes | keyvalue : preserveOrder"
+>
   <a
     class="type-select"
     [class.selected]="locationType.value.selected"

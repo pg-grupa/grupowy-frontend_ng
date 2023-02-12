@@ -14,6 +14,7 @@ export class APIService {
   private _apiUrls = {
     types: 'types/',
     locations: 'locations/',
+    location: (id: number): string => `location/${id}/`,
   };
 
   /** @constructor */
@@ -25,9 +26,13 @@ export class APIService {
   }
 
   /** Returns observable of locations meeting the given query params. */
-  getLocations(params: IBoundsQueryParams) {
+  getLocations(params: IBoundsQueryParams): Observable<ILocation[]> {
     return this._http.get<ILocation[]>(this._apiUrls.locations, {
       params: params as any,
     });
+  }
+
+  getLocationDetails(id: number): Observable<ILocation> {
+    return this._http.get<ILocation>(this._apiUrls.location(id));
   }
 }

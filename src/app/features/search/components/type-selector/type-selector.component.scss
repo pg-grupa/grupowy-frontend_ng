@@ -5,12 +5,13 @@ $selected-color: rgb(13, 110, 253);
   flex-wrap: wrap;
 
   > * {
-    flex-grow: 1;
+    // flex-grow: 1;
+    flex-grow: 0.5;
   }
 
-  > *:last-child {
-    flex-grow: 0;
-  }
+  // > *:last-child {
+  //   flex-grow: 0.2;
+  // }
 }
 
 .type-select {
@@ -21,6 +22,7 @@ $selected-color: rgb(13, 110, 253);
   margin: 0.3rem 0.3rem;
   text-align: center;
   transition: all 0.175s ease-in-out;
+  cursor: pointer;
 
   &.selected {
     background-color: $selected-color;

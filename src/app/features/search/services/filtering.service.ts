@@ -121,6 +121,7 @@ export class FilteringService implements OnDestroy {
     this._loadByBounds(this._map.getState()).subscribe((locations) => {
       this._modeSubject.next(Mode.All);
       this._querySubject.next({});
+      this._updateLocation();
     });
   }
 
@@ -131,8 +132,30 @@ export class FilteringService implements OnDestroy {
       this._querySubject.next({
         type: types,
       });
+      this._updateLocation();
     });
   }
 
   private _loadRadius(): void {}
+
+  resetFilters(): void {
+    this._logger.debug('FilteringService', 'Resetting filters.');
+    this.filterAll();
+  }
+
+  private _updateLocation() {
+    let params = {
+      type: undefined,
+      radius: undefined,
+      longitude: undefined,
+      latitude: undefined,
+      ...this.query,
+    };
+    this._router.navigate([], {
+      relativeTo: this._route,
+      replaceUrl: true,
+      queryParams: params,
+      queryParamsHandling: 'merge',
+    });
+  }
 }

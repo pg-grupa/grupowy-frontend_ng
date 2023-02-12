@@ -1,0 +1,30 @@
+<div id="location-details" class="shadow-gray">
+  <a id="close-button" [routerLink]="['../../']" queryParamsHandling="preserve">
+    <i class="fa-solid fa-x"></i>
+  </a>
+  <div class="header">
+    <i class="{{ location.type.icon }}"></i>
+    <div>
+      <h2>
+        {{ location.name }}
+      </h2>
+      <h4>
+        {{ location.type.name }}
+      </h4>
+    </div>
+  </div>
+  <div class="details-body">
+    <div class="details-item">
+      <h5 class="details-label">Address</h5>
+      {{ location.address }}
+    </div>
+    <div class="details-item">
+      <h5 class="details-label">Postal code</h5>
+      {{ location.postal_code }}
+    </div>
+    <div class="details-item">
+      <h5 class="details-label">City</h5>
+      {{ location.city }}
+    </div>
+  </div>
+</div>

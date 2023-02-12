@@ -12,11 +12,20 @@ import { FilteringService } from '../../services/filtering.service';
 })
 export class FilterMenuComponent {
   open: boolean = false;
+  selectedTypes: number[] = [];
 
   constructor(
     private _logger: LoggerService,
     private _filteringService: FilteringService
-  ) {}
+  ) {
+    this._filteringService.query$.subscribe((query) => {
+      let types: number[] = [];
+      if (query.type && query.type.length > 0) {
+        types = query.type;
+      }
+      this.selectedTypes = types;
+    });
+  }
 
   toggleMenu(): void {
     this.open = !this.open;

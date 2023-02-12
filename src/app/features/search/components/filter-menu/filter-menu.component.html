@@ -8,5 +8,8 @@
   </a>
 
   <h2>Types</h2>
-  <search-type-selector (selectedTypes)="selectTypes($event)"></search-type-selector>
+  <search-type-selector
+    [selectedTypes]="selectedTypes"
+    (selectedTypesChange)="selectTypes($event)"
+  ></search-type-selector>
 </div>
