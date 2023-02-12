@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ReplaySubject, Subject, tap } from 'rxjs';
+import { filter, ReplaySubject, Subject, take, tap } from 'rxjs';
 import {
   ClickMapEvent,
   IMapEvent,
@@ -17,6 +17,7 @@ import { environment } from 'src/environments/environment';
 import * as L from 'leaflet';
 import 'leaflet-extra-markers';
 import 'leaflet.markercluster';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 
 /**
  * Service responsible for managing map component
@@ -28,6 +29,8 @@ import 'leaflet.markercluster';
 export class MapService {
   private _mapEventsSubject: Subject<IMapEvent> = new Subject();
   private _mapStateSubject: ReplaySubject<IMapState> = new ReplaySubject(1);
+
+  private _updateLocation: boolean = false;
 
   private _map!: L.Map;
 
@@ -46,7 +49,9 @@ export class MapService {
   constructor(
     private _logger: LoggerService,
     private _cache: CacheService,
-    private _loading: LoadingService
+    private _loading: LoadingService,
+    private _router: Router,
+    private _route: ActivatedRoute
   ) {}
 
   /**
@@ -66,6 +71,23 @@ export class MapService {
         bounds: this._map.getBounds(),
       })
     );
+
+    // Wait for navigation end, before updating window location with map state.
+    // route.queryParamMap emits empty object until NavigationEnd event is fired,
+    // if router.navigate is called before NavigationEnd event, all query parameters
+    // are overwritten (even if queryParamsHandling set to 'merge'). Need to wait
+    // for queryParamMap to be populated with actual values, so they can be preserved
+    // on navigation.
+    this._router.events
+      .pipe(
+        filter((event) => event instanceof NavigationEnd),
+        take(1)
+      )
+      .subscribe(() => {
+        this._updateLocation = true;
+        this._onMapStateChange(this.getState());
+      });
+
     this._loading.stop();
   }
 
@@ -114,7 +136,11 @@ export class MapService {
       zoomControl: false,
     });
     this._map.addLayer(
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png')
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution:
+          '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        className: 'map-tiles',
+      })
     );
   }
 
@@ -124,12 +150,12 @@ export class MapService {
   private _initEvents(): void {
     // listen for bounds changes
     this._map.on('moveend', () => {
-      this._onMapEvent(new MoveEndEvent(this._getState()));
+      this._onMapEvent(new MoveEndEvent(this.getState()));
     });
 
     // listen for zoom changes
     this._map.on('zoomend', () => {
-      this._onMapEvent(new ZoomEndEvent(this._getState()));
+      this._onMapEvent(new ZoomEndEvent(this.getState()));
     });
 
     // listen for map clicks
@@ -139,12 +165,23 @@ export class MapService {
   }
 
   /**
-   * @deprecated not needed, since it's just one-liner
-   *
-   * Emit new map state on {@link MoveEndEvent} and {@link ZoomEndEvent} events.
+   * Emit new map state on {@link MoveEndEvent} and {@link ZoomEndEvent} events,
+   * change current query params.
    * @param {IMapState} mapState
    */
   private _onMapStateChange(mapState: IMapState) {
+    const params = {
+      lat: mapState.center.lat,
+      lng: mapState.center.lng,
+      zoom: mapState.zoom,
+    };
+    if (this._updateLocation)
+      this._router.navigate([], {
+        relativeTo: this._route,
+        replaceUrl: true,
+        queryParams: params,
+        queryParamsHandling: 'merge',
+      });
     this._mapStateSubject.next(mapState);
   }
 
@@ -156,7 +193,7 @@ export class MapService {
 
     // if map state changed, emit new one
     if ('state' in mapEvent) {
-      this._mapStateSubject.next(mapEvent.state!);
+      this._onMapStateChange(mapEvent.state!);
     }
   }
 
@@ -164,7 +201,7 @@ export class MapService {
    * Returns current map state.
    * @return {IMapState}
    */
-  private _getState(): IMapState {
+  getState(): IMapState {
     return {
       zoom: this._map.getZoom(),
       center: this._map.getCenter(),
@@ -180,7 +217,7 @@ export class MapService {
    * - 'cluster' - markers shoul be drawn in clusters
    */
   private _getMarkersMode(): 'none' | 'marker' | 'cluster' {
-    const zoom = this._getState().zoom;
+    const zoom = this.getState().zoom;
     const configs = environment.markersConfig;
 
     // check config for proper mode
@@ -255,9 +292,11 @@ export class MapService {
       marker.addTo(targetLayer);
 
       // TODO: add event listeners for marker click
-      // marker.on('click', () => {
-      //   placeService.selectPlace(place);
-      // });
+      marker.on('click', () => {
+        this._router.navigate(['/', 'search', 'details', location.id], {
+          queryParamsHandling: 'preserve',
+        });
+      });
     });
 
     // add markers layer to the map
@@ -299,5 +338,9 @@ export class MapService {
     layers.forEach((layer) => {
       this._layers[layer].clearLayers();
     });
+  }
+
+  flyTo(latitude: number, longitude: number, zoom?: number) {
+    this._map.flyTo([latitude, longitude], zoom);
   }
 }
