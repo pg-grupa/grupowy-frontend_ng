@@ -1,0 +1,25 @@
+.settings-item {
+  margin-bottom: 1rem;
+}
+
+.selector {
+  display: flex;
+}
+
+.option {
+  flex-grow: 1;
+  margin-top: 0.5rem;
+  margin-right: 1rem;
+  padding: 0.1rem 0.5rem;
+  border: 1px solid var(--color-primary);
+  border-radius: 9999px;
+  color: var(--color-primary);
+  font-weight: 600;
+  text-align: center;
+  transition: all 0.375s ease-in-out;
+
+  &.selected {
+    background-color: var(--color-primary);
+    color: var(--color-primary-contrast);
+  }
+}

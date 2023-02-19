@@ -1,13 +1,13 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import * as L from 'leaflet';
 import 'leaflet-extra-markers';
 import 'leaflet.markercluster';
-import { Observable, ReplaySubject, Subject } from 'rxjs';
-
-type MapMode = 'individual' | 'cluster';
+import { Observable, ReplaySubject, Subject, Subscription } from 'rxjs';
+import { MapMode } from '../../enums/settings';
+import { SettingsService } from '../../services/settings.service';
 
 @Injectable()
-export class MapService {
+export class MapService implements OnDestroy {
   private _map?: L.Map;
 
   private _markersGroup: L.FeatureGroup;
@@ -15,30 +15,44 @@ export class MapService {
 
   private _auxGroup: L.FeatureGroup;
 
-  private _mode: MapMode = 'cluster';
+  private _mode: MapMode = MapMode.Clusters;
   get mode(): MapMode {
     return this._mode;
   }
 
-  private _readySubject: ReplaySubject<boolean> = new ReplaySubject<boolean>();
+  private _readySubject: ReplaySubject<boolean> = new ReplaySubject<boolean>(1);
   public readonly ready$: Observable<boolean> =
     this._readySubject.asObservable();
 
-  constructor() {
+  private _settingsSubscription?: Subscription;
+
+  constructor(private _settingsService: SettingsService) {
     this._markersGroup = new L.FeatureGroup();
     this._clusterGroup = new L.MarkerClusterGroup();
     this._auxGroup = new L.FeatureGroup();
+
+    this._settingsSubscription = this._settingsService.mapMode$.subscribe(
+      (mode) => {
+        this.switchMode(mode);
+      }
+    );
   }
 
-  initMap(map: L.Map, mode: MapMode = 'cluster') {
+  ngOnDestroy(): void {
+    if (this._settingsSubscription) {
+      this._settingsSubscription.unsubscribe();
+    }
+  }
+
+  initMap(map: L.Map, mode: MapMode = MapMode.Clusters) {
     this._map = map;
     this._mode = mode;
 
     switch (this._mode) {
-      case 'individual':
+      case MapMode.IndividualMarkers:
         this._map.addLayer(this._markersGroup);
         break;
-      case 'cluster':
+      case MapMode.Clusters:
         this._map.addLayer(this._clusterGroup);
         break;
     }
@@ -83,12 +97,12 @@ export class MapService {
 
     if (!this._map) return;
     switch (this._mode) {
-      case 'individual':
+      case MapMode.IndividualMarkers:
         if (this._map.hasLayer(this._clusterGroup))
           this._map.removeLayer(this._clusterGroup);
         this._map.addLayer(this._markersGroup);
         break;
-      case 'cluster':
+      case MapMode.Clusters:
         if (this._map.hasLayer(this._markersGroup))
           this._map.removeLayer(this._markersGroup);
         this._map.addLayer(this._clusterGroup);

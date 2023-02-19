@@ -8,6 +8,8 @@ import { Component, Input } from '@angular/core';
 export class MenuComponent {
   @Input('open') isOpen: boolean = false;
 
+  settingsOpen: boolean = false;
+
   toggle() {
     this.isOpen = !this.isOpen;
   }
@@ -18,5 +20,9 @@ export class MenuComponent {
 
   close() {
     this.isOpen = false;
+  }
+
+  toggleSettings() {
+    this.settingsOpen = !this.settingsOpen;
   }
 }

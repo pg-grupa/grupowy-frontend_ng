@@ -5,7 +5,7 @@ $toggle-duration: 0.5s;
 
 $item-height: 3rem;
 
-#menu {
+#menu-wrapper {
   display: flex;
   z-index: 9000;
   position: fixed;
@@ -13,7 +13,7 @@ $item-height: 3rem;
   left: 0;
   flex-direction: column;
   height: 100vh;
-  padding-top: 4rem;
+  padding: 4rem 1rem 1rem;
   transition: all $toggle-duration ease-in-out;
   transform: translateX(-100%);
   color: var(--text-color);
@@ -21,6 +21,11 @@ $item-height: 3rem;
   &.open {
     transform: translateX(0);
   }
+}
+
+#menu {
+  overflow-y: auto;
+  height: 100%;
 }
 
 .menu-header {
@@ -39,13 +44,22 @@ $item-height: 3rem;
   display: flex;
   align-items: center;
   margin-bottom: 0.5rem;
-  padding: 0 1rem;
-  font-size: calc($item-height / 3);
+  padding: 0 0.5rem;
+  color: inherit;
+  border-radius: 1rem;
+  text-decoration: none;
+  letter-spacing: 0.1rem;
+  font-size: calc($item-height / 2.5);
   cursor: pointer;
   transition: all $toggle-duration ease-in-out;
 
   &:hover {
-    font-size: calc($item-height / 2.5);
+    letter-spacing: 0.2rem;
+  }
+
+  &.active {
+    background-color: var(--color-primary);
+    color: var(--color-primary-contrast);
   }
 }
 
@@ -61,12 +75,29 @@ $item-height: 3rem;
   height: $item-height;
   line-height: $item-height;
   text-transform: uppercase;
-  letter-spacing: 0.1rem;
+  letter-spacing: inherit;
+}
+
+.collapsible {
+  max-height: 0;
+  visibility: hidden;
+  opacity: 0;
+  transition: all $toggle-duration ease-in-out;
+  margin-left: 3.5rem;
+
+  &.open {
+    visibility: visible;
+    opacity: 1;
+
+    max-height: 10rem;
+    margin-bottom: 1rem;
+  }
 }
 
 .toggle-button {
   display: flex;
   position: absolute;
+  z-index: 9000;
   top: 1rem;
   right: calc(0rem - $toggle-size - 1rem);
   justify-content: center;
@@ -128,7 +159,7 @@ $item-height: 3rem;
   }
 }
 
-#menu {
+#menu-wrapper {
   width: 85vw;
 }
 
@@ -138,7 +169,7 @@ $item-height: 3rem;
 }
 
 @include breakpoint.up("xs") {
-  #menu {
+  #menu-wrapper {
     width: 55vw;
   }
 
@@ -149,7 +180,7 @@ $item-height: 3rem;
 }
 
 @include breakpoint.up("sm") {
-  #menu {
+  #menu-wrapper {
     width: 40vw;
   }
 
@@ -160,7 +191,7 @@ $item-height: 3rem;
 }
 
 @include breakpoint.up("md") {
-  #menu {
+  #menu-wrapper {
     width: 30vw;
   }
 

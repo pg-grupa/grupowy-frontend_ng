@@ -1,13 +1,4 @@
 <core-loading></core-loading>
 <core-menu>
-  <leaflet-map [center]="[54, 18]" [zoom]="12">
-    <map-marker
-      [coordinates]="[54, 18]"
-      color="violet"
-      icon="fa-solid fa-arrows-to-dot"
-      tooltip="Lokacja"
-      auxiliary
-    ></map-marker>
-  </leaflet-map>
-
+  <router-outlet></router-outlet>
 </core-menu>

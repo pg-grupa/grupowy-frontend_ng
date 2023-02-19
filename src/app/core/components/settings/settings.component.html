@@ -1,0 +1,27 @@
+<div class="settings-item">
+  <h4>Theme</h4>
+  <div class="selector">
+    <ng-container *ngFor="let option of ThemeMapping | keyvalue">
+      <a
+        class="option"
+        (click)="setTheme(option.value)"
+        [class.selected]="option.value === selectedTheme"
+        >{{ option.key }}</a
+      >
+    </ng-container>
+  </div>
+</div>
+
+<div class="settings-item">
+  <h4>Markers</h4>
+  <div class="selector">
+    <ng-container *ngFor="let option of MapModeMapping | keyvalue">
+      <a
+        class="option"
+        (click)="setMapMode(option.value)"
+        [class.selected]="option.value === selectedMapMode"
+        >{{ option.key }}</a
+      >
+    </ng-container>
+  </div>
+</div>

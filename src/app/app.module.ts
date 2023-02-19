@@ -8,9 +8,11 @@ import { CoreModule } from './core/core.module';
 import { APIInterceptor } from './core/interceptors/api.interceptor';
 import { LoadingInterceptor } from './core/interceptors/loading.interceptor';
 import { SharedModule } from './shared/shared.module';
+import { MapPageComponent } from './pages/map-page/map-page.component';
+import { NavigationPageComponent } from './pages/navigation-page/navigation-page.component';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, MapPageComponent, NavigationPageComponent],
   imports: [BrowserModule, AppRoutingModule, CoreModule, SharedModule],
   providers: [
     {

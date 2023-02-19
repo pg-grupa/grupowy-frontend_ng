@@ -7,7 +7,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { MapMarkerComponent } from './components/map/map-marker.component';
 import { LocationMarkerComponent } from './components/map/location-marker.component';
 import { MenuComponent } from './components/menu/menu.component';
-import { ThemePickerComponent } from './components/theme-picker/theme-picker.component';
+import { SettingsComponent } from './components/settings/settings.component';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -16,16 +17,16 @@ import { ThemePickerComponent } from './components/theme-picker/theme-picker.com
     MapMarkerComponent,
     LocationMarkerComponent,
     MenuComponent,
-    ThemePickerComponent,
+    SettingsComponent,
   ],
-  imports: [CommonModule, SharedModule, HttpClientModule],
+  imports: [CommonModule, SharedModule, HttpClientModule, RouterModule],
   exports: [
     MapComponent,
     LoadingComponent,
     MapMarkerComponent,
     LocationMarkerComponent,
     MenuComponent,
-    ThemePickerComponent,
+    SettingsComponent,
   ],
 })
 export class CoreModule {}
