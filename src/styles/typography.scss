@@ -1,5 +1,81 @@
-@import url("https://fonts.googleapis.com/css2?family=Lobster&family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Lobster&family=Montserrat&family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap");
 
 :root {
   font-family: "Roboto", sans-serif;
+}
+
+.brand {
+  font-family: "Montserrat", sans-serif;
+}
+
+$font-size-scale: 1;
+
+/**
+  * Static font sizes.
+  */
+$font-sizes: (
+  1: $font-size-scale * 2.5rem,
+  2: $font-size-scale * 2rem,
+  3: $font-size-scale * 1.5rem,
+  4: $font-size-scale * 1.25rem,
+  5: $font-size-scale * 1rem,
+  6: $font-size-scale * 0.75rem,
+);
+
+@each $index, $size in $font-sizes {
+  .font\:#{$index} {
+    font-size: $size;
+  }
+}
+
+/**
+  * Fluid font sizes.
+  */
+$font-sizes-fluid: (
+  1:
+    clamp(
+      $font-size-scale * 2rem,
+      $font-size-scale * 7vw,
+      $font-size-scale * 3rem
+    ),
+  2:
+    clamp(
+      $font-size-scale * 1.75rem,
+      $font-size-scale * 6vw,
+      $font-size-scale * 2.25rem
+    ),
+  3:
+    clamp(
+      $font-size-scale * 1.25rem,
+      $font-size-scale * 5vw,
+      $font-size-scale * 1.75rem
+    ),
+  4:
+    clamp(
+      $font-size-scale * 1.125rem,
+      $font-size-scale * 4vw,
+      $font-size-scale * 1.375rem
+    ),
+  5:
+    clamp(
+      $font-size-scale * 1rem,
+      $font-size-scale * 1rem,
+      $font-size-scale * 1rem
+    ),
+  6:
+    clamp(
+      $font-size-scale * 0.75rem,
+      $font-size-scale * 0.75rem,
+      $font-size-scale * 0.75rem
+    ),
+);
+
+@each $index, $size in $font-sizes-fluid {
+  .font\:fluid-#{$index} {
+    font-size: $size;
+  }
+
+  h#{$index} {
+    font-size: $size;
+  }
 }

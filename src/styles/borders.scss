@@ -1,1 +1,31 @@
-$radiuses: (0.25rem, 0.5rem, 0.75rem, 1rem, 1.5rem, 9999px);
+$radiuses: (0.25rem, 0.5rem, 0.75rem, 1rem, 1.5rem, 2.5rem);
+$percents: (
+  "5": 5%,
+  "10": 10%,
+  "20": 20%,
+  "30": 30%,
+  "40": 40%,
+  "50": 50%,
+);
+
+.border\:round {
+  border-radius: 9999px;
+}
+
+@each $radius in $radiuses {
+  $i: index($radiuses, $radius);
+
+  .border\:rounded-0 {
+    border-radius: 0;
+  }
+
+  .border\:rounded-#{$i} {
+    border-radius: $radius;
+  }
+}
+
+@each $name, $value in $percents {
+  .border\:rounded-#{$name}p {
+    border-radius: $value;
+  }
+}

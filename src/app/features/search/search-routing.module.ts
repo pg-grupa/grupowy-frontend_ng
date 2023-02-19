@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LocationDetailsComponent } from './pages/location-details/location-details.component';
-import { LocationResolver } from './resolvers/location.resolver';
+import { LocationResolver } from '../../core/resolvers/location.resolver';
 import { SearchComponent } from './search.component';
 
 const routes: Routes = [

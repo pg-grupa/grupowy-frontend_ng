@@ -1,0 +1,22 @@
+:root,
+.theme\:light {
+  --body-background: radial-gradient(circle at 0 0, #fff 0%, #ecf2ff 25%);
+  --container-background: #fff;
+  --text-color: #000;
+  --shadow-color: rgba(100, 100, 100, 0.25);
+  --leaflet-filter: none;
+}
+
+.theme\:dark {
+  // --body-background: radial-gradient(circle at 0 0, #443c68 0%, #393053 25%);
+  --body-background: radial-gradient(circle at 0 0, #393053 0%, #18122b 25%);
+  --container-background: #393053;
+  --text-color: #fff;
+  --shadow-color: rgba(250, 250, 250, 0.25);
+  --leaflet-filter: brightness(0.6) invert(1) contrast(3) hue-rotate(200deg)
+    saturate(0.3) brightness(0.7);
+}
+
+.map-tiles {
+  filter: var(--leaflet-filter);
+}

@@ -4,17 +4,17 @@ import { CacheInitializedResolver } from './core/resolvers/cache-initialized.res
 import { MapInitializedResolver } from './core/resolvers/map-initialized.resolver';
 
 const routes: Routes = [
-  {
-    path: '',
-    redirectTo: 'search',
-    pathMatch: 'full',
-  },
-  {
-    path: 'search',
-    resolve: [CacheInitializedResolver, MapInitializedResolver],
-    loadChildren: () =>
-      import('./features/search/search.module').then((m) => m.SearchModule),
-  },
+  // {
+  //   path: '',
+  //   redirectTo: 'search',
+  //   pathMatch: 'full',
+  // },
+  // {
+  //   path: 'search',
+  //   resolve: [CacheInitializedResolver, MapInitializedResolver],
+  //   loadChildren: () =>
+  //     import('./features/search/search.module').then((m) => m.SearchModule),
+  // },
 ];
 
 @NgModule({

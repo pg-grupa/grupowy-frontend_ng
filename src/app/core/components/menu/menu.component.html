@@ -1,0 +1,33 @@
+<div id="menu" [class.open]="isOpen">
+  <a class="toggle-button border:rounded-2" (click)="toggle()" [class.open]="isOpen">
+    <shared-hamburger [toggled]="isOpen"  [color]="'var(--text-color)'"></shared-hamburger>
+  </a>
+  <div class="menu-header">
+    <shared-logo-pin [size]="'1.75rem'"></shared-logo-pin>
+    <h2 class="brand">ServoMap</h2>
+  </div>
+  <hr class="margin:x-5 margin:y-3">
+  <a class="menu-item">
+    <i class="item-icon fa-solid fa-compass"></i>
+    <span class="item-text">Map</span>
+  </a>
+  <a class="menu-item">
+    <i class="item-icon fa-solid fa-location-arrow"></i>
+    <span class="item-text">Navigation</span>
+  </a>
+  <a class="menu-item">
+    <i class="item-icon fa-solid fa-gear"></i>
+    <span class="item-text">Settings</span>
+  </a>
+  <core-theme-picker></core-theme-picker>
+  <a class="menu-item">
+    <i class="item-icon fa-solid fa-circle-info"></i>
+    <span class="item-text">About</span>
+  </a>
+</div>
+<div id="content-wrapper" [class.minimized]="isOpen">
+  <div id="content-cover" (click)="close()"></div>
+  <div id="content">
+    <ng-content></ng-content>
+  </div>
+</div>

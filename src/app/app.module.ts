@@ -7,10 +7,11 @@ import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
 import { APIInterceptor } from './core/interceptors/api.interceptor';
 import { LoadingInterceptor } from './core/interceptors/loading.interceptor';
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
   declarations: [AppComponent],
-  imports: [BrowserModule, AppRoutingModule, CoreModule],
+  imports: [BrowserModule, AppRoutingModule, CoreModule, SharedModule],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,

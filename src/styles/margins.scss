@@ -1,0 +1,33 @@
+$spacer: 0.5rem;
+
+@for $index from 0 through 5 {
+  .margin\:#{$index} {
+    margin: $index * $spacer !important;
+  }
+
+  .margin\:t-#{$index} {
+    margin-top: $index * $spacer !important;
+  }
+
+  .margin\:b-#{$index} {
+    margin-bottom: $index * $spacer !important;
+  }
+
+  .margin\:l-#{$index} {
+    margin-left: $index * $spacer !important;
+  }
+
+  .margin\:r-#{$index} {
+    margin-right: $index * $spacer !important;
+  }
+
+  .margin\:x-#{$index} {
+    margin-left: $index * $spacer !important;
+    margin-right: $index * $spacer !important;
+  }
+
+  .margin\:y-#{$index} {
+    margin-top: $index * $spacer !important;
+    margin-bottom: $index * $spacer !important;
+  }
+}
