@@ -26,7 +26,8 @@ export class MapComponent implements AfterViewInit {
   @Input() zoom: number = 14;
   @Output() zoomChange = new EventEmitter<number>();
 
-  @Output() nativeEvent = new EventEmitter<L.LeafletEvent>();
+  @Output() mapEvent = new EventEmitter<L.LeafletEvent>();
+  @Output() boundsChange = new EventEmitter<L.LatLngBounds>();
 
   constructor(private _mapService: MapService) {}
 
@@ -45,5 +46,23 @@ export class MapComponent implements AfterViewInit {
       })
     );
     this._mapService.initMap(this._map);
+    this._initEvents();
+    this.boundsChange.emit(this._map.getBounds());
+  }
+
+  private _initEvents(): void {
+    // this._map.on('zoomend', (event) => {
+    //   this.zoomChange.emit(this._map.getZoom());
+    //   this.boundsChange.emit(this._map.getBounds());
+    //   this.centerChange.emit(this._map.getCenter());
+    //   this.mapEvent.emit(event);
+    // });
+
+    this._map.on('moveend', (event) => {
+      this.centerChange.emit(this._map.getCenter());
+      this.zoomChange.emit(this._map.getZoom());
+      this.boundsChange.emit(this._map.getBounds());
+      this.mapEvent.emit(event);
+    });
   }
 }

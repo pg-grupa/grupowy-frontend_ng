@@ -83,13 +83,13 @@ $item-height: 3rem;
   visibility: hidden;
   opacity: 0;
   transition: all $toggle-duration ease-in-out;
-  margin-left: 3.5rem;
+  margin-left: 2rem;
 
   &.open {
     visibility: visible;
     opacity: 1;
 
-    max-height: 10rem;
+    max-height: 20rem;
     margin-bottom: 1rem;
   }
 }

@@ -18,11 +18,12 @@ export class LocationMarkerComponent extends MapMarkerComponent {
 
   override ngAfterViewInit(): void {
     if (!this.coordinates)
-      this.coordinates = [this.location.longitude, this.location.latitude];
+      this.coordinates = [this.location.latitude, this.location.longitude];
 
     if (!this.icon) {
       let locationType: ILocationType;
-      if (this.location.type instanceof Number) {
+
+      if (typeof this.location.type === 'number') {
         locationType = this._cacheService.getLocationType(
           this.location.type as number
         )!;

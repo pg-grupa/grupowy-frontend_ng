@@ -9,6 +9,8 @@ import { SettingsService } from '../../services/settings.service';
   styleUrls: ['./settings.component.scss'],
 })
 export class SettingsComponent implements OnInit, OnDestroy {
+  readonly MapMode = MapMode;
+  readonly Theme = Theme;
   readonly MapModeMapping = {
     Clusters: MapMode.Clusters,
     Individual: MapMode.IndividualMarkers,
@@ -52,6 +54,14 @@ export class SettingsComponent implements OnInit, OnDestroy {
     this._settingsService.setMapMode(mapMode);
   }
 
+  switchMode(): void {
+    this.setMapMode(
+      this.selectedMapMode === MapMode.Clusters
+        ? MapMode.IndividualMarkers
+        : MapMode.Clusters
+    );
+  }
+
   setTheme(theme: Theme): void {
     if (theme === this.selectedTheme) return;
 
@@ -68,5 +78,11 @@ export class SettingsComponent implements OnInit, OnDestroy {
     }
 
     this._settingsService.setTheme(theme);
+  }
+
+  switchTheme(): void {
+    this.setTheme(
+      this.selectedTheme === Theme.Light ? Theme.Dark : Theme.Light
+    );
   }
 }
