@@ -1,0 +1,37 @@
+<div class="settings-item">
+  <h5>Theme</h5>
+  <a class="selector" (click)="switchTheme()">
+    <div class="option" [class.selected]="selectedTheme === Theme.Light">
+      <i class="fa-solid fa-sun"></i>
+      <span>Light</span>
+    </div>
+    <div class="option" [class.selected]="selectedTheme === Theme.Dark">
+      <i class="fa-solid fa-moon"></i>
+      <span>Dark</span>
+    </div>
+  </a>
+</div>
+
+<div class="settings-item">
+  <h5>Markers</h5>
+  <a class="selector" (click)="switchMode()">
+    <div class="option" [class.selected]="selectedMapMode === MapMode.Clusters">
+      <i class="fa-solid fa-circle-nodes"></i>
+      <span>Clusters</span>
+    </div>
+    <div
+      class="option"
+      [class.selected]="selectedMapMode === MapMode.IndividualMarkers"
+    >
+      <i class="fa-solid fa-location-dot"></i>
+      <span>Markers</span>
+    </div>
+  </a>
+  <div class="warning" *ngIf="selectedMapMode === MapMode.IndividualMarkers">
+    <i class="fa-solid fa-triangle-exclamation"></i>
+    <span
+      >Rendering high number of individual markers can significantly slow app
+      down.</span
+    >
+  </div>
+</div>

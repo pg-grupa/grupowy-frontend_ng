@@ -1,3 +1,12 @@
 @use "reset.scss";
 @use "shadows.scss";
 @use "typography.scss";
+@use "borders.scss";
+@use "margins.scss";
+@use "padding.scss";
+@use "themes.scss";
+@use "misc.scss";
+
+body {
+  background: var(--body-background);
+}

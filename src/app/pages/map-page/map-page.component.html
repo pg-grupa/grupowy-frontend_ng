@@ -1,0 +1,14 @@
+<leaflet-map
+  [center]="[54, 18]"
+  [zoom]="12"
+  (boundsChange)="onBoundsChange($event)"
+>
+  <location-marker
+    *ngFor="let location of locations"
+    [location]="location"
+    [clickEvent]="true"
+    (click)="onLocationClick(location)"
+  ></location-marker>
+
+
+</leaflet-map>

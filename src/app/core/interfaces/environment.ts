@@ -1,3 +1,4 @@
+import { MapMode, Theme } from '../enums/settings';
 import { ILoggerConfig } from '../services/logger.service';
 
 export interface IEnvironment {
@@ -9,9 +10,8 @@ export interface IEnvironment {
     lng: number;
     zoom: number;
   };
-  markersConfig: {
-    minZoom: number;
-    maxZoom: number;
-    mode: 'none' | 'marker' | 'cluster';
-  }[];
+  defaultSettings: {
+    mapMode: MapMode;
+    theme: Theme;
+  };
 }

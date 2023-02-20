@@ -1,3 +1,4 @@
+import { MapMode, Theme } from 'src/app/core/enums/settings';
 import { IEnvironment } from 'src/app/core/interfaces/environment';
 
 export const defaultEnv: IEnvironment = {
@@ -9,21 +10,8 @@ export const defaultEnv: IEnvironment = {
     lng: 18.646639,
     zoom: 12,
   },
-  markersConfig: [
-    {
-      minZoom: 0,
-      maxZoom: 9,
-      mode: 'none',
-    },
-    {
-      minZoom: 10,
-      maxZoom: 13,
-      mode: 'cluster',
-    },
-    {
-      minZoom: 14,
-      maxZoom: 18,
-      mode: 'marker',
-    },
-  ],
+  defaultSettings: {
+    mapMode: MapMode.Clusters,
+    theme: Theme.Dark,
+  },
 };

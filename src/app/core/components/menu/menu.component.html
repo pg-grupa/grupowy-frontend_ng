@@ -1,0 +1,57 @@
+<div id="menu-wrapper" [class.open]="isOpen">
+  <a
+    class="toggle-button border:rounded-2"
+    (click)="toggle()"
+    [class.open]="isOpen"
+  >
+    <shared-hamburger
+      [toggled]="isOpen"
+      [color]="'var(--text-color)'"
+    ></shared-hamburger>
+  </a>
+  <div id="menu">
+    <div class="menu-header">
+      <shared-logo-pin
+        size="1.75rem"
+        color="var(--color-primary)"
+      ></shared-logo-pin>
+      <h2 class="brand">ServoMap</h2>
+    </div>
+    <hr class="margin:x-5 margin:y-3" />
+    <a
+      class="menu-item"
+      [routerLink]="['/', 'map']"
+      routerLinkActive="active"
+      (click)="close()"
+    >
+      <i class="item-icon fa-solid fa-compass"></i>
+      <span class="item-text">Map</span>
+    </a>
+    <a
+      class="menu-item"
+      [routerLink]="['/', 'navigate']"
+      routerLinkActive="active"
+      (click)="close()"
+    >
+      <i class="item-icon fa-solid fa-location-arrow"></i>
+      <span class="item-text">Navigation</span>
+    </a>
+    <a class="menu-item" (click)="toggleSettings()">
+      <i class="item-icon fa-solid fa-gear"></i>
+      <span class="item-text">Settings</span>
+    </a>
+    <div class="collapsible" [class.open]="settingsOpen">
+      <core-settings></core-settings>
+    </div>
+    <a class="menu-item">
+      <i class="item-icon fa-solid fa-circle-info"></i>
+      <span class="item-text">About</span>
+    </a>
+  </div>
+</div>
+<div id="content-wrapper" [class.minimized]="isOpen">
+  <div id="content-cover" (click)="close()"></div>
+  <div id="content">
+    <ng-content></ng-content>
+  </div>
+</div>
