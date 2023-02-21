@@ -1,6 +1,6 @@
 <leaflet-map
-  [center]="[54, 18]"
-  [zoom]="12"
+  [(center)]="center"
+  [(zoom)]="zoom"
   (boundsChange)="onBoundsChange($event)"
 >
   <location-marker
@@ -9,6 +9,4 @@
     [clickEvent]="true"
     (click)="onLocationClick(location)"
   ></location-marker>
-
-
 </leaflet-map>

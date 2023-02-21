@@ -3,6 +3,7 @@ import { IBoundsQueryParams } from 'src/app/core/interfaces/location-query-param
 import { ILocation } from 'src/app/core/models/location';
 import { APIService } from 'src/app/core/services/api.service';
 import * as L from 'leaflet';
+import { environment } from 'src/environments/environment';
 
 @Component({
   templateUrl: './map-page.component.html',
@@ -11,7 +12,15 @@ import * as L from 'leaflet';
 export class MapPageComponent {
   locations: ILocation[] = [];
 
-  constructor(private _apiService: APIService) {}
+  center: L.LatLng;
+  zoom = environment.initMapConfig.zoom;
+
+  constructor(private _apiService: APIService) {
+    this.center = new L.LatLng(
+      environment.initMapConfig.lat,
+      environment.initMapConfig.lng
+    );
+  }
 
   onBoundsChange(bounds: L.LatLngBounds) {
     const query: IBoundsQueryParams = {
@@ -26,6 +35,7 @@ export class MapPageComponent {
   }
 
   onLocationClick(location: ILocation) {
-    console.log(location.id);
+    this.center = new L.LatLng(location.latitude, location.longitude);
+    this.zoom = 17;
   }
 }

@@ -4,7 +4,9 @@ import {
   ElementRef,
   EventEmitter,
   Input,
+  OnChanges,
   Output,
+  SimpleChanges,
   ViewChild,
 } from '@angular/core';
 import * as L from 'leaflet';
@@ -16,12 +18,12 @@ import { MapService } from 'src/app/core/components/map/map.service';
   styleUrls: ['./map.component.scss'],
   providers: [MapService],
 })
-export class MapComponent implements AfterViewInit {
+export class MapComponent implements AfterViewInit, OnChanges {
   @ViewChild('mapContainer', { static: true }) mapContainer!: ElementRef;
   private _map!: L.Map;
 
-  @Input() center!: L.LatLngExpression;
-  @Output() centerChange = new EventEmitter<L.LatLngExpression>();
+  @Input() center!: L.LatLng;
+  @Output() centerChange = new EventEmitter<L.LatLng>();
 
   @Input() zoom: number = 14;
   @Output() zoomChange = new EventEmitter<number>();
@@ -30,6 +32,31 @@ export class MapComponent implements AfterViewInit {
   @Output() boundsChange = new EventEmitter<L.LatLngBounds>();
 
   constructor(private _mapService: MapService) {}
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (!this._map) return;
+
+    let flyTo = {
+      latlng: undefined,
+      zoom: this.zoom,
+    };
+
+    if ('center' in changes) {
+      if (
+        !changes['center'].currentValue.equals(changes['center'].previousValue)
+      ) {
+        flyTo.latlng = changes['center'].currentValue;
+      }
+    }
+
+    if ('zoom' in changes) {
+      flyTo.zoom = changes['zoom'].currentValue;
+    }
+
+    if (flyTo.latlng) {
+      this._map.flyTo(flyTo.latlng, flyTo.zoom);
+    }
+  }
 
   ngAfterViewInit(): void {
     const mapContainer = this.mapContainer.nativeElement;
