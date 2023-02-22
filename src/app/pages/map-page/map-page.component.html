@@ -1,6 +1,8 @@
 <leaflet-map
-  [(center)]="center"
-  [(zoom)]="zoom"
+  [center]="center"
+  (centerChange)="onCenterChange($event)"
+  [zoom]="zoom"
+  (zoomChange)="onZoomChange($event)"
   (boundsChange)="onBoundsChange($event)"
 >
   <location-marker
@@ -10,3 +12,12 @@
     (click)="onLocationClick(location)"
   ></location-marker>
 </leaflet-map>
+<div id="location-wrapper" class="shadow" [class.open]="locationModal">
+  <a id="modal-close-button" class="border:rounded-2 shadow" [routerLink]="['.']" queryParamsHandling="merge">
+    <i class="fa-solid fa-x"></i>
+  </a>
+  <router-outlet
+    (activate)="openModal()"
+    (deactivate)="closeModal()"
+  ></router-outlet>
+</div>

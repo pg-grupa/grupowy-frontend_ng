@@ -1,0 +1,63 @@
+@use "/src/styles/breakpoints.scss" as breakpoint;
+
+$toggle-size: 2.5rem;
+
+#location-wrapper {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  max-height: 0;
+  z-index: 1000;
+  visibility: 0;
+  opacity: 0;
+  background-color: var(--container-background);
+  padding-top: 4rem;
+  overflow: hidden;
+
+  &.open {
+    visibility: visible;
+    opacity: 1;
+    transition: all 375ms ease-in-out;
+    overflow: visible;
+    max-height: 100vh;
+  }
+}
+
+#modal-close-button {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  color: var(--text-color);
+  text-align: center;
+  line-height: $toggle-size;
+  height: $toggle-size;
+  width: $toggle-size;
+  font-size: 1.25rem;
+  background-color: var(--container-background);
+}
+
+@include breakpoint.up("sm") {
+  #location-wrapper {
+    // top: 5rem;
+    top: 50%;
+    left: 1rem;
+    width: 25rem;
+    border-radius: 0.5rem;
+    height: fit-content;
+    transform: translateY(-50%);
+    padding-top: 0;
+
+    &.open {
+      max-height: calc(100vh - 10rem);
+    }
+  }
+
+  #modal-close-button {
+    top: 0;
+    right: -1rem - $toggle-size;
+  }
+}

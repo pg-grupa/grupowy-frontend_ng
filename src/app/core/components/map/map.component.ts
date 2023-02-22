@@ -38,23 +38,31 @@ export class MapComponent implements AfterViewInit, OnChanges {
 
     let flyTo = {
       latlng: undefined,
-      zoom: this.zoom,
+      zoom: undefined,
     };
 
     if ('center' in changes) {
-      if (
-        !changes['center'].currentValue.equals(changes['center'].previousValue)
-      ) {
+      const currentValue = changes['center'].currentValue;
+
+      if (!this._map.getCenter().equals(currentValue)) {
         flyTo.latlng = changes['center'].currentValue;
       }
     }
 
     if ('zoom' in changes) {
-      flyTo.zoom = changes['zoom'].currentValue;
+      const currentValue = changes['zoom'].currentValue;
+      if (currentValue !== this._map.getZoom()) {
+        flyTo.zoom = changes['zoom'].currentValue;
+      }
     }
 
     if (flyTo.latlng) {
       this._map.flyTo(flyTo.latlng, flyTo.zoom);
+      return;
+    }
+
+    if (flyTo.zoom) {
+      this._map.setZoom(flyTo.zoom);
     }
   }
 
@@ -78,18 +86,25 @@ export class MapComponent implements AfterViewInit, OnChanges {
   }
 
   private _initEvents(): void {
-    // this._map.on('zoomend', (event) => {
-    //   this.zoomChange.emit(this._map.getZoom());
-    //   this.boundsChange.emit(this._map.getBounds());
-    //   this.centerChange.emit(this._map.getCenter());
-    //   this.mapEvent.emit(event);
-    // });
+    this._map.on('zoomend', (event) => {
+      this._onZoomEnd(event);
+    });
 
     this._map.on('moveend', (event) => {
-      this.centerChange.emit(this._map.getCenter());
-      this.zoomChange.emit(this._map.getZoom());
-      this.boundsChange.emit(this._map.getBounds());
-      this.mapEvent.emit(event);
+      this._onMoveEnd(event);
     });
+  }
+
+  private _onZoomEnd(event: L.LeafletEvent): void {
+    this.zoom = this._map.getZoom();
+    this.zoomChange.emit(this.zoom);
+    // zooming also fires the moveend event, new bounds are emitted in _onMoveEnd
+    // this.boundsChange.emit(this._map.getBounds());
+  }
+
+  private _onMoveEnd(event: L.LeafletEvent): void {
+    this.center = this._map.getCenter();
+    this.centerChange.emit(this.center);
+    this.boundsChange.emit(this._map.getBounds());
   }
 }

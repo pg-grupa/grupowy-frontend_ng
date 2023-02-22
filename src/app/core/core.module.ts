@@ -9,6 +9,7 @@ import { LocationMarkerComponent } from './components/map/markers/location-marke
 import { MenuComponent } from './components/menu/menu.component';
 import { SettingsComponent } from './components/settings/settings.component';
 import { RouterModule } from '@angular/router';
+import { TypeSelectorComponent } from './components/type-selector/type-selector.component';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { RouterModule } from '@angular/router';
     LocationMarkerComponent,
     MenuComponent,
     SettingsComponent,
+    TypeSelectorComponent,
   ],
   imports: [CommonModule, SharedModule, HttpClientModule, RouterModule],
   exports: [
@@ -27,6 +29,7 @@ import { RouterModule } from '@angular/router';
     LocationMarkerComponent,
     MenuComponent,
     SettingsComponent,
+    TypeSelectorComponent,
   ],
 })
 export class CoreModule {}
