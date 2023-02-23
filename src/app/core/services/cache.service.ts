@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { catchError, map, Observable, of, ReplaySubject, take } from 'rxjs';
+import { IBoundsQueryParams } from '../interfaces/location-query-params';
 import { ILocation } from '../models/location';
 import { ILocationType } from '../models/location-type';
 import { APIService } from './api.service';
@@ -39,5 +40,14 @@ export class CacheService {
 
   getLocationType(id: number): ILocationType | undefined {
     return this._locationTypes.find((type) => type.id === id);
+  }
+
+  getLocations(params: IBoundsQueryParams): Observable<ILocation[]> {
+    // TODO: cache locations in memory
+    return this._apiService.getLocations(params);
+  }
+
+  getLocationDetails(id: number): Observable<ILocation> {
+    return this._apiService.getLocationDetails(id);
   }
 }

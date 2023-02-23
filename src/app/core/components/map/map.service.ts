@@ -15,6 +15,7 @@ export class MapService implements OnDestroy {
 
   private _auxGroup: L.FeatureGroup;
 
+  private _forceMode?: MapMode;
   private _mode: MapMode = MapMode.Clusters;
   get mode(): MapMode {
     return this._mode;
@@ -44,9 +45,12 @@ export class MapService implements OnDestroy {
     }
   }
 
-  initMap(map: L.Map, mode: MapMode = MapMode.Clusters) {
+  initMap(map: L.Map, forceMode?: MapMode): void {
     this._map = map;
-    this._mode = mode;
+    if (forceMode) {
+      this._forceMode = forceMode;
+      this._mode = forceMode;
+    }
 
     switch (this._mode) {
       case MapMode.IndividualMarkers:
@@ -66,7 +70,7 @@ export class MapService implements OnDestroy {
     this._clusterGroup.addLayer(marker);
   }
 
-  addAuxMarker(marker: L.Marker, zIndexOffset: number = 1000) {
+  addAuxMarker(marker: L.Marker, zIndexOffset: number = 100000) {
     marker.setZIndexOffset(zIndexOffset); // make marker visible over other layers
     this._auxGroup.addLayer(marker);
   }
@@ -92,6 +96,7 @@ export class MapService implements OnDestroy {
   }
 
   switchMode(mode: MapMode) {
+    if (this._forceMode) mode = this._forceMode;
     if (this._mode === mode) return;
     this._mode = mode;
 

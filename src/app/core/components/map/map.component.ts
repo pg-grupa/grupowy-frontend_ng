@@ -6,11 +6,13 @@ import {
   Input,
   OnChanges,
   Output,
+  SimpleChange,
   SimpleChanges,
   ViewChild,
 } from '@angular/core';
 import * as L from 'leaflet';
 import { MapService } from 'src/app/core/components/map/map.service';
+import { MapMode } from '../../enums/settings';
 
 @Component({
   selector: 'leaflet-map[center]',
@@ -31,38 +33,32 @@ export class MapComponent implements AfterViewInit, OnChanges {
   @Output() mapEvent = new EventEmitter<L.LeafletEvent>();
   @Output() boundsChange = new EventEmitter<L.LatLngBounds>();
 
+  @Output() leftClick = new EventEmitter<L.LatLng>();
+  @Output() rightClick = new EventEmitter<L.LatLng>();
+
+  @Input() forceMode?: MapMode;
+  @Input() flyTo?: [L.LatLng, number];
+  @Input() setView?: [L.LatLng, number];
+
   constructor(private _mapService: MapService) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (!this._map) return;
 
-    let flyTo = {
-      latlng: undefined,
-      zoom: undefined,
-    };
+    // if ('center' in changes) {
+    //   this._handleCenterChange(changes['center']);
+    // }
 
-    if ('center' in changes) {
-      const currentValue = changes['center'].currentValue;
+    // if ('zoom' in changes) {
+    //   this._handleZoomChange(changes['zoom']);
+    // }
 
-      if (!this._map.getCenter().equals(currentValue)) {
-        flyTo.latlng = changes['center'].currentValue;
-      }
+    if ('flyTo' in changes) {
+      this._handleFlyToChange(changes['flyTo']);
     }
 
-    if ('zoom' in changes) {
-      const currentValue = changes['zoom'].currentValue;
-      if (currentValue !== this._map.getZoom()) {
-        flyTo.zoom = changes['zoom'].currentValue;
-      }
-    }
-
-    if (flyTo.latlng) {
-      this._map.flyTo(flyTo.latlng, flyTo.zoom);
-      return;
-    }
-
-    if (flyTo.zoom) {
-      this._map.setZoom(flyTo.zoom);
+    if ('setView' in changes) {
+      this._handleSetViewChange(changes['setView']);
     }
   }
 
@@ -80,31 +76,69 @@ export class MapComponent implements AfterViewInit, OnChanges {
         className: 'map-tiles',
       })
     );
-    this._mapService.initMap(this._map);
+    this._mapService.initMap(this._map, this.forceMode);
     this._initEvents();
     this.boundsChange.emit(this._map.getBounds());
   }
 
   private _initEvents(): void {
     this._map.on('zoomend', (event) => {
-      this._onZoomEnd(event);
+      this.zoomChange.emit(this._map.getZoom());
+      // zooming also fires the moveend event, new bounds are emitted in moveend handle
+      // this.boundsChange.emit(this._map.getBounds());
     });
 
     this._map.on('moveend', (event) => {
-      this._onMoveEnd(event);
+      this.centerChange.emit(this._map.getCenter());
+      this.boundsChange.emit(this._map.getBounds());
+    });
+
+    this._map.on('click', (event) => {
+      this.leftClick.emit(event.latlng);
+    });
+
+    this._map.on('contextmenu', (event) => {
+      this.rightClick.emit(event.latlng);
     });
   }
 
-  private _onZoomEnd(event: L.LeafletEvent): void {
-    this.zoom = this._map.getZoom();
-    this.zoomChange.emit(this.zoom);
-    // zooming also fires the moveend event, new bounds are emitted in _onMoveEnd
-    // this.boundsChange.emit(this._map.getBounds());
+  private _handleCenterChange(change: SimpleChange): void {
+    const currentValue = change.currentValue;
+
+    if (!this._map.getCenter().equals(currentValue)) {
+      this._map.setView(currentValue, undefined, { animate: false });
+    }
   }
 
-  private _onMoveEnd(event: L.LeafletEvent): void {
-    this.center = this._map.getCenter();
-    this.centerChange.emit(this.center);
-    this.boundsChange.emit(this._map.getBounds());
+  private _handleZoomChange(change: SimpleChange): void {
+    const currentValue = change.currentValue;
+    if (currentValue !== this._map.getZoom()) {
+      this._map.setZoom(currentValue, { animate: false });
+    }
+  }
+
+  private _handleSetViewChange(change: SimpleChange): void {
+    const currentValue = change.currentValue as [L.LatLng, number] | undefined;
+    if (currentValue === undefined) return;
+    const center = currentValue[0];
+    const zoom = currentValue[1];
+    if (!this._map.getCenter().equals(center) || this._map.getZoom() !== zoom) {
+      this._map.setView(center, zoom, { animate: false });
+    }
+  }
+
+  private _handleFlyToChange(change: SimpleChange): void {
+    const currentValue = change.currentValue as [L.LatLng, number] | undefined;
+    if (currentValue === undefined) return;
+
+    const options: L.FitBoundsOptions = {
+      paddingBottomRight: [window.innerWidth / 3, window.innerHeight / 1.5],
+      paddingTopLeft: [window.innerWidth / 3, window.innerHeight / 4],
+      maxZoom: currentValue[1],
+    };
+    this._map.fitBounds(
+      new L.LatLngBounds(currentValue[0], currentValue[0]),
+      options
+    );
   }
 }

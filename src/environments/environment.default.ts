@@ -6,8 +6,8 @@ export const defaultEnv: IEnvironment = {
   logging: [],
   apiUrl: 'http://localhost:8000/api/',
   initMapConfig: {
-    lat: 54.352024,
-    lng: 18.646639,
+    lat: 54.26993584511107,
+    lng: 18.26837539672852,
     zoom: 12,
   },
   defaultSettings: {
