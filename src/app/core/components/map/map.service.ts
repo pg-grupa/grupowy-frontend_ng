@@ -15,8 +15,7 @@ export class MapService implements OnDestroy {
 
   private _auxGroup: L.FeatureGroup;
 
-  private _forceMode?: MapMode;
-  private _mode: MapMode = MapMode.Clusters;
+  private _mode!: MapMode;
   get mode(): MapMode {
     return this._mode;
   }
@@ -50,12 +49,9 @@ export class MapService implements OnDestroy {
     }
   }
 
-  initMap(map: L.Map, forceMode?: MapMode): void {
+  initMap(map: L.Map, mode: MapMode): void {
     this._map = map;
-    if (forceMode) {
-      this._forceMode = forceMode;
-      this._mode = forceMode;
-    }
+    this._mode = mode;
 
     switch (this._mode) {
       case MapMode.IndividualMarkers:
@@ -101,7 +97,6 @@ export class MapService implements OnDestroy {
   }
 
   switchMode(mode: MapMode) {
-    if (this._forceMode) mode = this._forceMode;
     if (this._mode === mode) return;
     this._mode = mode;
 

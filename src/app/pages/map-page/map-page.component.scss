@@ -9,7 +9,7 @@ nav {
   position: fixed;
   top: 1rem;
   left: 4.5rem;
-  z-index: 1100;
+  z-index: 11000;
   background-color: var(--container-background);
 
   > * {
@@ -78,7 +78,7 @@ nav > a > .label {
   width: 100%;
   height: fit-content;
   max-height: 0;
-  z-index: 1000;
+  z-index: 10000;
   visibility: 0;
   opacity: 0;
   background-color: var(--container-background);
@@ -90,6 +90,10 @@ nav > a > .label {
     transition: all 375ms ease-in-out;
     overflow: visible;
     max-height: 50vh;
+  }
+
+  &.hidden {
+    transform: translateY(110%);
   }
 }
 
@@ -106,6 +110,22 @@ nav > a > .label {
   width: $toggle-size;
   font-size: 1.25rem;
   background-color: var(--container-background);
+}
+
+#user-location-button {
+  position: absolute;
+  right: 1rem;
+  bottom: 2rem;
+  z-index: 8000;
+  height: $nav-size;
+  width: $nav-size;
+  line-height: $nav-size;
+  text-align: center;
+  border-radius: 0.5rem;
+  font-size: calc($nav-size/2);
+  background-color: var(--container-background);
+  color: var(--text-color);
+  cursor: pointer;
 }
 
 @include breakpoint.up("sm") {
@@ -126,6 +146,10 @@ nav > a > .label {
     &.open {
       max-height: calc(100vh - 7rem);
       padding-top: 0;
+    }
+
+    &.hidden {
+      transform: translateX(-110%);
     }
   }
 

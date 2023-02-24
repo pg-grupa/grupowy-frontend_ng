@@ -42,19 +42,16 @@ export class MapComponent implements AfterViewInit, OnChanges {
   @Output() zoomChange = new EventEmitter<number>();
 
   /** Emits new map {@link L.LatLngBounds} on moveend event. */
-  @Output() boundsChange = new EventEmitter<L.LatLngBounds>();
+  @Output() moveend = new EventEmitter<L.LatLngBounds>();
+  @Output() movestart = new EventEmitter<void>();
 
   /** Emits {@link L.LatLng} of left click. */
   @Output() leftClick = new EventEmitter<L.LatLng>();
   /** Emits {@link L.LatLng} of left click. */
   @Output() rightClick = new EventEmitter<L.LatLng>();
 
-  /**
-   * Enforce markers drawing mode, otherwise use {@link SettingsService.mapMode$}.
-   *
-   * TODO: listen to changes and update {@link MapService} accordingly.
-   */
-  @Input() forceMode?: MapMode;
+  /** Enforce markers drawing mode. */
+  @Input() mode: MapMode = MapMode.Clusters;
 
   /**
    * Set map view to provided center and zoom with animated transition.
@@ -92,6 +89,10 @@ export class MapComponent implements AfterViewInit, OnChanges {
     if ('setView' in changes) {
       this._handleSetViewChange(changes['setView'].currentValue);
     }
+
+    if ('markersMode' in changes) {
+      this._mapService.switchMode(changes['markersMode'].currentValue);
+    }
   }
 
   ngAfterViewInit(): void {
@@ -107,17 +108,18 @@ export class MapComponent implements AfterViewInit, OnChanges {
         attribution:
           '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
         className: 'map-tiles',
+        updateWhenIdle: false,
       })
     );
 
     // initialize map service
-    this._mapService.initMap(this._map, this.forceMode);
+    this._mapService.initMap(this._map, this.mode);
 
     // initialize map events
     this._initEvents();
 
     // emit map bounds after initialization
-    this.boundsChange.emit(this._map.getBounds());
+    this.moveend.emit(this._map.getBounds());
   }
 
   private _initEvents(): void {
@@ -131,7 +133,11 @@ export class MapComponent implements AfterViewInit, OnChanges {
     this._map.on('moveend', (event) => {
       this.center = this._map.getCenter();
       this.centerChange.emit(this.center);
-      this.boundsChange.emit(this._map.getBounds());
+      this.moveend.emit(this._map.getBounds());
+    });
+
+    this._map.on('movestart', (event) => {
+      this.movestart.emit();
     });
 
     this._map.on('click', (event) => {
@@ -184,6 +190,7 @@ export class MapComponent implements AfterViewInit, OnChanges {
       paddingBottomRight: [window.innerWidth / 3, window.innerHeight / 1.5],
       paddingTopLeft: [window.innerWidth / 3, window.innerHeight / 4],
       maxZoom: flyTo.zoom,
+      noMoveStart: true,
     };
 
     // since map.flyTo doesn't have options for padding,

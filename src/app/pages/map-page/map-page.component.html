@@ -1,23 +1,11 @@
-<nav class="shadow border:rounded-2">
-  <a [routerLink]="['/', 'map', 'filters']" queryParamsHandling="merge">
-    <i class="fa-solid fa-filter"></i>
-    <span class="filter-count" *ngIf="selectedTypesCount > 0">
-      {{ selectedTypesCount }}
-    </span>
-    <span class="label"> Filters </span>
-  </a>
-  <a [routerLink]="['/', 'map']" queryParamsHandling="merge">
-    <i class="fa-solid fa-magnifying-glass-location"></i>
-    <span class="label"> Search </span>
-  </a>
-</nav>
-
 <leaflet-map
+  [mode]="(mapMode$ | async)!"
   [center]="center"
   (centerChange)="onCenterChange($event)"
   [zoom]="zoom"
   (zoomChange)="onZoomChange($event)"
-  (boundsChange)="onBoundsChange($event)"
+  (movestart)="onMoveStart()"
+  (moveend)="onBoundsChange($event)"
   (rightClick)="onMapClick($event)"
   [flyTo]="flyTo"
 >
@@ -40,8 +28,28 @@
     [icon]="'fa-solid fa-crosshairs'"
     auxiliary
   ></map-marker>
+  <map-marker
+  *ngIf="userPosition"
+  [coordinates]="userPosition"
+  [color]="'orange-dark'"
+  [icon]="'fa-solid fa-person'"
+  auxiliary
+  ></map-marker>
 </leaflet-map>
-<div id="modal-wrapper" class="shadow" [class.open]="locationModal">
+<nav class="shadow border:rounded-2">
+  <a [routerLink]="['/', 'map', 'filters']" queryParamsHandling="merge">
+    <i class="fa-solid fa-filter"></i>
+    <span class="filter-count" *ngIf="selectedTypesCount > 0">
+      {{ selectedTypesCount }}
+    </span>
+    <span class="label"> Filters </span>
+  </a>
+  <a [routerLink]="['/', 'map']" queryParamsHandling="merge">
+    <i class="fa-solid fa-magnifying-glass-location"></i>
+    <span class="label"> Search </span>
+  </a>
+</nav>
+<div id="modal-wrapper" class="shadow" [class.open]="locationModal" [class.hidden]="hideUI">
   <a
     id="modal-close-button"
     class="border:rounded-2"
@@ -55,3 +63,6 @@
     (deactivate)="closeModal()"
   ></router-outlet>
 </div>
+<a id="user-location-button" class="shadow" (click)="flyToUserPosition()" *ngIf="userPosition">
+  <i class="fa-solid fa-street-view"></i>
+</a>

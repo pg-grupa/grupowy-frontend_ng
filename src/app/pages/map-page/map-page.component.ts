@@ -6,6 +6,9 @@ import { Coords } from 'src/app/shared/utils/coords';
 import { MapPageService } from './map-page.service';
 import { Observable, Subscription } from 'rxjs';
 import { LoadingService } from 'src/app/core/services/loading.service';
+import { MapMode } from 'src/app/core/enums/settings';
+import { SettingsService } from 'src/app/core/services/settings.service';
+import { CacheService } from 'src/app/core/services/cache.service';
 
 @Component({
   templateUrl: './map-page.component.html',
@@ -14,11 +17,13 @@ import { LoadingService } from 'src/app/core/services/loading.service';
 })
 export class MapPageComponent implements OnInit, OnDestroy {
   locations$!: Observable<ILocation[]>;
+  userPosition: L.LatLng | null = null;
 
   selectedCoordinates: L.LatLng | null = null;
   selectedLocation: ILocation | ILocationFull | null = null;
-
   selectedTypesCount = 0;
+
+  mapMode$!: Observable<MapMode>;
 
   /** Map center */
   center!: L.LatLng;
@@ -32,13 +37,16 @@ export class MapPageComponent implements OnInit, OnDestroy {
   flyTo?: { latLng: L.LatLng; zoom: number };
 
   locationModal: boolean = false;
+  hideUI: boolean = false;
 
   private _subscriptions: Subscription[] = [];
 
   constructor(
     private _route: ActivatedRoute,
     private _router: Router,
-    private _mapPageService: MapPageService
+    private _mapPageService: MapPageService,
+    private _settingsService: SettingsService,
+    private _cacheService: CacheService
   ) {}
 
   ngOnInit(): void {
@@ -77,6 +85,8 @@ export class MapPageComponent implements OnInit, OnDestroy {
 
   private _initSubscriptions(): void {
     this.locations$ = this._mapPageService.locations$;
+    this.mapMode$ = this._settingsService.mapMode$;
+    this.userPosition = null;
 
     const selectedTypesSubscription =
       this._mapPageService.selectedTypes$.subscribe((selectedTypes) => {
@@ -87,8 +97,6 @@ export class MapPageComponent implements OnInit, OnDestroy {
 
     const flyToSubscription = this._mapPageService.flyTo$.subscribe((flyTo) => {
       // timeout as workaround for NG100
-      console.log(flyTo);
-
       setTimeout(() => {
         this.flyTo = flyTo;
       });
@@ -122,6 +130,13 @@ export class MapPageComponent implements OnInit, OnDestroy {
         });
       });
     this._subscriptions.push(selectedLocationSubscription);
+
+    const userPositionSubscription = this._cacheService.userPosition$.subscribe(
+      (position) => {
+        this.userPosition = position;
+      }
+    );
+    this._subscriptions.push(userPositionSubscription);
   }
 
   ngOnDestroy(): void {
@@ -145,7 +160,12 @@ export class MapPageComponent implements OnInit, OnDestroy {
     });
   }
 
+  onMoveStart(): void {
+    this.hideUI = true;
+  }
+
   onBoundsChange(bounds: L.LatLngBounds) {
+    this.hideUI = false;
     this._mapPageService.onBoundsChange(bounds);
   }
 
@@ -172,6 +192,15 @@ export class MapPageComponent implements OnInit, OnDestroy {
       relativeTo: this._route,
       queryParamsHandling: 'merge',
     });
+  }
+
+  flyToUserPosition() {
+    if (this.userPosition) {
+      this.flyTo = {
+        latLng: this.userPosition,
+        zoom: 18,
+      };
+    }
   }
 
   openModal(): void {
