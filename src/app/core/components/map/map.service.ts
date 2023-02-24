@@ -21,9 +21,11 @@ export class MapService implements OnDestroy {
     return this._mode;
   }
 
-  private _readySubject: ReplaySubject<boolean> = new ReplaySubject<boolean>(1);
-  public readonly ready$: Observable<boolean> =
-    this._readySubject.asObservable();
+  /**
+   * Emits true when the map is done initializing.
+   */
+  public readonly ready$: Observable<boolean>;
+  private _readySubject: ReplaySubject<boolean>;
 
   private _settingsSubscription?: Subscription;
 
@@ -31,6 +33,9 @@ export class MapService implements OnDestroy {
     this._markersGroup = new L.FeatureGroup();
     this._clusterGroup = new L.MarkerClusterGroup();
     this._auxGroup = new L.FeatureGroup();
+
+    this._readySubject = new ReplaySubject<boolean>(1);
+    this.ready$ = this._readySubject.asObservable();
 
     this._settingsSubscription = this._settingsService.mapMode$.subscribe(
       (mode) => {

@@ -14,17 +14,22 @@ import { LoadingService } from 'src/app/core/services/loading.service';
 })
 export class MapPageComponent implements OnInit, OnDestroy {
   locations$!: Observable<ILocation[]>;
-  // selectedCoordinates$!: Observable<L.LatLng | null>;
-  // selectedLocation$!: Observable<ILocation | ILocationFull | null>;
 
   selectedCoordinates: L.LatLng | null = null;
   selectedLocation: ILocation | ILocationFull | null = null;
 
   selectedTypesCount = 0;
 
+  /** Map center */
   center!: L.LatLng;
+  /** Map zoom */
   zoom!: number;
-  flyTo?: [L.LatLng, number];
+
+  /**
+   * On change pan map to selected center and zoom.
+   * @type {{center: L.LatLng, zoom: number}}
+   */
+  flyTo?: { latLng: L.LatLng; zoom: number };
 
   locationModal: boolean = false;
 
@@ -81,6 +86,9 @@ export class MapPageComponent implements OnInit, OnDestroy {
     this._subscriptions.push(selectedTypesSubscription);
 
     const flyToSubscription = this._mapPageService.flyTo$.subscribe((flyTo) => {
+      // timeout as workaround for NG100
+      console.log(flyTo);
+
       setTimeout(() => {
         this.flyTo = flyTo;
       });
@@ -91,8 +99,10 @@ export class MapPageComponent implements OnInit, OnDestroy {
       this._mapPageService.selectedCoordinates$.subscribe(
         (selectedCoordinates) => {
           if (selectedCoordinates) {
+            // set to null to force component destroy
             this.selectedCoordinates = null;
           }
+          // timeout as workaround for NG100
           setTimeout(() => {
             this.selectedCoordinates = selectedCoordinates;
           });
@@ -103,8 +113,10 @@ export class MapPageComponent implements OnInit, OnDestroy {
     const selectedLocationSubscription =
       this._mapPageService.selectedLocation$.subscribe((selectedLocation) => {
         if (selectedLocation) {
+          // set to null to force component destroy
           this.selectedLocation = null;
         }
+        // timeout as workaround for NG100
         setTimeout(() => {
           this.selectedLocation = selectedLocation;
         });
@@ -116,6 +128,7 @@ export class MapPageComponent implements OnInit, OnDestroy {
     this._subscriptions.forEach((subscription) => subscription.unsubscribe());
   }
 
+  /** Update window.location with current query */
   private _updateUrl(selectedTypes?: number[]): void {
     if (selectedTypes === undefined) {
       selectedTypes = this._mapPageService.selectedTypes;
@@ -137,16 +150,13 @@ export class MapPageComponent implements OnInit, OnDestroy {
   }
 
   onCenterChange(center: L.LatLng) {
-    // if (center.equals(this.center)) return;
-    // this.center = center;
+    this.center = center;
     this._mapPageService.onCenterChange(center);
-
     this._updateUrl();
   }
 
   onZoomChange(zoom: number) {
-    // if (zoom === this.zoom) return;
-    // this.zoom = zoom;
+    this.zoom = zoom;
     this._mapPageService.onZoomChange(zoom);
   }
 
@@ -165,6 +175,7 @@ export class MapPageComponent implements OnInit, OnDestroy {
   }
 
   openModal(): void {
+    // timeout as workaround for NG100
     setTimeout(() => {
       this.locationModal = true;
     });

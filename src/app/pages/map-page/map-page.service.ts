@@ -36,7 +36,7 @@ export class MapPageService {
    * When fired, map in {@link MapPageComponent} pans to provided coordinates.
    */
   readonly flyTo$;
-  private _flyToSubject: Subject<[L.LatLng, number]>;
+  private _flyToSubject: Subject<{ latLng: L.LatLng; zoom: number }>;
 
   /**
    * Store current state of map from {@link MapPageComponent},
@@ -71,7 +71,7 @@ export class MapPageService {
     this._selectedTypesSubject = new BehaviorSubject<number[]>([]);
     this.selectedTypes$ = this._selectedTypesSubject.asObservable();
 
-    this._flyToSubject = new Subject<[L.LatLng, number]>();
+    this._flyToSubject = new Subject<{ latLng: L.LatLng; zoom: number }>();
     this.flyTo$ = this._flyToSubject.asObservable();
   }
 
@@ -89,7 +89,7 @@ export class MapPageService {
     return this._mapState.bounds;
   }
 
-  /** Refresh  */
+  /** Refresh locations based on bounds and selected types */
   refreshLocations(): void {
     if (!this.bounds) return;
 
@@ -132,6 +132,7 @@ export class MapPageService {
     this._mapState.bounds = bounds;
     if (refreshLocations) this.refreshLocations();
   }
+
   onZoomChange(zoom: number, refreshLocations: boolean = false) {
     this._mapState.zoom = zoom;
     if (refreshLocations) this.refreshLocations();
@@ -144,6 +145,6 @@ export class MapPageService {
 
   flyTo(latLng: L.LatLng, zoom?: number): void {
     if (!zoom) zoom = this.zoom;
-    this._flyToSubject.next([latLng, zoom]);
+    this._flyToSubject.next({ latLng, zoom });
   }
 }
