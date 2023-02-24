@@ -1,12 +1,9 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { filter } from 'rxjs';
 import { ILocationType } from 'src/app/core/models/location-type';
 import { CacheService } from 'src/app/core/services/cache.service';
-import { IFilterQuery } from '../../interfaces/filter-query';
-import { FilteringService } from '../../services/filtering.service';
 
 @Component({
-  selector: 'search-type-selector',
+  selector: 'core-type-selector',
   templateUrl: './type-selector.component.html',
   styleUrls: ['./type-selector.component.scss'],
 })

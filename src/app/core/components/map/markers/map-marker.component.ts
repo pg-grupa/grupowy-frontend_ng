@@ -60,7 +60,7 @@ export class MapMarkerComponent implements AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this._mapService.removeMarker(this._marker);
+    this._removeFromMap();
   }
 
   protected _generateMarker(): L.Marker {
@@ -91,6 +91,14 @@ export class MapMarkerComponent implements AfterViewInit, OnDestroy {
       this._mapService.addAuxMarker(this._marker);
     } else {
       this._mapService.addMarker(this._marker);
+    }
+  }
+
+  protected _removeFromMap(): void {
+    if (this._auxMarker) {
+      this._mapService.removeAuxMarker(this._marker);
+    } else {
+      this._mapService.removeMarker(this._marker);
     }
   }
 }

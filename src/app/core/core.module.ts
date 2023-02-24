@@ -4,11 +4,12 @@ import { MapComponent } from './components/map/map.component';
 import { LoadingComponent } from './components/loading/loading.component';
 import { SharedModule } from '../shared/shared.module';
 import { HttpClientModule } from '@angular/common/http';
-import { MapMarkerComponent } from './components/map/map-marker.component';
-import { LocationMarkerComponent } from './components/map/location-marker.component';
+import { MapMarkerComponent } from './components/map/markers/map-marker.component';
+import { LocationMarkerComponent } from './components/map/markers/location-marker.component';
 import { MenuComponent } from './components/menu/menu.component';
 import { SettingsComponent } from './components/settings/settings.component';
 import { RouterModule } from '@angular/router';
+import { TypeSelectorComponent } from './components/type-selector/type-selector.component';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { RouterModule } from '@angular/router';
     LocationMarkerComponent,
     MenuComponent,
     SettingsComponent,
+    TypeSelectorComponent,
   ],
   imports: [CommonModule, SharedModule, HttpClientModule, RouterModule],
   exports: [
@@ -27,6 +29,7 @@ import { RouterModule } from '@angular/router';
     LocationMarkerComponent,
     MenuComponent,
     SettingsComponent,
+    TypeSelectorComponent,
   ],
 })
 export class CoreModule {}

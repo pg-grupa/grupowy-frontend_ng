@@ -15,14 +15,16 @@ export class MapService implements OnDestroy {
 
   private _auxGroup: L.FeatureGroup;
 
-  private _mode: MapMode = MapMode.Clusters;
+  private _mode!: MapMode;
   get mode(): MapMode {
     return this._mode;
   }
 
-  private _readySubject: ReplaySubject<boolean> = new ReplaySubject<boolean>(1);
-  public readonly ready$: Observable<boolean> =
-    this._readySubject.asObservable();
+  /**
+   * Emits true when the map is done initializing.
+   */
+  public readonly ready$: Observable<boolean>;
+  private _readySubject: ReplaySubject<boolean>;
 
   private _settingsSubscription?: Subscription;
 
@@ -30,6 +32,9 @@ export class MapService implements OnDestroy {
     this._markersGroup = new L.FeatureGroup();
     this._clusterGroup = new L.MarkerClusterGroup();
     this._auxGroup = new L.FeatureGroup();
+
+    this._readySubject = new ReplaySubject<boolean>(1);
+    this.ready$ = this._readySubject.asObservable();
 
     this._settingsSubscription = this._settingsService.mapMode$.subscribe(
       (mode) => {
@@ -44,7 +49,7 @@ export class MapService implements OnDestroy {
     }
   }
 
-  initMap(map: L.Map, mode: MapMode = MapMode.Clusters) {
+  initMap(map: L.Map, mode: MapMode): void {
     this._map = map;
     this._mode = mode;
 
@@ -66,7 +71,7 @@ export class MapService implements OnDestroy {
     this._clusterGroup.addLayer(marker);
   }
 
-  addAuxMarker(marker: L.Marker, zIndexOffset: number = 1000) {
+  addAuxMarker(marker: L.Marker, zIndexOffset: number = 100000) {
     marker.setZIndexOffset(zIndexOffset); // make marker visible over other layers
     this._auxGroup.addLayer(marker);
   }

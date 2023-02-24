@@ -9,3 +9,7 @@
 .shadow-blue {
   @include shadow-color(rgba(0, 0, 255, 0.2));
 }
+
+.shadow {
+  box-shadow: 0 0 0 0.35rem var(--shadow-color);
+}

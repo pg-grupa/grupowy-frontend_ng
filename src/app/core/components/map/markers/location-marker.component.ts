@@ -1,9 +1,9 @@
 import { Component, Input } from '@angular/core';
 import { ILocation, ILocationFull } from 'src/app/core/models/location';
-import { CacheService } from '../../services/cache.service';
-import { MapMarkerComponent } from './map-marker.component';
+import { CacheService } from '../../../services/cache.service';
+import { MapMarkerComponent } from '../markers/map-marker.component';
 import { MapService } from 'src/app/core/components/map/map.service';
-import { ILocationType } from '../../models/location-type';
+import { ILocationType } from '../../../models/location-type';
 
 @Component({
   selector: 'location-marker[location]',

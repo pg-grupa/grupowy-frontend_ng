@@ -10,9 +10,12 @@ import { LoadingInterceptor } from './core/interceptors/loading.interceptor';
 import { SharedModule } from './shared/shared.module';
 import { MapPageComponent } from './pages/map-page/map-page.component';
 import { NavigationPageComponent } from './pages/navigation-page/navigation-page.component';
+import { LocationModalComponent } from './pages/map-page/location-modal/location-modal.component';
+import { FilterModalComponent } from './pages/map-page/filter-modal/filter-modal.component';
+import { CoordinatesModalComponent } from './pages/map-page/coordinates-modal/coordinates-modal.component';
 
 @NgModule({
-  declarations: [AppComponent, MapPageComponent, NavigationPageComponent],
+  declarations: [AppComponent, MapPageComponent, NavigationPageComponent, LocationModalComponent, FilterModalComponent, CoordinatesModalComponent],
   imports: [BrowserModule, AppRoutingModule, CoreModule, SharedModule],
   providers: [
     {
