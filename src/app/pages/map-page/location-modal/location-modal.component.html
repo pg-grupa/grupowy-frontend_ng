@@ -1,57 +1,43 @@
 <!-- <div id="location-details"> -->
-  <div class="header">
-    <i class="{{ location.type.icon }}"></i>
-    <div>
-      <h2>
-        {{ location.name }}
-      </h2>
-      <h4>
-        {{ location.type.name }}
-      </h4>
+<div class="header">
+  <i class="{{ location.type.icon }}"></i>
+  <div>
+    <h2>
+      {{ location.name }}
+    </h2>
+    <h4>
+      {{ location.type.name }}
+    </h4>
+  </div>
+</div>
+<hr class="margin:x-0 margin:b-0 margin:t-1" />
+<div class="details-body">
+  <div class="details-menu-wrapper">
+    <div class="details-menu">
+      <a>
+        <i class="fa-solid fa-location-arrow"></i>
+        <span>Route</span>
+      </a>
+      <a (click)="zoomIn()">
+        <i class="fa-solid fa-arrows-to-circle"></i>
+      </a>
+      <a (click)="reportIssue()">
+        <i class="fa-solid fa-triangle-exclamation"></i>
+      </a>
     </div>
   </div>
-  <hr class="margin:x-0 margin:b-0 margin:t-1">
-  <div class="details-body">
-    <div class="details-menu-wrapper">
-      <div class="details-menu">
-        <a>
-          <i class="fa-solid fa-location-arrow"></i>
-          <span>Route</span>
-        </a>
-        <a (click)="zoomIn()">
-          <i class="fa-solid fa-arrows-to-circle"></i>
-        </a>
-        <a>
-          <i class="fa-solid fa-triangle-exclamation"></i>
-        </a>
-      </div>
-    </div>
-    <hr class="margin:x-0 margin:t-0">
-    <div class="details-item">
-      <h5 class="details-label">Address</h5>
-      {{ location.address }}
-    </div>
-    <div class="details-item">
-      <h5 class="details-label">Postal code</h5>
-      {{ location.postal_code }}
-    </div>
-    <div class="details-item">
-      <h5 class="details-label">City</h5>
-      {{ location.city }}
-    </div>
-
-
-    <div class="details-item">
-      <h5 class="details-label">Address</h5>
-      {{ location.address }}
-    </div>
-    <div class="details-item">
-      <h5 class="details-label">Postal code</h5>
-      {{ location.postal_code }}
-    </div>
-    <div class="details-item">
-      <h5 class="details-label">City</h5>
-      {{ location.city }}
-    </div>
+  <hr class="margin:x-0 margin:t-0 margin:b-2" />
+  <div class="details-item">
+    <h5 class="details-label">Address</h5>
+    {{ location.address }}
   </div>
+  <div class="details-item">
+    <h5 class="details-label">Postal code</h5>
+    {{ location.postal_code }}
+  </div>
+  <div class="details-item">
+    <h5 class="details-label">City</h5>
+    {{ location.city }}
+  </div>
+</div>
 <!-- </div> -->

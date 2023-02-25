@@ -34,6 +34,10 @@ export class LocationModalComponent implements OnInit, OnDestroy {
     });
   }
 
+  ngOnDestroy(): void {
+    this._mapPageService.clearSelectedLocation();
+  }
+
   zoomIn(): void {
     const coordinates = new L.LatLng(
       this.location.latitude,
@@ -42,7 +46,12 @@ export class LocationModalComponent implements OnInit, OnDestroy {
     this._mapPageService.flyTo(coordinates, 18);
   }
 
-  ngOnDestroy(): void {
-    this._mapPageService.clearSelectedLocation();
+  reportIssue(): void {
+    this._router.navigate(
+      [{ outlets: { report: ['issue', 'location', this.location.id] } }],
+      {
+        queryParamsHandling: 'preserve',
+      }
+    );
   }
 }

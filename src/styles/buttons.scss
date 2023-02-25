@@ -1,0 +1,33 @@
+.btn {
+  border: 0;
+  background: none;
+  // margin: 0.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+
+  &-sm {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.8em;
+  }
+
+  &-lg {
+    padding: 0.75rem 1.5rem;
+    font-size: 1.2em;
+  }
+
+  &:not([disabled]):hover {
+    filter: brightness(85%);
+  }
+
+  &[disabled] {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+.btn-primary {
+  @extend .btn;
+  background-color: var(--color-primary);
+  color: var(--color-primary-contrast);
+}

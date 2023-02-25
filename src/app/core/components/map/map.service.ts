@@ -30,7 +30,10 @@ export class MapService implements OnDestroy {
 
   constructor(private _settingsService: SettingsService) {
     this._markersGroup = new L.FeatureGroup();
-    this._clusterGroup = new L.MarkerClusterGroup();
+    this._clusterGroup = new L.MarkerClusterGroup({
+      disableClusteringAtZoom: 16,
+      maxClusterRadius: (zoom) => (18 - zoom) * 5 + 60,
+    });
     this._auxGroup = new L.FeatureGroup();
 
     this._readySubject = new ReplaySubject<boolean>(1);

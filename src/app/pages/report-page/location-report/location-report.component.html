@@ -1,0 +1,27 @@
+<form (ngSubmit)="submit()" [formGroup]="form">
+  <input type="hidden" id="location" formControlName="location" />
+  <div class="form-group">
+    <label class="form-label" for="name">Location</label>
+    <input
+      type="text"
+      class="form-control"
+      [value]="location.name"
+      disabled
+    />
+  </div>
+
+  <div class="form-group margin:b-0">
+    <label class="form-label" for="name">Message</label>
+    <textarea
+      id="message"
+      class="noresize"
+      formControlName="message"
+      [maxlength]="maxLength"
+      (ngModelChange)="countLength()"
+    ></textarea>
+    <span class="counter">{{ length }} / {{ maxLength }}</span>
+  </div>
+  <div class="buttons">
+    <button type="submit" class="btn btn-primary" [disabled]="!form.valid">Report</button>
+  </div>
+</form>

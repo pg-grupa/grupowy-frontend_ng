@@ -1,5 +1,23 @@
 $spacer: 0.5rem;
 
+.margin\: {
+  &t-auto {
+    margin-top: auto !important;
+  }
+
+  &b-auto {
+    margin-bottom: auto !important;
+  }
+
+  &l-auto {
+    margin-left: auto !important;
+  }
+
+  &r-auto {
+    margin-right: auto !important;
+  }
+}
+
 @for $index from 0 through 5 {
   .margin\:#{$index} {
     margin: $index * $spacer !important;
