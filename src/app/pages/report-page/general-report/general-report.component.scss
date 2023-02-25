@@ -1,0 +1,13 @@
+.counter {
+  margin-left: auto;
+  margin-right: 0.5rem;
+  transform: translateY(-110%);
+  font-size: 0.8em;
+  border-radius: 0.5rem;
+  text-align: right;
+}
+
+.buttons {
+  display: flex;
+  justify-content: flex-end;
+}

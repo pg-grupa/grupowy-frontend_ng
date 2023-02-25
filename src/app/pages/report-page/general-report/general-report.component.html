@@ -1,0 +1,16 @@
+<form (ngSubmit)="submit()" [formGroup]="form">
+  <div class="form-group margin:b-0">
+    <label class="form-label" for="name">Message</label>
+    <textarea
+      id="message"
+      class="noresize"
+      formControlName="message"
+      [maxlength]="maxLength"
+      (ngModelChange)="countLength()"
+    ></textarea>
+    <span class="counter">{{ length }} / {{ maxLength }}</span>
+  </div>
+  <div class="buttons">
+    <button type="submit" class="btn btn-primary" [disabled]="!form.valid">Report</button>
+  </div>
+</form>

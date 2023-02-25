@@ -13,10 +13,31 @@ import { NavigationPageComponent } from './pages/navigation-page/navigation-page
 import { LocationModalComponent } from './pages/map-page/location-modal/location-modal.component';
 import { FilterModalComponent } from './pages/map-page/filter-modal/filter-modal.component';
 import { CoordinatesModalComponent } from './pages/map-page/coordinates-modal/coordinates-modal.component';
+import { ReportPageComponent } from './pages/report-page/report-page.component';
+import { GeneralReportComponent } from './pages/report-page/general-report/general-report.component';
+import { LocationReportComponent } from './pages/report-page/location-report/location-report.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
-  declarations: [AppComponent, MapPageComponent, NavigationPageComponent, LocationModalComponent, FilterModalComponent, CoordinatesModalComponent],
-  imports: [BrowserModule, AppRoutingModule, CoreModule, SharedModule],
+  declarations: [
+    AppComponent,
+    MapPageComponent,
+    NavigationPageComponent,
+    LocationModalComponent,
+    FilterModalComponent,
+    CoordinatesModalComponent,
+    ReportPageComponent,
+    GeneralReportComponent,
+    LocationReportComponent,
+  ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    CoreModule,
+    SharedModule,
+    FormsModule,
+    ReactiveFormsModule,
+  ],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
