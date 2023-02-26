@@ -49,7 +49,7 @@
     <span class="label"> Search </span>
   </a>
 </nav>
-<div id="modal-wrapper" class="shadow" [class.open]="locationModal" [class.hidden]="hideUI">
+<div id="modal-wrapper" class="shadow open" [class.hidden]="hideUI" [@fadeInOut]="locationModal ? 'in' : 'out'">
   <a
     id="modal-close-button"
     class="border:rounded-2"

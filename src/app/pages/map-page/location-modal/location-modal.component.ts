@@ -48,7 +48,7 @@ export class LocationModalComponent implements OnInit, OnDestroy {
 
   reportIssue(): void {
     this._router.navigate(
-      [{ outlets: { report: ['issue', 'location', this.location.id] } }],
+      [{ outlets: { foreground: ['issue', 'location', this.location.id] } }],
       {
         queryParamsHandling: 'preserve',
       }

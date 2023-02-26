@@ -7,8 +7,4 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'ServoMapApp';
-
-  onEvent(event: any) {
-    console.log(event);
-  }
 }
