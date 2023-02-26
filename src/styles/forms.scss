@@ -43,3 +43,8 @@
     resize: none;
   }
 }
+
+.form-control-error {
+  font-size: 0.9em;
+  color: var(--color-danger);
+}

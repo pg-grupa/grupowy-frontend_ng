@@ -1,17 +1,38 @@
-<form (ngSubmit)="submit()" [formGroup]="form">
+<form
+  (ngSubmit)="submit()"
+  [formGroup]="form"
+  *ngIf="!success; else successMessage"
+>
+  <p class="error" *ngFor="let error of errorMessages">
+    {{ error }}
+  </p>
   <input type="hidden" id="location" formControlName="location" />
   <div class="form-group">
     <label class="form-label" for="name">Location</label>
-    <input
-      type="text"
-      class="form-control"
-      [value]="location.name"
-      disabled
-    />
+    <input type="text" class="form-control" [value]="location.name" disabled />
   </div>
 
   <div class="form-group margin:b-0">
     <label class="form-label" for="name">Message</label>
+    <div
+      *ngIf="
+        !fc['message'].valid &&
+        fc['message'].errors &&
+        fc['message'].errors as errors
+      "
+    >
+      <p
+        class="form-control-error"
+        *ngIf="fc['message'].touched && errors['required']"
+      >
+        This field is required
+      </p>
+      <ng-container *ngIf="errors['server']"
+        ><p class="form-control-error" *ngFor="let error of errors['server']">
+          {{ error }}
+        </p>
+      </ng-container>
+    </div>
     <textarea
       id="message"
       class="noresize"
@@ -22,6 +43,9 @@
     <span class="counter">{{ length }} / {{ maxLength }}</span>
   </div>
   <div class="buttons">
-    <button type="submit" class="btn btn-primary" [disabled]="!form.valid">Report</button>
+    <button type="submit" class="btn btn-primary" [disabled]="!form.valid">
+      Report
+    </button>
   </div>
 </form>
+<ng-template #successMessage> Report sent successfuly! </ng-template>
