@@ -1,0 +1,13 @@
+.aux-router {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+#foreground-router {
+  z-index: 999998;
+}
+
+#background-router {
+  z-index: 999997;
+}

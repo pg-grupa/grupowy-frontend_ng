@@ -9,11 +9,38 @@ import { LoadingService } from 'src/app/core/services/loading.service';
 import { MapMode } from 'src/app/core/enums/settings';
 import { SettingsService } from 'src/app/core/services/settings.service';
 import { CacheService } from 'src/app/core/services/cache.service';
+import {
+  trigger,
+  transition,
+  useAnimation,
+  group,
+  query,
+  animate,
+  state,
+  style,
+} from '@angular/animations';
+import { fadeIn } from 'src/app/shared/animations/fade/fade-in';
+import { fadeOut } from 'src/app/shared/animations/fade/fade-out';
 
 @Component({
   templateUrl: './map-page.component.html',
   styleUrls: ['./map-page.component.scss'],
-  // providers: [MapPageService],
+  animations: [
+    trigger('fadeInOut', [
+      state('in', style({ opacity: 1 })),
+      state('out', style({ opacity: 0 })),
+      transition('out => in', [
+        useAnimation(fadeIn, { params: { from: '0, 100%' } }),
+      ]),
+      transition('in => out', [
+        group([
+          // inner router stays in DOM for duration of animation
+          query(':leave', [animate('375ms')], { optional: true }),
+          useAnimation(fadeOut, { params: { to: '0, 100%' } }),
+        ]),
+      ]),
+    ]),
+  ],
 })
 export class MapPageComponent implements OnInit, OnDestroy {
   locations$!: Observable<ILocation[]>;

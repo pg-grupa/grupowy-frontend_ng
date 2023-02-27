@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CacheInitializedResolver } from './core/resolvers/cache-initialized.resolver';
 import { LocationResolver } from './core/resolvers/location.resolver';
+import { AboutPageComponent } from './pages/about-page/about-page.component';
 import { CoordinatesModalComponent } from './pages/map-page/coordinates-modal/coordinates-modal.component';
 import { FilterModalComponent } from './pages/map-page/filter-modal/filter-modal.component';
 import { LocationModalComponent } from './pages/map-page/location-modal/location-modal.component';
@@ -49,7 +50,7 @@ const routes: Routes = [
       {
         path: 'issue',
         component: ReportPageComponent,
-        outlet: 'report',
+        outlet: 'foreground',
         children: [
           {
             path: 'general',
@@ -63,6 +64,11 @@ const routes: Routes = [
             },
           },
         ],
+      },
+      {
+        path: 'about',
+        component: AboutPageComponent,
+        outlet: 'background',
       },
     ],
   },
