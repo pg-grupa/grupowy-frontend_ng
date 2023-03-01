@@ -1,0 +1,50 @@
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+}
+
+.form-label {
+  text-transform: uppercase;
+  letter-spacing: 0.1rem;
+  // color: var(--color-primary);
+  font-size: 0.9em;
+}
+
+.form-control {
+  // border-radius: 9999px;
+  border-radius: 0.5rem;
+  border: 0;
+  padding: 0.5rem 1rem;
+  font-size: 1em;
+  background-color: var(--form-background);
+  color: var(--form-color);
+
+  &:focus {
+    outline: var(--color-primary) solid 2px;
+    outline-offset: 2px;
+  }
+
+  &[disabled] {
+    color: var(--form-color-disabled);
+  }
+}
+
+.form-group textarea {
+  @extend .form-control;
+  padding: 0.5rem;
+  width: 100%;
+  height: 100%;
+  min-height: 10rem;
+  resize: vertical;
+  font-size: 1.1em;
+
+  &.noresize {
+    resize: none;
+  }
+}
+
+.form-control-error {
+  font-size: 0.9em;
+  color: var(--color-danger);
+}

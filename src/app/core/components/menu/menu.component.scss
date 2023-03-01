@@ -24,6 +24,8 @@ $item-height: 3rem;
 }
 
 #menu {
+  display: flex;
+  flex-direction: column;
   overflow-y: auto;
   height: 100%;
 }
@@ -45,12 +47,17 @@ $item-height: 3rem;
   align-items: center;
   margin-bottom: 0.5rem;
   padding: 0 0.5rem;
-  color: inherit;
   border-radius: 1rem;
-  text-decoration: none;
   letter-spacing: 0.1rem;
   font-size: calc($item-height / 2.5);
+}
+
+#menu a {
+  display: flex;
+  align-items: center;
   cursor: pointer;
+  text-decoration: none;
+  color: inherit;
   transition: all $toggle-duration ease-in-out;
 
   &:hover {

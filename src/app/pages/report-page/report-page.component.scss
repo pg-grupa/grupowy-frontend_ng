@@ -1,0 +1,58 @@
+@use "/src/styles/breakpoints.scss" as breakpoint;
+
+$toggle-size: 2.5rem;
+
+.wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  width: 100vw;
+  background-color: rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+}
+
+.report-modal {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  background-color: var(--container-background);
+  padding: 1rem;
+  overflow-y: auto;
+  opacity: 1;
+  visibility: visible;
+  transition: all 375ms ease-in-out;
+
+  &.hidden {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(50%);
+  }
+}
+
+#close-button {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  color: var(--text-color);
+  text-align: center;
+  line-height: $toggle-size;
+  height: $toggle-size;
+  width: $toggle-size;
+  font-size: 1.25rem;
+}
+
+h4 {
+  text-transform: uppercase;
+  letter-spacing: 0.1rem;
+  margin-bottom: 0.5rem;
+}
+
+@include breakpoint.up("xs") {
+  .report-modal {
+    border-radius: 0.5rem;
+    max-width: 25rem;
+    height: fit-content;
+    max-height: 30rem;
+  }
+}

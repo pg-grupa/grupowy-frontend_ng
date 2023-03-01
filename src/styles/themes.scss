@@ -6,10 +6,15 @@
   --shadow-color: rgba(100, 100, 100, 0.25);
   --leaflet-filter: none;
 
+  --form-background: hsl(256, 11%, 90%);
+  --form-color: rgb(0, 0, 0);
+  --form-color-disabled: rgb(80, 80, 80);
+
   --color-primary: rgb(129, 12, 168);
   --color-primary-contrast: rgb(255, 255, 255);
   --color-secondary: rgb(180, 180, 180);
   --color-secondary-contrast: rgb(0, 0, 0);
+  --color-danger: hsl(0, 100%, 60%);
 }
 
 .theme\:dark {
@@ -20,6 +25,10 @@
   --shadow-color: rgba(250, 250, 250, 0.25);
   --leaflet-filter: brightness(0.6) invert(1) contrast(3) hue-rotate(200deg)
     saturate(0.3) brightness(0.7);
+
+  --form-background: rgb(82, 77, 96);
+  --form-color: rgb(255, 255, 255);
+  --form-color-disabled: rgb(151, 151, 151);
 
   --color-primary: rgb(190, 19, 247);
   --color-primary-contrast: rgb(255, 255, 255);

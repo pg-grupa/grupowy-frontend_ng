@@ -7,7 +7,7 @@ import {
 } from '@angular/router';
 import { first, Observable, of } from 'rxjs';
 import { IMapState } from '../interfaces/map-state';
-import { MapService } from '../services/map.service';
+import { MapService } from '../components/map/map.service';
 
 @Injectable({
   providedIn: 'root',

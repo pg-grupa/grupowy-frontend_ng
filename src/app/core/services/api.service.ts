@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { IBoundsQueryParams } from '../interfaces/location-query-params';
 import { ILocation } from '../models/location';
 import { ILocationType } from '../models/location-type';
+import { IReport } from '../models/report';
 
 /** Service responsible for api requests. */
 @Injectable({
@@ -12,9 +13,10 @@ import { ILocationType } from '../models/location-type';
 export class APIService {
   /** API urls used by this service. */
   private _apiUrls = {
-    types: 'types/',
-    locations: 'locations/',
-    location: (id: number): string => `location/${id}/`,
+    getTypes: 'types/',
+    getLocations: 'locations/',
+    getLocation: (id: number): string => `location/${id}/`,
+    postReport: 'report/',
   };
 
   /** @constructor */
@@ -22,17 +24,21 @@ export class APIService {
 
   /** Returns observable of all location types. */
   getTypes(): Observable<ILocationType[]> {
-    return this._http.get<ILocationType[]>(this._apiUrls.types);
+    return this._http.get<ILocationType[]>(this._apiUrls.getTypes);
   }
 
   /** Returns observable of locations meeting the given query params. */
   getLocations(params: IBoundsQueryParams): Observable<ILocation[]> {
-    return this._http.get<ILocation[]>(this._apiUrls.locations, {
+    return this._http.get<ILocation[]>(this._apiUrls.getLocations, {
       params: params as any,
     });
   }
 
   getLocationDetails(id: number): Observable<ILocation> {
-    return this._http.get<ILocation>(this._apiUrls.location(id));
+    return this._http.get<ILocation>(this._apiUrls.getLocation(id));
+  }
+
+  postReport(report: IReport): Observable<void> {
+    return this._http.post<void>(this._apiUrls.postReport, report);
   }
 }
