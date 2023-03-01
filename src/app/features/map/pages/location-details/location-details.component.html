@@ -1,0 +1,23 @@
+
+<div class="controls">
+  <a class="open-toggle" [class.open]="openMobile" (click)="toggleOpen()">
+    <i class="fa-solid fa-angle-up"></i>
+  </a>
+  <a class="close-button" (click)="close()">
+    <i class="fa-solid fa-x"></i>
+  </a>
+</div>
+<div class="header">
+  <i class="{{ location.type.icon }}"></i>
+  <div>
+    <h4>
+      {{ location.name }}
+    </h4>
+    <h5>
+      {{ location.type.name }}
+    </h5>
+  </div>
+</div>
+<div class="body" [class.open]="openMobile">
+lalal
+</div>

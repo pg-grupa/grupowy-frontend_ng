@@ -1,0 +1,89 @@
+import { Component } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ILocationFull } from 'src/app/core/models/location';
+import { MapModuleService } from '../../services/map-module.service';
+
+import * as L from 'leaflet';
+import { skip, Subscription } from 'rxjs';
+import {
+  trigger,
+  transition,
+  useAnimation,
+  group,
+  query,
+  animate,
+} from '@angular/animations';
+import { fadeIn } from 'src/app/shared/animations/fade/fade-in';
+import { fadeOut } from 'src/app/shared/animations/fade/fade-out';
+
+@Component({
+  selector: 'app-location-details',
+  templateUrl: './location-details.component.html',
+  styleUrls: ['./location-details.component.scss'],
+  animations: [
+    trigger('fadeInOut', [
+      transition(':enter', [
+        useAnimation(fadeIn, { params: { from: '0, 100%' } }),
+      ]),
+      transition(':leave', [
+        group([
+          // inner router stays in DOM for duration of animation
+          query(':leave', [animate('375ms')], { optional: true }),
+          useAnimation(fadeOut, { params: { to: '0, 100%' } }),
+        ]),
+      ]),
+    ]),
+  ],
+  host: { '[@fadeInOut]': '' },
+})
+export class LocationDetailsComponent {
+  location!: ILocationFull;
+  openMobile: boolean = true;
+  movestartSubscription!: Subscription;
+
+  constructor(
+    private _route: ActivatedRoute,
+    private _router: Router,
+    private _mapModuleService: MapModuleService
+  ) {
+    // this._router.routeReuseStrategy.shouldReuseRoute = () => false;
+  }
+
+  ngOnInit(): void {
+    this._route.data.subscribe((data) => {
+      this.location = data['location'];
+      const coordinates = new L.LatLng(
+        this.location.latitude,
+        this.location.longitude
+      );
+
+      const zoom = this._mapModuleService.zoom;
+
+      this._mapModuleService.selectLocation(this.location);
+      this._mapModuleService.flyTo(coordinates, zoom);
+      this.openMobile = true;
+    });
+
+    this.movestartSubscription = this._mapModuleService.movestart$.subscribe(
+      () => {
+        this.openMobile = false;
+      }
+    );
+  }
+
+  ngOnDestroy(): void {
+    this._mapModuleService.clearSelectedLocation();
+    this.movestartSubscription.unsubscribe();
+  }
+
+  toggleOpen() {
+    this.openMobile = !this.openMobile;
+  }
+
+  close() {
+    this._router.navigate(['../../'], {
+      relativeTo: this._route,
+      queryParamsHandling: 'preserve',
+    });
+  }
+}

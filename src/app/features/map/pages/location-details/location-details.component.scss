@@ -1,0 +1,118 @@
+$btn-size: 2.5rem;
+
+:host {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  z-index: 999998;
+  width: 100%;
+  max-height: 60vh;
+  background-color: var(--container-background);
+  color: var(--text-color);
+  box-shadow: 0 0 0 0.35rem var(--shadow-color);
+}
+
+// .open-toggle {
+//   display: block;
+//   width: 100%;
+//   text-align: center;
+//   padding-top: 0.2rem;
+
+//   > i {
+//     transition: all 375ms ease-in-out;
+//     opacity: 0.6;
+//   }
+
+//   &.open > i {
+//     transform: rotateX(180deg);
+//   }
+// }
+
+// .close-button {
+//   position: absolute;
+//   top: calc(-1rem - $btn-size);
+//   right: 0.5rem;
+//   width: $btn-size;
+//   height: $btn-size;
+//   line-height: $btn-size;
+//   text-align: center;
+//   font-size: calc($btn-size / 2);
+//   background-color: var(--container-background);
+//   border-radius: 0.5rem;
+//   box-shadow: 0 0 0 0.35rem var(--shadow-color);
+// }
+
+.controls {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  top: calc(-1rem - $btn-size);
+  right: 0.5rem;
+  background-color: var(--container-background);
+  border-radius: 0.5rem;
+  box-shadow: 0 0 0 0.35rem var(--shadow-color);
+
+  > * {
+    width: $btn-size;
+    height: $btn-size;
+    line-height: $btn-size;
+    text-align: center;
+    font-size: calc($btn-size / 2);
+  }
+}
+
+.open-toggle {
+  border-right: 1px solid var(--shadow-color);
+
+  > i {
+    transition: all 375ms ease-in-out;
+    // opacity: 0.6;
+  }
+
+  &.open > i {
+    transform: rotateX(180deg);
+  }
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  padding-right: 1rem;
+  margin: 0;
+  margin-bottom: 0.5rem;
+  min-height: 4rem;
+  border-bottom: 1px solid var(--border-color);
+
+  // > * {
+  //   margin-right: 1rem;
+  // }
+
+  i {
+    font-size: 1.5rem;
+    text-align: center;
+    width: 3.5rem;
+    line-height: 1.5rem;
+  }
+
+  h4 {
+    font-size: 1.3rem;
+    line-height: 1.4rem;
+    margin-bottom: 0;
+  }
+
+  h5 {
+    font-size: 0.9rem;
+    font-weight: normal;
+  }
+}
+
+.body {
+  height: 50vh;
+  max-height: 0;
+  overflow: hidden;
+  transition: all 375ms ease-in-out;
+
+  &.open {
+    max-height: 50vh;
+  }
+}
