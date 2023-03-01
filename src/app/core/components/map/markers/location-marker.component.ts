@@ -2,21 +2,24 @@ import { Component, Input } from '@angular/core';
 import { ILocation, ILocationFull } from 'src/app/core/models/location';
 import { CacheService } from '../../../services/cache.service';
 import { MapMarkerComponent } from '../markers/map-marker.component';
-import { MapService } from 'src/app/core/components/map/map.service';
 import { ILocationType } from '../../../models/location-type';
+import { LayerGroupService } from 'src/app/core/services/layer-group.service';
 
 @Component({
-  selector: 'location-marker[location]',
+  selector: 'core-location-marker[location]',
   template: '',
 })
 export class LocationMarkerComponent extends MapMarkerComponent {
   @Input() location!: ILocation | ILocationFull;
 
-  constructor(private _cacheService: CacheService, _mapService: MapService) {
-    super(_mapService);
+  constructor(
+    private _cacheService: CacheService,
+    _layerGroup: LayerGroupService
+  ) {
+    super(_layerGroup);
   }
 
-  override ngAfterViewInit(): void {
+  override ngOnInit(): void {
     if (!this.coordinates)
       this.coordinates = [this.location.latitude, this.location.longitude];
 
@@ -37,6 +40,6 @@ export class LocationMarkerComponent extends MapMarkerComponent {
       this.tooltip = this.location.name;
     }
 
-    super.ngAfterViewInit();
+    super.ngOnInit();
   }
 }
