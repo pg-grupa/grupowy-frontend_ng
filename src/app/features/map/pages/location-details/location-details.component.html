@@ -1,4 +1,3 @@
-
 <div class="controls">
   <a class="open-toggle" [class.open]="openMobile" (click)="toggleOpen()">
     <i class="fa-solid fa-angle-up"></i>
@@ -7,7 +6,7 @@
     <i class="fa-solid fa-x"></i>
   </a>
 </div>
-<div class="header">
+<div class="header" (click)="toggleOpen()">
   <i class="{{ location.type.icon }}"></i>
   <div>
     <h4>
@@ -18,6 +17,43 @@
     </h5>
   </div>
 </div>
-<div class="body" [class.open]="openMobile">
-lalal
+<div class="collapsible flex:column" [class.open]="openMobile">
+  <div class="location-body grow">
+    <div class="location-details">
+      <div class="details-item">
+        <h5 class="details-label">Address</h5>
+        {{ location.address }}
+      </div>
+      <div class="details-item">
+        <h5 class="details-label">Postal code</h5>
+        {{ location.postal_code }}
+      </div>
+      <div class="details-item">
+        <h5 class="details-label">City</h5>
+        {{ location.city }}
+      </div>
+    </div>
+    <router-outlet></router-outlet>
+  </div>
+  <nav class="location-nav flex:row no-shrink no-grow">
+    <a><i class="fa-solid fa-location-arrow"></i></a>
+    <a (click)="toggleFavourite()" [class.favourite]="favourite"
+      ><i class="fa-star" [class]="favourite ? 'fa-solid' : 'fa-regular'"></i
+    ></a>
+    <a
+      [routerLink]="['events']"
+      queryParamsHandling="preserve"
+      routerLinkActive="active"
+      ><i class="fa-solid fa-calendar"></i
+    ></a>
+    <a
+      [routerLink]="['services']"
+      queryParamsHandling="preserve"
+      routerLinkActive="active"
+      ><i class="fa-solid fa-money-bill-wave"></i
+    ></a>
+    <a (click)="reportIssue()"
+      ><i class="fa-solid fa-triangle-exclamation"></i
+    ></a>
+  </nav>
 </div>

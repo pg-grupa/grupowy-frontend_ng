@@ -12,9 +12,12 @@ import {
   group,
   query,
   animate,
+  style,
 } from '@angular/animations';
 import { fadeIn } from 'src/app/shared/animations/fade/fade-in';
 import { fadeOut } from 'src/app/shared/animations/fade/fade-out';
+import { slideIn } from 'src/app/shared/animations/slide/slide-in';
+import { slideOut } from 'src/app/shared/animations/slide/slide-out';
 
 @Component({
   selector: 'app-location-details',
@@ -38,6 +41,7 @@ import { fadeOut } from 'src/app/shared/animations/fade/fade-out';
 })
 export class LocationDetailsComponent {
   location!: ILocationFull;
+  favourite: boolean = false;
   openMobile: boolean = true;
   movestartSubscription!: Subscription;
 
@@ -80,10 +84,23 @@ export class LocationDetailsComponent {
     this.openMobile = !this.openMobile;
   }
 
+  toggleFavourite() {
+    this.favourite = !this.favourite;
+  }
+
   close() {
     this._router.navigate(['../../'], {
       relativeTo: this._route,
       queryParamsHandling: 'preserve',
     });
+  }
+
+  reportIssue(): void {
+    this._router.navigate(
+      [{ outlets: { foreground: ['issue', 'location', this.location.id] } }],
+      {
+        queryParamsHandling: 'preserve',
+      }
+    );
   }
 }

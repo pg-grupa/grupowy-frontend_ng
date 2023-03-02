@@ -121,7 +121,7 @@ export class MapComponent {
       this._mapModuleService.selectedCoordinates$.subscribe(
         (selectedCoordinates) => {
           if (selectedCoordinates) {
-            // set to null to force component destroy
+            // set to null to force marker destroy
             this.selectedCoordinates = null;
           }
           // timeout as workaround for NG100
@@ -134,6 +134,10 @@ export class MapComponent {
 
     const selectedLocationSubscription =
       this._mapModuleService.selectedLocation$.subscribe((selectedLocation) => {
+        if (selectedLocation) {
+          // set to null to force marker destroy
+          this.selectedLocation = null;
+        }
         // timeout as workaround for NG100
         setTimeout(() => {
           this.selectedLocation = selectedLocation;
