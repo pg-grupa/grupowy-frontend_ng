@@ -1,0 +1,57 @@
+<core-map
+  [(center)]="center"
+  [(zoom)]="zoom"
+  (movestart)="onMoveStart()"
+  (moveend)="onMoveEnd($event)"
+  (rightClick)="onMapClick($event)"
+>
+  <core-cluster-group name="ClusterGroup">
+    <core-location-marker
+      *ngFor="let location of locations$ | async"
+      [location]="location"
+      (click)="onLocationClick(location)"
+    ></core-location-marker>
+  </core-cluster-group>
+  <core-feature-group
+    ><core-location-marker
+      *ngIf="selectedLocation"
+      [location]="selectedLocation"
+      [color]="'red'"
+      [markerOptions]="{
+        zIndexOffset: 999999
+      }"
+    ></core-location-marker>
+    <core-marker
+      *ngIf="selectedCoordinates"
+      [coordinates]="selectedCoordinates"
+      [color]="'red'"
+      [icon]="'fa-solid fa-crosshairs'"
+      [markerOptions]="{
+        zIndexOffset: 999999
+      }"
+    ></core-marker>
+    <core-marker
+      *ngIf="userPosition"
+      [coordinates]="userPosition"
+      [color]="'orange-dark'"
+      [icon]="'fa-solid fa-person'"
+      [markerOptions]="{
+        zIndexOffset: 999999
+      }"
+    ></core-marker>
+  </core-feature-group>
+</core-map>
+
+<a
+  id="user-location-button"
+  class="shadow"
+  (click)="flyToUserPosition()"
+  *ngIf="userPosition"
+>
+  <i class="fa-solid fa-street-view"></i>
+</a>
+
+<div>
+  <router-outlet></router-outlet>
+
+</div>
