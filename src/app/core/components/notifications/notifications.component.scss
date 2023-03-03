@@ -1,0 +1,23 @@
+@use "/src/styles/breakpoints" as breakpoint;
+
+#notifications-container {
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  z-index: 999999;
+  top: 0;
+  right: 50%;
+  width: 90vw;
+  max-width: 500px;
+  // max-width: 70vw;
+  // padding: 1.5rem 0.5rem 0;
+  height: fit-content;
+  transform: translateX(50%);
+}
+
+@include breakpoint.up("md") {
+  #notifications-container {
+    right: 1rem;
+    transform: none;
+  }
+}

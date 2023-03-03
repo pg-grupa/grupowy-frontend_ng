@@ -1,0 +1,7 @@
+<div id="notifications-container">
+  <core-notification
+    *ngFor="let notification of notifications"
+    [notification]="notification"
+    (close)="removeNotification($event)"
+  ></core-notification>
+</div>

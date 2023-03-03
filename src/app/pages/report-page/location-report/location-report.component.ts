@@ -1,10 +1,11 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { catchError, Observable, of } from 'rxjs';
 import { ILocationFull } from 'src/app/core/models/location';
 import { APIService } from 'src/app/core/services/api.service';
+import { NotificationsService } from 'src/app/core/services/notifications.service';
 
 @Component({
   templateUrl: './location-report.component.html',
@@ -13,7 +14,6 @@ import { APIService } from 'src/app/core/services/api.service';
 export class LocationReportComponent implements OnInit {
   maxLength: number = 512;
   length: number = 0;
-  success: boolean = false;
   errorMessages: string[] = [];
 
   form: FormGroup = this._fb.group({
@@ -29,8 +29,10 @@ export class LocationReportComponent implements OnInit {
 
   constructor(
     private _route: ActivatedRoute,
+    private _router: Router,
     private _fb: FormBuilder,
-    private _apiService: APIService
+    private _apiService: APIService,
+    private _notifications: NotificationsService
   ) {}
 
   ngOnInit(): void {
@@ -70,6 +72,11 @@ export class LocationReportComponent implements OnInit {
           throw httpError;
         })
       )
-      .subscribe(() => (this.success = true));
+      .subscribe(() => {
+        this._notifications.success('Thank you for your feedback!', 5000);
+        this._router.navigate([{ outlets: { foreground: null } }], {
+          queryParamsHandling: 'preserve',
+        });
+      });
   }
 }

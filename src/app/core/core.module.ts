@@ -12,8 +12,10 @@ import { FeatureGroupComponent } from './components/map/groups/feature-group.com
 import { ClusterGroupComponent } from './components/map/groups/cluster-group.component';
 import { MapMarkerComponent } from './components/map/markers/map-marker.component';
 import { LocationMarkerComponent } from './components/map/markers/location-marker.component';
+import { NotificationsComponent } from './components/notifications/notifications.component';
+import { NotificationComponent } from './components/notifications/notification/notification.component';
 
-const declarations = [
+const exports = [
   LoadingComponent,
   MapMarkerComponent,
   LocationMarkerComponent,
@@ -23,10 +25,13 @@ const declarations = [
   LeafletMapComponent,
   FeatureGroupComponent,
   ClusterGroupComponent,
+  NotificationsComponent,
 ];
 
+const declarations = [NotificationComponent];
+
 @NgModule({
-  declarations: declarations,
+  declarations: [...exports, ...declarations],
   imports: [
     CommonModule,
     SharedModule,
@@ -37,6 +42,6 @@ const declarations = [
     }),
     RouterModule,
   ],
-  exports: declarations,
+  exports: [...exports],
 })
 export class CoreModule {}
