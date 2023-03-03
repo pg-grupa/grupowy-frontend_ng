@@ -18,6 +18,7 @@ import { fadeIn } from 'src/app/shared/animations/fade/fade-in';
 import { fadeOut } from 'src/app/shared/animations/fade/fade-out';
 import { slideIn } from 'src/app/shared/animations/slide/slide-in';
 import { slideOut } from 'src/app/shared/animations/slide/slide-out';
+import { NotificationsService } from 'src/app/core/services/notifications.service';
 
 @Component({
   selector: 'app-location-details',
@@ -56,6 +57,7 @@ export class LocationDetailsComponent {
   ngOnInit(): void {
     this._route.data.subscribe((data) => {
       this.location = data['location'];
+
       const coordinates = new L.LatLng(
         this.location.latitude,
         this.location.longitude
