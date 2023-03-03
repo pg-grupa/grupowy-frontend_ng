@@ -7,5 +7,6 @@ import { Component, Input } from '@angular/core';
 })
 export class LogoPinComponent {
   @Input() color: string = '#00008B';
+  @Input() shadowColor: string = '#000';
   @Input() size: string = '3rem';
 }

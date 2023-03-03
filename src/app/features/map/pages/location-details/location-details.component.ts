@@ -49,7 +49,8 @@ export class LocationDetailsComponent {
   constructor(
     private _route: ActivatedRoute,
     private _router: Router,
-    private _mapModuleService: MapModuleService
+    private _mapModuleService: MapModuleService,
+    private _notificationsService: NotificationsService
   ) {
     // this._router.routeReuseStrategy.shouldReuseRoute = () => false;
   }
@@ -88,5 +89,13 @@ export class LocationDetailsComponent {
 
   toggleFavourite() {
     this.favourite = !this.favourite;
+    if (this.favourite) {
+      this._notificationsService.success('Location added to favourites!');
+    } else {
+      this._notificationsService.info(
+        'Location removed from favourites!',
+        3000
+      );
+    }
   }
 }
