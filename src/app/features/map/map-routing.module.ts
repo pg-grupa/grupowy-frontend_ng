@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { LocationTitleResolver } from 'src/app/core/resolvers/location-title.resolver';
 import { LocationResolver } from 'src/app/core/resolvers/location.resolver';
 import { MapComponent } from './map.component';
 import { LocationDetailsComponent } from './pages/location-details/location-details.component';
@@ -10,21 +11,31 @@ const routes: Routes = [
   {
     path: '',
     component: MapComponent,
+    title: 'Map',
     children: [
       {
         path: 'location/:id',
-        component: LocationDetailsComponent,
         resolve: {
           location: LocationResolver,
         },
         children: [
           {
-            path: 'events',
-            component: LocationEventsComponent,
-          },
-          {
-            path: 'services',
-            component: LocationServicesComponent,
+            // Made it a subroute, so LocationTitleResolver has access to route.parent.data
+            // Other possible solutions: make Subject emiting  location object/location name
+            // and return it in resolver.
+            path: '',
+            component: LocationDetailsComponent,
+            title: LocationTitleResolver,
+            children: [
+              {
+                path: 'events',
+                component: LocationEventsComponent,
+              },
+              {
+                path: 'services',
+                component: LocationServicesComponent,
+              },
+            ],
           },
         ],
       },

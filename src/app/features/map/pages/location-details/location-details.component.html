@@ -2,9 +2,16 @@
   <a class="open-toggle" [class.open]="openMobile" (click)="toggleOpen()">
     <i class="fa-solid fa-angle-up"></i>
   </a>
-  <a class="close-button" (click)="close()">
+  <a
+    class="close-button"
+    [routerLink]="['../../']"
+    queryParamsHandling="preserve"
+  >
     <i class="fa-solid fa-x"></i>
   </a>
+  <!-- <a class="close-button" (click)="close()">
+    <i class="fa-solid fa-x"></i>
+  </a> -->
 </div>
 <div class="header" (click)="toggleOpen()">
   <i class="{{ location.type.icon }}"></i>
@@ -52,8 +59,16 @@
       routerLinkActive="active"
       ><i class="fa-solid fa-money-bill-wave"></i
     ></a>
-    <a (click)="reportIssue()"
+    <a
+      [routerLink]="[
+        { outlets: { foreground: ['issue', 'location', this.location.id] } }
+      ]"
+      [relativeTo]="null"
+      queryParamsHandling="preserve"
       ><i class="fa-solid fa-triangle-exclamation"></i
     ></a>
+    <!-- <a (click)="reportIssue()"
+      ><i class="fa-solid fa-triangle-exclamation"></i
+    ></a> -->
   </nav>
 </div>

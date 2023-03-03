@@ -87,20 +87,4 @@ export class LocationDetailsComponent {
   toggleFavourite() {
     this.favourite = !this.favourite;
   }
-
-  close() {
-    this._router.navigate(['../../'], {
-      relativeTo: this._route,
-      queryParamsHandling: 'preserve',
-    });
-  }
-
-  reportIssue(): void {
-    this._router.navigate(
-      [{ outlets: { foreground: ['issue', 'location', this.location.id] } }],
-      {
-        queryParamsHandling: 'preserve',
-      }
-    );
-  }
 }

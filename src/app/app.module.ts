@@ -14,6 +14,8 @@ import { GeneralReportComponent } from './pages/report-page/general-report/gener
 import { LocationReportComponent } from './pages/report-page/location-report/location-report.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AboutPageComponent } from './pages/about-page/about-page.component';
+import { TitleStrategy } from '@angular/router';
+import { ServoMapTitleStrategy } from './core/utils/title-strategy';
 
 @NgModule({
   declarations: [
@@ -42,6 +44,10 @@ import { AboutPageComponent } from './pages/about-page/about-page.component';
       provide: HTTP_INTERCEPTORS,
       useClass: LoadingInterceptor,
       multi: true,
+    },
+    {
+      provide: TitleStrategy,
+      useClass: ServoMapTitleStrategy,
     },
   ],
   bootstrap: [AppComponent],
