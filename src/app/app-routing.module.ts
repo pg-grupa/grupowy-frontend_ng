@@ -78,6 +78,29 @@ const routes: Routes = [
         component: AboutPageComponent,
         outlet: 'background',
       },
+      {
+        path: 'issue',
+        component: ReportPageComponent,
+        outlet: 'foreground',
+        children: [
+          {
+            path: 'general',
+            component: GeneralReportComponent,
+          },
+          {
+            path: 'location/:id',
+            component: LocationReportComponent,
+            resolve: {
+              location: LocationResolver,
+            },
+          },
+        ],
+      },
+      {
+        path: 'about',
+        component: AboutPageComponent,
+        outlet: 'background',
+      },
     ],
   },
 ];
