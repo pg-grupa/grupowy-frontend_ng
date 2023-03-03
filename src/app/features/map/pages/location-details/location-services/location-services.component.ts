@@ -5,7 +5,7 @@ import { slideInOutTrigger } from 'src/app/shared/animations/slide/slide-in-out-
   selector: 'app-location-services',
   templateUrl: './location-services.component.html',
   styleUrls: ['./location-services.component.scss'],
-  animations: [slideInOutTrigger],
+  animations: [slideInOutTrigger()],
   host: {
     '[@slideInOut]': '',
   },

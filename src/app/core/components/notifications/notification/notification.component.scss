@@ -3,11 +3,10 @@ $icon-size: 2.5rem;
 :host {
   display: flex;
   position: relative;
+  padding: 0.5rem 0;
   width: 100%;
   margin: 0;
   margin-top: 1.25rem;
-  border-width: 1px;
-  border-style: solid;
   border-radius: 0.5rem;
   background-color: var(--container-background);
   color: var(--text-color);
@@ -71,9 +70,7 @@ $icon-size: 2.5rem;
 }
 
 :host(.success) {
-  // border-color: var(--color-success);
-  border: none;
-  box-shadow: 0 0 0 0.35rem rgb(var(--color-success-rgb), 0.5);
+  box-shadow: 0 0 0 0.2rem rgb(var(--color-success-rgb), 0.6);
 
   .notification-icon {
     color: var(--color-success);
@@ -81,10 +78,7 @@ $icon-size: 2.5rem;
 }
 
 :host(.error) {
-  // border-color: var(--color-error);
-
-  border: none;
-  box-shadow: 0 0 0 0.35rem rgb(var(--color-error-rgb), 0.5);
+  box-shadow: 0 0 0 0.2rem rgb(var(--color-error-rgb), 0.6);
 
   .notification-icon {
     color: var(--color-error);
@@ -92,9 +86,7 @@ $icon-size: 2.5rem;
 }
 
 :host(.info) {
-  // border-color: var(--color-info);
-  border: none;
-  box-shadow: 0 0 0 0.35rem rgb(var(--color-info-rgb), 0.5);
+  box-shadow: 0 0 0 0.2rem rgb(var(--color-info-rgb), 0.6);
 
   .notification-icon {
     color: var(--color-info);
@@ -102,9 +94,7 @@ $icon-size: 2.5rem;
 }
 
 :host(.warning) {
-  // border-color: var(--color-warning);
-  border: none;
-  box-shadow: 0 0 0 0.35rem rgb(var(--color-warning-rgb), 0.5);
+  box-shadow: 0 0 0 0.2rem rgb(var(--color-warning-rgb), 0.6);
 
   .notification-icon {
     color: var(--color-warning);
