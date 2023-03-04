@@ -1,0 +1,17 @@
+<div class="notification-icon noshrink">
+  <i class="fa-solid" [ngClass]="iconClass"></i>
+</div>
+<a class="notification-message" (click)="toggleDetails()">
+  <div class="header flex align:center padding:y-1" >
+    <h5>
+      {{ notification.message }}
+      <i class="fa-solid fa-chevron-down" [class.open]="openDetails" *ngIf="notification.details"></i>
+    </h5>
+  </div>
+  <div class="details" [class.open]="openDetails">
+    {{ notification.details }}
+  </div>
+</a>
+<a class="close-button" (click)="onClose()">
+  <i class="fa-solid fa-x"></i>
+</a>

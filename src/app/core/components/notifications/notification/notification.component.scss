@@ -1,0 +1,102 @@
+$icon-size: 2.5rem;
+
+:host {
+  display: flex;
+  position: relative;
+  padding: 0.5rem 0;
+  width: 100%;
+  margin: 0;
+  margin-bottom: 1.25rem;
+  border-radius: 0.5rem;
+  background-color: var(--container-background);
+  color: var(--text-color);
+}
+
+.close-button {
+  $size: 2rem;
+  color: var(--text-color);
+  text-decoration: none;
+  cursor: pointer;
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: $icon-size;
+  width: $size;
+  line-height: $icon-size;
+  text-align: center;
+  font-size: calc($size / 2);
+}
+
+.notification-icon {
+  width: $icon-size;
+  height: $icon-size;
+  line-height: $icon-size;
+  text-align: center;
+  font-size: calc($icon-size / 2);
+}
+
+.notification-message {
+  .header {
+    min-height: $icon-size;
+    padding-right: $icon-size;
+    text-decoration: none;
+    color: var(--text-color);
+
+    i {
+      color: var(--color-secondary);
+      transition: all 375ms ease-in-out;
+      margin-left: 0.25rem;
+
+      &.open {
+        transform: rotateX(180deg);
+      }
+    }
+  }
+
+  .details {
+    max-height: 0;
+    transition: all 375ms ease-in-out;
+    overflow: hidden;
+    color: var(--color-secondary);
+    padding: 0;
+    font-size: 0.9em;
+
+    &.open {
+      max-height: 5rem;
+      overflow-y: auto;
+      padding-bottom: 0.25rem;
+    }
+  }
+}
+
+:host(.success) {
+  box-shadow: 0 0 0 0.2rem rgb(var(--color-success-rgb), 0.6);
+
+  .notification-icon {
+    color: var(--color-success);
+  }
+}
+
+:host(.error) {
+  box-shadow: 0 0 0 0.2rem rgb(var(--color-error-rgb), 0.6);
+
+  .notification-icon {
+    color: var(--color-error);
+  }
+}
+
+:host(.info) {
+  box-shadow: 0 0 0 0.2rem rgb(var(--color-info-rgb), 0.6);
+
+  .notification-icon {
+    color: var(--color-info);
+  }
+}
+
+:host(.warning) {
+  box-shadow: 0 0 0 0.2rem rgb(var(--color-warning-rgb), 0.6);
+
+  .notification-icon {
+    color: var(--color-warning);
+  }
+}

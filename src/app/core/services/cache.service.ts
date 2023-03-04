@@ -28,9 +28,10 @@ export class CacheService {
       .getTypes()
       .pipe(
         take(1),
-        catchError(() => {
-          // TODO: error handling, navigate to error page?
-          return of([]);
+        catchError((error) => {
+          // navigation to error page done in ErrorInterceptor
+          // return of([]);
+          throw error;
         })
       )
       .subscribe((response) => {

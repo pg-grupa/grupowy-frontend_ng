@@ -6,11 +6,10 @@ $toggle-size: 2.5rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  position: fixed;
   height: 100vh;
-  width: 100%;
-  z-index: 999998;
+  width: 100vw;
   background-color: rgba(0, 0, 0, 0.5);
+  overflow: hidden;
 }
 
 .report-modal {
@@ -20,6 +19,15 @@ $toggle-size: 2.5rem;
   background-color: var(--container-background);
   padding: 1rem;
   overflow-y: auto;
+  opacity: 1;
+  visibility: visible;
+  transition: all 375ms ease-in-out;
+
+  &.hidden {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(50%);
+  }
 }
 
 #close-button {
