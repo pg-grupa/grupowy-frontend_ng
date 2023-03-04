@@ -16,6 +16,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AboutPageComponent } from './pages/about-page/about-page.component';
 import { TitleStrategy } from '@angular/router';
 import { ServoMapTitleStrategy } from './core/utils/title-strategy';
+import { ErrorInterceptor } from './core/interceptors/error.interceptor';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,11 @@ import { ServoMapTitleStrategy } from './core/utils/title-strategy';
     {
       provide: HTTP_INTERCEPTORS,
       useClass: LoadingInterceptor,
+      multi: true,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ErrorInterceptor,
       multi: true,
     },
     {

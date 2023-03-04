@@ -103,6 +103,16 @@ const routes: Routes = [
       },
     ],
   },
+  {
+    path: 'error',
+    loadChildren: () =>
+      import('./features/error/error.module').then((m) => m.ErrorModule),
+  },
+  {
+    path: '**',
+    loadChildren: () =>
+      import('./features/error/error.module').then((m) => m.ErrorModule),
+  },
 ];
 
 @NgModule({

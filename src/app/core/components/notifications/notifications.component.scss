@@ -5,7 +5,7 @@
   flex-direction: column;
   position: fixed;
   z-index: 999999;
-  top: 0;
+  bottom: 3rem;
   right: 50%;
   width: 90vw;
   max-width: 500px;
@@ -15,9 +15,10 @@
   transform: translateX(50%);
 }
 
-@include breakpoint.up("md") {
+@include breakpoint.up("sm") {
   #notifications-container {
     right: 1rem;
+    bottom: 0;
     transform: none;
   }
 }
