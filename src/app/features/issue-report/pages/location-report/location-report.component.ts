@@ -2,7 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { catchError, Observable, of } from 'rxjs';
+import { catchError } from 'rxjs';
 import { ILocationFull } from 'src/app/core/models/location';
 import { APIService } from 'src/app/core/services/api.service';
 import { NotificationsService } from 'src/app/core/services/notifications.service';
@@ -74,7 +74,7 @@ export class LocationReportComponent implements OnInit {
       )
       .subscribe(() => {
         this._notifications.success('Thank you for your feedback!', 5000);
-        this._router.navigate([{ outlets: { foreground: null } }], {
+        this._router.navigate([{ outlets: { report: null } }], {
           queryParamsHandling: 'preserve',
         });
       });

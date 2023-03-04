@@ -1,10 +1,10 @@
 import {
-  animate,
+  trigger,
+  transition,
+  useAnimation,
   group,
   query,
-  transition,
-  trigger,
-  useAnimation,
+  animate,
 } from '@angular/animations';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
@@ -12,8 +12,9 @@ import { fadeIn } from 'src/app/shared/animations/fade/fade-in';
 import { fadeOut } from 'src/app/shared/animations/fade/fade-out';
 
 @Component({
-  templateUrl: './report-page.component.html',
-  styleUrls: ['./report-page.component.scss'],
+  selector: 'app-issue-report',
+  templateUrl: './issue-report.component.html',
+  styleUrls: ['./issue-report.component.scss'],
   animations: [
     trigger('fadeInOut', [
       transition(':enter', [
@@ -29,11 +30,11 @@ import { fadeOut } from 'src/app/shared/animations/fade/fade-out';
     ]),
   ],
 })
-export class ReportPageComponent {
+export class IssueReportComponent {
   constructor(private _router: Router) {}
 
   close() {
-    this._router.navigate([{ outlets: { foreground: null } }], {
+    this._router.navigate([{ outlets: { report: null } }], {
       queryParamsHandling: 'preserve',
     });
   }
