@@ -9,9 +9,6 @@ import { CoreModule } from './core/core.module';
 import { APIInterceptor } from './core/interceptors/api.interceptor';
 import { LoadingInterceptor } from './core/interceptors/loading.interceptor';
 import { SharedModule } from './shared/shared.module';
-import { ReportPageComponent } from './pages/report-page/report-page.component';
-import { GeneralReportComponent } from './pages/report-page/general-report/general-report.component';
-import { LocationReportComponent } from './pages/report-page/location-report/location-report.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AboutPageComponent } from './pages/about-page/about-page.component';
 import { TitleStrategy } from '@angular/router';
@@ -19,13 +16,7 @@ import { ServoMapTitleStrategy } from './core/utils/title-strategy';
 import { ErrorInterceptor } from './core/interceptors/error.interceptor';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    ReportPageComponent,
-    GeneralReportComponent,
-    LocationReportComponent,
-    AboutPageComponent,
-  ],
+  declarations: [AppComponent, AboutPageComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,

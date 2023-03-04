@@ -1,10 +1,11 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormGroup, Validators, FormBuilder } from '@angular/forms';
+import { Router } from '@angular/router';
 import { catchError } from 'rxjs';
 import { APIService } from 'src/app/core/services/api.service';
+import { NotificationsService } from 'src/app/core/services/notifications.service';
 
-// TODO: Add link to this component (in 'About' page?)
 @Component({
   templateUrl: './general-report.component.html',
   styleUrls: ['./general-report.component.scss'],
@@ -12,7 +13,6 @@ import { APIService } from 'src/app/core/services/api.service';
 export class GeneralReportComponent {
   maxLength: number = 512;
   length: number = 0;
-  success: boolean = false;
   errorMessages: string[] = [];
 
   form: FormGroup = this._fb.group({
@@ -23,7 +23,12 @@ export class GeneralReportComponent {
     return this.form.controls;
   }
 
-  constructor(private _fb: FormBuilder, private _apiService: APIService) {}
+  constructor(
+    private _fb: FormBuilder,
+    private _apiService: APIService,
+    private _router: Router,
+    private _notifications: NotificationsService
+  ) {}
 
   countLength() {
     this.length = this.form.controls['message'].value.length;
@@ -53,6 +58,11 @@ export class GeneralReportComponent {
           throw httpError;
         })
       )
-      .subscribe(() => (this.success = true));
+      .subscribe(() => {
+        this._notifications.success('Thank you for your feedback!', 5000);
+        this._router.navigate([{ outlets: { report: null } }], {
+          queryParamsHandling: 'preserve',
+        });
+      });
   }
 }

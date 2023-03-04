@@ -1,7 +1,6 @@
 <form
   (ngSubmit)="submit()"
   [formGroup]="form"
-  *ngIf="!success; else successMessage"
 >
   <p class="error" *ngFor="let error of errorMessages">
     {{ error }}
@@ -43,4 +42,3 @@
   </div>
 </form>
 
-<ng-template #successMessage> Report sent successfuly! </ng-template>
