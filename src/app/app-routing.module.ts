@@ -26,78 +26,6 @@ const routes: Routes = [
             (m) => m.NavigationModule
           ),
       },
-      // {
-      //   path: 'map',
-      //   component: MapPageComponent,
-      //   children: [
-      //     {
-      //       path: 'location/:id',
-      //       component: LocationModalComponent,
-      //       resolve: {
-      //         location: LocationResolver,
-      //       },
-      //     },
-      //     {
-      //       path: 'coordinates/:coords',
-      //       component: CoordinatesModalComponent,
-      //     },
-      //     {
-      //       path: 'filters',
-      //       component: FilterModalComponent,
-      //     },
-      //   ],
-      // },
-      // {
-      //   path: 'navigate',
-      //   component: NavigationPageComponent,
-      // },
-      {
-<<<<<<< HEAD
-        path: 'about',
-        component: AboutPageComponent,
-        outlet: 'background',
-=======
-        path: 'issue',
-        component: ReportPageComponent,
-        outlet: 'foreground',
-        children: [
-          {
-            path: 'general',
-            component: GeneralReportComponent,
-          },
-          {
-            path: 'location/:id',
-            component: LocationReportComponent,
-            resolve: {
-              location: LocationResolver,
-            },
-          },
-        ],
->>>>>>> main
-      },
-      {
-        path: 'about',
-        component: AboutPageComponent,
-        outlet: 'background',
-      },
-      {
-        path: 'issue',
-        component: ReportPageComponent,
-        outlet: 'foreground',
-        children: [
-          {
-            path: 'general',
-            component: GeneralReportComponent,
-          },
-          {
-            path: 'location/:id',
-            component: LocationReportComponent,
-            resolve: {
-              location: LocationResolver,
-            },
-          },
-        ],
-      },
       {
         path: 'about',
         component: AboutPageComponent,
@@ -106,7 +34,6 @@ const routes: Routes = [
     ],
   },
   {
-<<<<<<< HEAD
     path: 'issue',
     loadChildren: () =>
       import('./features/issue-report/issue-report.module').then(
@@ -115,8 +42,6 @@ const routes: Routes = [
     outlet: 'report',
   },
   {
-=======
->>>>>>> main
     path: 'error',
     loadChildren: () =>
       import('./features/error/error.module').then((m) => m.ErrorModule),

@@ -2,11 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-<<<<<<< HEAD:src/app/features/issue-report/pages/location-report/location-report.component.ts
 import { catchError } from 'rxjs';
-=======
-import { catchError, Observable, of } from 'rxjs';
->>>>>>> main:src/app/pages/report-page/location-report/location-report.component.ts
 import { ILocationFull } from 'src/app/core/models/location';
 import { APIService } from 'src/app/core/services/api.service';
 import { NotificationsService } from 'src/app/core/services/notifications.service';

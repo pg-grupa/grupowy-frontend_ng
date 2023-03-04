@@ -9,12 +9,6 @@ import { CoreModule } from './core/core.module';
 import { APIInterceptor } from './core/interceptors/api.interceptor';
 import { LoadingInterceptor } from './core/interceptors/loading.interceptor';
 import { SharedModule } from './shared/shared.module';
-<<<<<<< HEAD
-=======
-import { ReportPageComponent } from './pages/report-page/report-page.component';
-import { GeneralReportComponent } from './pages/report-page/general-report/general-report.component';
-import { LocationReportComponent } from './pages/report-page/location-report/location-report.component';
->>>>>>> main
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AboutPageComponent } from './pages/about-page/about-page.component';
 import { TitleStrategy } from '@angular/router';
