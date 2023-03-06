@@ -34,6 +34,12 @@ const routes: Routes = [
     ],
   },
   {
+    path: 'account',
+    loadChildren: () =>
+      import('./features/account/account.module').then((m) => m.AccountModule),
+    outlet: 'auth',
+  },
+  {
     path: 'issue',
     loadChildren: () =>
       import('./features/issue-report/issue-report.module').then(

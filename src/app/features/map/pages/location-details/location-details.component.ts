@@ -4,7 +4,7 @@ import { ILocationFull } from 'src/app/core/models/location';
 import { MapModuleService } from '../../services/map-module.service';
 
 import * as L from 'leaflet';
-import { skip, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import {
   trigger,
   transition,
@@ -12,12 +12,9 @@ import {
   group,
   query,
   animate,
-  style,
 } from '@angular/animations';
 import { fadeIn } from 'src/app/shared/animations/fade/fade-in';
 import { fadeOut } from 'src/app/shared/animations/fade/fade-out';
-import { slideIn } from 'src/app/shared/animations/slide/slide-in';
-import { slideOut } from 'src/app/shared/animations/slide/slide-out';
 import { NotificationsService } from 'src/app/core/services/notifications.service';
 
 @Component({
