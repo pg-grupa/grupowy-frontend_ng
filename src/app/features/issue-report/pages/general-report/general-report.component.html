@@ -5,36 +5,11 @@
   <p class="error" *ngFor="let error of errorMessages">
     {{ error }}
   </p>
-  <div class="form-group margin:b-0">
-    <label class="form-label" for="name">Message</label>
-    <div
-      *ngIf="
-        !fc['message'].valid &&
-        fc['message'].errors &&
-        fc['message'].errors as errors
-      "
-    >
-      <p
-        class="form-control-error"
-        *ngIf="fc['message'].touched && errors['required']"
-      >
-        This field is required
-      </p>
-      <ng-container *ngIf="errors['server']"
-        ><p class="form-control-error" *ngFor="let error of errors['server']">
-          {{ error }}
-        </p>
-      </ng-container>
-    </div>
-    <textarea
-      id="message"
-      class="noresize"
-      formControlName="message"
-      [maxlength]="maxLength"
-      (ngModelChange)="countLength()"
-    ></textarea>
-    <span class="counter">{{ length }} / {{ maxLength }}</span>
-  </div>
+
+  <textarea-input formControlName="message" [maxLength]="maxLength">
+    <label class="form-label" for="message">Message</label>
+  </textarea-input>
+  
   <div class="buttons">
     <button type="submit" class="btn btn-primary" [disabled]="!form.valid">
       Report

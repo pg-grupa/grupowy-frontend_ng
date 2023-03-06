@@ -30,7 +30,6 @@ export class LoginComponent {
     // TODO: Show errors in template
     this._authService.postLogin(this.form.value).subscribe((response) => {
       this._notifications.success(`Welcome, ${response.username}!`);
-
       // on successful login, go to returnUrl if present, otherwise close login modal
       if (this._route.snapshot.queryParamMap.has('returnUrl')) {
         this._router.navigateByUrl(

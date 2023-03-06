@@ -16,7 +16,10 @@ export class GeneralReportComponent {
   errorMessages: string[] = [];
 
   form: FormGroup = this._fb.group({
-    message: this._fb.control('', [Validators.required]),
+    message: this._fb.control('', [
+      Validators.required,
+      Validators.maxLength(this.maxLength),
+    ]),
   });
 
   public get fc() {

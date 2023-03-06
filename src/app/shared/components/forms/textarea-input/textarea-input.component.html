@@ -1,0 +1,19 @@
+<div class="form-group">
+  <ng-content select="label"></ng-content>
+  <div class="textarea-wrapper">
+    <textarea
+      class="form-control"
+      [(ngModel)]="value"
+      [disabled]="disabled"
+      [maxlength]="maxLength"
+      [attr.placeholder]="placeholder"
+      [attr.autocomplete]="autocomplete"
+      [style.resize]="resize"
+      (blur)="onTouched()"
+    ></textarea>
+    <span class="counter" *ngIf="maxLength"
+      >{{ control?.value?.length }} / {{ maxLength }}</span
+    >
+  </div>
+  <input-errors [control]="control"></input-errors>
+</div>

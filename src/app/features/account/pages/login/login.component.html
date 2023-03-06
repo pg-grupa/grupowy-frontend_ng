@@ -7,28 +7,13 @@
   <h1 class="brand margin:l-5">ServoMap</h1>
 </div>
 <form [formGroup]="form" (ngSubmit)="onSubmit()">
-  <div class="form-group">
+
+  <string-input formControlName="username" autocomplete="username">
     <label for="username" class="form-label">Username</label>
-    <input
-      type="text"
-      class="form-control"
-      id="username"
-      formControlName="username"
-      autocomplete="username"
-      required
-    />
-  </div>
-  <div class="form-group">
-    <label for="password" class="form-label">password</label>
-    <input
-      type="password"
-      class="form-control"
-      id="password"
-      formControlName="password"
-      autocomplete="current-password"
-      required
-    />
-  </div>
+  </string-input>
+  <password-input formControlName="password" autocomplete="current-password">
+    <label for="password" class="form-label">Password</label>
+  </password-input>
   <div class="flex justify:end">
     <button type="submit" class="btn-lg btn-primary" [disabled]="!form.valid">
       Login

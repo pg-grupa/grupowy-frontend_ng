@@ -18,12 +18,6 @@ import { LogoutComponent } from './pages/logout/logout.component';
     RegisterComponent,
     LogoutComponent,
   ],
-  imports: [
-    CommonModule,
-    AccountRoutingModule,
-    SharedModule,
-    FormsModule,
-    ReactiveFormsModule,
-  ],
+  imports: [CommonModule, AccountRoutingModule, SharedModule],
 })
 export class AccountModule {}
