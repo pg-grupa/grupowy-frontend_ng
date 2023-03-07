@@ -22,7 +22,6 @@ import { LoggerService } from 'src/app/core/services/logger.service';
 import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
-  selector: 'app-location-details',
   templateUrl: './location-details.component.html',
   styleUrls: ['./location-details.component.scss'],
   animations: [

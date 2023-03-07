@@ -1,0 +1,66 @@
+<div class="controls">
+  <a class="open-toggle" [class.open]="openMobile" (click)="toggleOpen()">
+    <i class="fa-solid fa-angle-up"></i>
+  </a>
+  <a
+    class="close-button"
+    [routerLink]="['../../']"
+    queryParamsHandling="preserve"
+  >
+    <i class="fa-solid fa-x"></i>
+  </a>
+</div>
+<div class="header" (click)="toggleOpen()">
+  <i class="fa-solid fa-location-crosshairs"></i>
+  <div>
+    <h5>
+      {{ coords.prettyLat }}
+    </h5>
+    <h5>
+      {{ coords.prettyLng }}
+    </h5>
+  </div>
+</div>
+<div class="collapsible flex:column" [class.open]="openMobile">
+  <div class="location-body grow">
+    <div class="location-details" *ngIf="address">
+      <div class="details-item" *ngIf="address['road']">
+        <h5 class="details-label">Road</h5>
+        {{ address['road'] }}
+      </div>
+      <div class="details-item" *ngIf="address['house_number']">
+        <h5 class="details-label">House number</h5>
+        {{ address['house_number'] }}
+      </div>
+      <div class="details-item" *ngIf="address['postcode']">
+        <h5 class="details-label">Postcode</h5>
+        {{ address['postcode'] }}
+      </div>
+      <div class="details-item" *ngIf="address['neighbourhood']">
+        <h5 class="details-label">Neighbourhood</h5>
+        {{ address['neighbourhood'] }}
+      </div>
+      <div class="details-item" *ngIf="address['suburb']">
+        <h5 class="details-label">Suburb</h5>
+        {{ address['suburb'] }}
+      </div>
+      <div class="details-item" *ngIf="address['city']">
+        <h5 class="details-label">City</h5>
+        {{ address['city'] }}
+      </div>
+      <div class="details-item" *ngIf="address['village']">
+        <h5 class="details-label">Village</h5>
+        {{ address['village'] }}
+      </div>
+      <div class="details-item" *ngIf="address['country']">
+        <h5 class="details-label">Country</h5>
+        {{ address['country'] }}
+      </div>
+    </div>
+  </div>
+  <nav class="location-nav flex:row no-shrink no-grow">
+    <a><i class="fa-solid fa-location-arrow"></i></a>
+    <a><i class="fa-solid fa-thumbtack"></i></a>
+    <a (click)="zoomIn()"><i class="fa-solid fa-magnifying-glass-plus"></i></a>
+  </nav>
+</div>

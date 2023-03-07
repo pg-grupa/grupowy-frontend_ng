@@ -39,7 +39,8 @@
             "allowedCommonJsDependencies": [
               "leaflet",
               "leaflet-extra-markers",
-              "leaflet.markercluster"
+              "leaflet.markercluster",
+              "leaflet-geosearch"
             ]
           },
           "configurations": {

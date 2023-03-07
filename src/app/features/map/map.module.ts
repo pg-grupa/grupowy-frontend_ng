@@ -9,6 +9,7 @@ import { LocationDetailsComponent } from './pages/location-details/location-deta
 import { FiltersComponent } from './pages/filters/filters.component';
 import { LocationServicesComponent } from './pages/location-details/location-services/location-services.component';
 import { LocationEventsComponent } from './pages/location-details/location-events/location-events.component';
+import { CoordinatesComponent } from './pages/coordinates/coordinates.component';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { LocationEventsComponent } from './pages/location-details/location-event
     FiltersComponent,
     LocationServicesComponent,
     LocationEventsComponent,
+    CoordinatesComponent,
   ],
   imports: [CommonModule, MapRoutingModule, CoreModule, SharedModule],
 })
