@@ -4,7 +4,7 @@ import { ILocationFull } from 'src/app/core/models/location';
 import { MapModuleService } from '../../services/map-module.service';
 
 import * as L from 'leaflet';
-import { skip, Subscription } from 'rxjs';
+import { catchError, Observable, Subscription } from 'rxjs';
 import {
   trigger,
   transition,
@@ -12,13 +12,14 @@ import {
   group,
   query,
   animate,
-  style,
 } from '@angular/animations';
 import { fadeIn } from 'src/app/shared/animations/fade/fade-in';
 import { fadeOut } from 'src/app/shared/animations/fade/fade-out';
-import { slideIn } from 'src/app/shared/animations/slide/slide-in';
-import { slideOut } from 'src/app/shared/animations/slide/slide-out';
 import { NotificationsService } from 'src/app/core/services/notifications.service';
+import { AuthService } from 'src/app/core/services/auth.service';
+import { APIService } from 'src/app/core/services/api.service';
+import { LoggerService } from 'src/app/core/services/logger.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-location-details',
@@ -42,7 +43,6 @@ import { NotificationsService } from 'src/app/core/services/notifications.servic
 })
 export class LocationDetailsComponent {
   location!: ILocationFull;
-  favourite: boolean = false;
   openMobile: boolean = true;
   movestartSubscription!: Subscription;
 
@@ -50,10 +50,11 @@ export class LocationDetailsComponent {
     private _route: ActivatedRoute,
     private _router: Router,
     private _mapModuleService: MapModuleService,
-    private _notificationsService: NotificationsService
-  ) {
-    // this._router.routeReuseStrategy.shouldReuseRoute = () => false;
-  }
+    private _notificationsService: NotificationsService,
+    private _authService: AuthService,
+    private _apiService: APIService,
+    private _logger: LoggerService
+  ) {}
 
   ngOnInit(): void {
     this._route.data.subscribe((data) => {
@@ -88,14 +89,51 @@ export class LocationDetailsComponent {
   }
 
   toggleFavourite() {
-    this.favourite = !this.favourite;
-    if (this.favourite) {
-      this._notificationsService.success('Location added to favourites!');
+    if (!this._authService.isAuthenticated) {
+      this._router.navigate([{ outlets: { auth: ['account', 'auth'] } }], {
+        queryParamsHandling: 'preserve',
+      });
+      return;
+    }
+
+    let handler: Observable<any>;
+    if (this.location.favourited) {
+      handler = this._apiService.removeFavourite(this.location.id);
     } else {
-      this._notificationsService.info(
-        'Location removed from favourites!',
-        3000
-      );
+      handler = this._apiService.addFavourite(this.location.id);
+    }
+
+    handler
+      .pipe(
+        catchError((response) => {
+          this._handleError(response);
+          throw response;
+        })
+      )
+      .subscribe(() => {
+        this.location.favourited = !this.location.favourited;
+        this._showSuccessNotification();
+      });
+  }
+
+  private _handleError(response: any) {
+    this._logger.error(
+      'LocationDetailsComponent',
+      'Toggle favourite error',
+      response
+    );
+    if (response instanceof HttpErrorResponse) {
+      if ('details' in response.error) {
+        this._notificationsService.error(response.error.details);
+      }
+    }
+  }
+
+  private _showSuccessNotification() {
+    if (this.location.favourited) {
+      this._notificationsService.success('Location added to favourites.');
+    } else {
+      this._notificationsService.info('Location removed from favourites.');
     }
   }
 }

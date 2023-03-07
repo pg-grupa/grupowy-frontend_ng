@@ -10,6 +10,7 @@
 @use "display.scss";
 @use "misc.scss";
 @use "alerts.scss";
+@use "components/components";
 
 body {
   background: var(--body-background);

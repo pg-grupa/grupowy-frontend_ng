@@ -47,16 +47,34 @@
       <i class="item-icon fa-solid fa-circle-info"></i>
       <span class="item-text">About</span>
     </a>
-    <div class="menu-item margin:t-auto flex:row justify:space-between">
+    <div
+      class="menu-item margin:t-auto flex:row justify:space-between"
+      *ngIf="isAuthenticated$ | async; else loginButton"
+    >
       <a>
         <i class="item-icon fa-solid fa-circle-user"></i>
         <span class="item-text">Account</span>
       </a>
-      <a>
+      <a
+      [routerLink]="[{ outlets: { auth: 'account/auth/logout' } }]"
+      [relativeTo]="null"
+      queryParamsHandling="preserve"
+      (click)="close()"
+      >
         <i class="item-icon fa-solid fa-right-from-bracket"></i>
       </a>
-
     </div>
+    <ng-template #loginButton>
+      <a
+        class="menu-item margin:t-auto"
+        [routerLink]="[{ outlets: { auth: 'account/auth' } }]"
+        [relativeTo]="null"
+        queryParamsHandling="preserve"
+      >
+        <i class="item-icon fa-solid fa-circle-user"></i>
+        <span class="item-text">Login</span>
+      </a>
+    </ng-template>
   </nav>
 </div>
 <div id="content-wrapper" [class.minimized]="isOpen">

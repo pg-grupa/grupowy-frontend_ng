@@ -44,8 +44,8 @@
   </div>
   <nav class="location-nav flex:row no-shrink no-grow">
     <a><i class="fa-solid fa-location-arrow"></i></a>
-    <a (click)="toggleFavourite()" [class.favourite]="favourite"
-      ><i class="fa-star" [class]="favourite ? 'fa-solid' : 'fa-regular'"></i
+    <a (click)="toggleFavourite()" [class.favourite]="location.favourited"
+      ><i class="fa-star" [class]="location.favourited ? 'fa-solid' : 'fa-regular'"></i
     ></a>
     <a
       [routerLink]="['events']"

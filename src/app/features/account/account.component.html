@@ -1,0 +1,15 @@
+<div class="wrapper container shadow" [@fadeInOut]>
+  <router-outlet></router-outlet>
+  <a
+    id="close-button"
+    class="close-button"
+    [routerLink]="[{ outlets: { auth: null } }]"
+    [queryParams]="{ returnUrl: null }"
+    [relativeTo]="null"
+    queryParamsHandling="merge"
+  >
+    <i class="fa-solid fa-x"></i>
+  </a>
+</div>
+
+

@@ -6,10 +6,13 @@ import { IssueReportComponent } from './issue-report.component';
 import { GeneralReportComponent } from './pages/general-report/general-report.component';
 import { LocationReportComponent } from './pages/location-report/location-report.component';
 
+import * as AuthGuard from 'src/app/core/guards/auth.guard';
+
 const routes: Routes = [
   {
     path: '',
     component: IssueReportComponent,
+    canActivate: [AuthGuard.canActivate],
     children: [
       {
         path: '',

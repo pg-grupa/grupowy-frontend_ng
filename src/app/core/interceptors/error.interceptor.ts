@@ -9,12 +9,14 @@ import {
 import { catchError, Observable, throwError } from 'rxjs';
 import { NotificationsService } from '../services/notifications.service';
 import { Router } from '@angular/router';
+import { AuthService } from '../services/auth.service';
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
   constructor(
     private _router: Router,
-    private _notifications: NotificationsService
+    private _notifications: NotificationsService,
+    private _authService: AuthService
   ) {}
 
   private _showNotification(response: HttpErrorResponse) {
@@ -33,9 +35,26 @@ export class ErrorInterceptor implements HttpInterceptor {
       // Most probably form error
       // Handle by components with forms
     },
+    401: (response: HttpErrorResponse) => {
+      // Unauthorized
+      this._router.navigate([{ outlets: { auth: ['account', 'auth'] } }], {
+        queryParamsHandling: 'preserve',
+      });
+    },
+    403: (response: HttpErrorResponse) => {
+      // Forbidden
+      if (this._authService.isAuthenticated) {
+        this._authService.getLogout().subscribe(() => {
+          this._router.navigate([{ outlets: { auth: ['account', 'auth'] } }], {
+            queryParamsHandling: 'preserve',
+          });
+          this._showNotification(response);
+        });
+      }
+    },
     404: (response: HttpErrorResponse) => {
       // Navigate to NotFound page
-      this._router.navigate(['/error'], { skipLocationChange: true });
+      this._router.navigate(['/error/404'], { skipLocationChange: true });
     },
     default: (response: HttpErrorResponse) => {
       // Default handler

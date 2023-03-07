@@ -18,7 +18,10 @@ export class LocationReportComponent implements OnInit {
 
   form: FormGroup = this._fb.group({
     location: this._fb.control(null, [Validators.required]),
-    message: this._fb.control('', [Validators.required]),
+    message: this._fb.control('', [
+      Validators.required,
+      Validators.maxLength(this.maxLength),
+    ]),
   });
 
   public get fc() {
