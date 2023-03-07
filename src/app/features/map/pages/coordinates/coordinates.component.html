@@ -1,0 +1,32 @@
+<div class="controls">
+  <a class="open-toggle" [class.open]="openMobile" (click)="toggleOpen()">
+    <i class="fa-solid fa-angle-up"></i>
+  </a>
+  <a
+    class="close-button"
+    [routerLink]="['../../']"
+    queryParamsHandling="preserve"
+  >
+    <i class="fa-solid fa-x"></i>
+  </a>
+</div>
+<div class="header" (click)="toggleOpen()">
+  <i class="fa-solid fa-location-crosshairs"></i>
+  <div>
+    <h5>
+      {{ coords.prettyLat }}
+    </h5>
+    <h5>
+      {{ coords.prettyLng }}
+    </h5>
+  </div>
+</div>
+<div class="collapsible flex:column" [class.open]="openMobile">
+  <div class="location-body grow">
+  </div>
+  <nav class="location-nav flex:row no-shrink no-grow">
+    <a><i class="fa-solid fa-location-arrow"></i></a>
+    <a><i class="fa-solid fa-thumbtack"></i></a>
+    <a (click)="zoomIn()"><i class="fa-solid fa-magnifying-glass-plus"></i></a>
+  </nav>
+</div>
