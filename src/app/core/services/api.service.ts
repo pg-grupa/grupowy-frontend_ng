@@ -2,7 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { IBoundsQueryParams } from '../interfaces/location-query-params';
-import { IUser } from '../interfaces/user';
+import { IUser } from '../models/user';
 import { ILocation } from '../models/location';
 import { ILocationType } from '../models/location-type';
 import { IReport } from '../models/report';
@@ -18,6 +18,7 @@ export class APIService {
       getTypes: 'locations/types/',
       getLocations: 'locations/list/',
       getLocation: (id: number): string => `locations/details/${id}/`,
+      favourite: (id: number): string => `locations/details/${id}/favourite/`,
     },
     reports: {
       postReport: 'locations/report/',
@@ -45,5 +46,13 @@ export class APIService {
 
   postReport(report: IReport): Observable<void> {
     return this._http.post<void>(this._apiUrls.reports.postReport, report);
+  }
+
+  addFavourite(id: number): Observable<any> {
+    return this._http.post(this._apiUrls.locations.favourite(id), {});
+  }
+
+  removeFavourite(id: number): Observable<any> {
+    return this._http.delete(this._apiUrls.locations.favourite(id));
   }
 }

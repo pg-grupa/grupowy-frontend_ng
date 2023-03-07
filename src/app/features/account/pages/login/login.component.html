@@ -6,7 +6,10 @@
   ></shared-logo-pin>
   <h1 class="brand margin:l-5">ServoMap</h1>
 </div>
-<form [formGroup]="form" (ngSubmit)="onSubmit()">
+<form [formGroup]="form" (ngSubmit)="login()">
+  <div class="alert error" *ngIf="nonFieldErrors.length">
+    {{ nonFieldErrors }}
+  </div>
 
   <string-input formControlName="username" autocomplete="username">
     <label for="username" class="form-label">Username</label>

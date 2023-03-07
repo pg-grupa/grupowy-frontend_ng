@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject, finalize, map, Observable } from 'rxjs';
-import { IUser } from '../interfaces/user';
+import { IUser } from '../models/user';
 import { APIService } from './api.service';
 import { LoggerService } from './logger.service';
 import { NotificationsService } from './notifications.service';
@@ -86,6 +86,7 @@ export class AuthService {
   }): Observable<IUser> {
     return this._http.post<IUser>(this._apiUrls.login, data).pipe(
       map((user: IUser) => {
+        this._logger.debug('AuthService', 'Authenticated as:', user);
         return this._startSession(user);
       })
     );
