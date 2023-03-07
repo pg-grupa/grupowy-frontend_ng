@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { GeolocationService } from 'src/app/core/services/geolocation.service';
 import { Coords, PrettyLatLng } from 'src/app/shared/utils/coords';
 import { MapModuleService } from '../../services/map-module.service';
 
@@ -12,10 +13,12 @@ export class CoordinatesComponent implements OnInit, OnDestroy {
   coords!: PrettyLatLng;
   openMobile: boolean = true;
   movestartSubscription!: Subscription;
+  address?: { [key: string]: string };
 
   constructor(
     private _route: ActivatedRoute,
-    private _mapModuleService: MapModuleService
+    private _mapModuleService: MapModuleService,
+    private _geolocationService: GeolocationService
   ) {}
 
   ngOnInit(): void {
@@ -28,6 +31,15 @@ export class CoordinatesComponent implements OnInit, OnDestroy {
 
         this._mapModuleService.selectCoordinates(this.coords);
         this._mapModuleService.flyTo(this.coords);
+
+        this.address = undefined;
+
+        this._geolocationService
+          .searchCoordinates(this.coords)
+          .subscribe((result) => {
+            if (result && 'address' in result)
+              this.address = result.address as { [key: string]: string };
+          });
       }
     });
 
