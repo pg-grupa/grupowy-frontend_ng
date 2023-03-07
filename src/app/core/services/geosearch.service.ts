@@ -6,7 +6,7 @@ import { from, map } from 'rxjs';
 @Injectable({
   providedIn: 'root',
 })
-export class GeolocationService {
+export class GeosearchService {
   provider: GeoSearch.OpenStreetMapProvider;
 
   constructor() {

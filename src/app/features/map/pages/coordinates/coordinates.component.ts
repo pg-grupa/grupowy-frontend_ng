@@ -1,24 +1,49 @@
+import {
+  trigger,
+  transition,
+  useAnimation,
+  group,
+  query,
+  animate,
+} from '@angular/animations';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { GeolocationService } from 'src/app/core/services/geolocation.service';
-import { Coords, PrettyLatLng } from 'src/app/shared/utils/coords';
+import { GeosearchService } from 'src/app/core/services/geosearch.service';
+import { fadeIn } from 'src/app/shared/animations/fade/fade-in';
+import { fadeOut } from 'src/app/shared/animations/fade/fade-out';
+import { PrettyLatLng } from 'src/app/shared/utils/coords';
 import { MapModuleService } from '../../services/map-module.service';
 
 @Component({
   templateUrl: './coordinates.component.html',
   styleUrls: ['./coordinates.component.scss'],
+  animations: [
+    trigger('fadeInOut', [
+      transition(':enter', [
+        useAnimation(fadeIn, { params: { from: '0, 100%' } }),
+      ]),
+      transition(':leave', [
+        group([
+          // inner router stays in DOM for duration of animation
+          query(':leave', [animate('375ms')], { optional: true }),
+          useAnimation(fadeOut, { params: { to: '0, 100%' } }),
+        ]),
+      ]),
+    ]),
+  ],
+  host: { '[@fadeInOut]': '' },
 })
 export class CoordinatesComponent implements OnInit, OnDestroy {
   coords!: PrettyLatLng;
-  openMobile: boolean = true;
+  openMobile: boolean = false;
   movestartSubscription!: Subscription;
   address?: { [key: string]: string };
 
   constructor(
     private _route: ActivatedRoute,
     private _mapModuleService: MapModuleService,
-    private _geolocationService: GeolocationService
+    private _geosearchService: GeosearchService
   ) {}
 
   ngOnInit(): void {
@@ -34,7 +59,7 @@ export class CoordinatesComponent implements OnInit, OnDestroy {
 
         this.address = undefined;
 
-        this._geolocationService
+        this._geosearchService
           .searchCoordinates(this.coords)
           .subscribe((result) => {
             if (result && 'address' in result)
