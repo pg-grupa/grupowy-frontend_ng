@@ -1,0 +1,22 @@
+<div id="sidebar-wrapper" [class.open]="isOpen">
+  <a
+    class="toggle-button border:rounded-2"
+    (click)="toggle()"
+    [class.open]="isOpen"
+    *ngIf="sidebarContent.children.length"
+  >
+    <shared-hamburger
+      [toggled]="isOpen"
+      [color]="'var(--text-color)'"
+    ></shared-hamburger>
+  </a>
+  <div id="sidebar-content" #sidebarContent>
+    <ng-content select="[sidebar]"></ng-content>
+  </div>
+</div>
+<main [class.minimized]="isOpen">
+  <div id="content-cover" (click)="close()"></div>
+  <div id="content">
+    <ng-content></ng-content>
+  </div>
+</main>

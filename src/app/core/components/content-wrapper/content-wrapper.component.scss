@@ -1,0 +1,132 @@
+@use "/src/styles/breakpoints.scss" as breakpoint;
+
+$toggle-size: 2.5rem;
+$toggle-duration: 0.5s;
+
+#sidebar-wrapper {
+  z-index: 9000;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  padding: 0;
+  transition: all $toggle-duration ease-in-out;
+  transform: translateX(-100%);
+
+  &.open {
+    transform: translateX(0);
+  }
+}
+
+#sidebar-content {
+  height: 100%;
+  width: 100%;
+  padding-top: 4rem;
+}
+
+.toggle-button {
+  display: flex;
+  position: absolute;
+  z-index: 900;
+  top: 1rem;
+  right: calc(0rem - $toggle-size - 1rem);
+  justify-content: center;
+  align-items: center;
+  width: $toggle-size;
+  height: $toggle-size;
+  font-size: calc($toggle-size / 2);
+  text-align: center;
+  cursor: pointer;
+  background-color: var(--container-background);
+  box-shadow: 0 0 0 0.35rem var(--shadow-color);
+  transition: all $toggle-duration ease-in-out;
+
+  .open > & {
+    top: 1rem;
+    right: 0;
+    background-color: transparent;
+    box-shadow: none;
+  }
+}
+
+main {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 0;
+  overflow: hidden;
+  transition: all $toggle-duration ease-in-out;
+  transform: scale(1, 1);
+}
+
+#content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transition: all $toggle-duration ease-in-out;
+}
+
+#content-cover {
+  opacity: 0;
+  visibility: hidden;
+  z-index: 900000;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  transition: all $toggle-duration ease-in-out;
+
+  .minimized > & {
+    visibility: visible;
+    opacity: 1;
+    cursor: pointer;
+  }
+}
+
+#sidebar-wrapper {
+  width: 85vw;
+}
+
+main.minimized {
+  border-radius: 2rem;
+  transform: translateX(85vw) scale(0.9);
+}
+
+@include breakpoint.up("xs") {
+  #sidebar-wrapper {
+    width: 60vw;
+  }
+
+  main.minimized {
+    transform: translateX(60vw) scale(0.9);
+    // border-radius: 4rem;
+  }
+}
+
+@include breakpoint.up("sm") {
+  #sidebar-wrapper {
+    width: 40vw;
+  }
+
+  main.minimized {
+    transform: translateX(40vw) scale(0.9);
+    // border-radius: 6rem;
+  }
+}
+
+@include breakpoint.up("md") {
+  #sidebar-wrapper {
+    width: 30vw;
+  }
+
+  main.minimized {
+    transform: scale(0.9) translateX(30vw);
+    // border-radius: 8rem;
+  }
+}
