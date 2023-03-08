@@ -1,7 +1,10 @@
 <core-loading></core-loading>
 <core-notifications></core-notifications>
 <core-wrapper [(open)]="sidebarOpen">
+  <!-- Content with 'sidebar' attr will be projected to collapsible sidebar -->
   <core-menu sidebar (mainNavigation)="closeSidebar()"></core-menu>
+  
+  <!-- Everything else to central container -->
   <router-outlet></router-outlet>
 </core-wrapper>
 <div id="report-router" class="aux-router">
