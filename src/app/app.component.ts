@@ -7,4 +7,14 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'ServoMapApp';
+
+  sidebarOpen = false;
+
+  closeSidebar() {
+    this.sidebarOpen = false;
+  }
+
+  openSidebar() {
+    this.sidebarOpen = true;
+  }
 }

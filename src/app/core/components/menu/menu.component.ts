@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Observable } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
 
@@ -8,7 +8,7 @@ import { AuthService } from '../../services/auth.service';
   styleUrls: ['./menu.component.scss'],
 })
 export class MenuComponent implements OnInit {
-  @Input('open') isOpen: boolean = false;
+  @Output() mainNavigation = new EventEmitter<any>();
 
   settingsOpen: boolean = false;
 
@@ -20,19 +20,11 @@ export class MenuComponent implements OnInit {
     this.isAuthenticated$ = this._authService.isAuthenticated$;
   }
 
-  toggle() {
-    this.isOpen = !this.isOpen;
-  }
-
-  open() {
-    this.isOpen = true;
-  }
-
-  close() {
-    this.isOpen = false;
-  }
-
   toggleSettings() {
     this.settingsOpen = !this.settingsOpen;
+  }
+
+  onMainNavigation() {
+    this.mainNavigation.emit(null);
   }
 }

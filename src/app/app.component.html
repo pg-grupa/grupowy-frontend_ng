@@ -1,8 +1,9 @@
 <core-loading></core-loading>
 <core-notifications></core-notifications>
-<core-menu>
+<core-wrapper [(open)]="sidebarOpen">
+  <core-menu sidebar (mainNavigation)="closeSidebar()"></core-menu>
   <router-outlet></router-outlet>
-</core-menu>
+</core-wrapper>
 <div id="report-router" class="aux-router">
   <router-outlet name="report"></router-outlet>
 </div>
