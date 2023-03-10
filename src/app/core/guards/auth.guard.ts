@@ -21,6 +21,7 @@ export const canActivate: CanActivateFn = (
       if (!isAuthenticated) {
         _router.navigate([{ outlets: { auth: ['account', 'auth'] } }], {
           queryParams: { returnUrl: state.url },
+          queryParamsHandling: 'merge',
         });
         return false;
       }
