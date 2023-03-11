@@ -32,7 +32,7 @@ import { MapModuleService } from '../../services/map-module.service';
       ]),
     ]),
   ],
-  host: { '[@fadeInOut]': '' },
+  host: { '[@fadeInOut]': '', class: 'container shadow' },
 })
 export class CoordinatesComponent implements OnInit, OnDestroy {
   coords!: PrettyLatLng;

@@ -1,6 +1,6 @@
 @use "/src/styles/breakpoints.scss" as breakpoint;
 
-$toggle-size: 2.5rem;
+$toggle-size: 2.75rem;
 $toggle-duration: 0.5s;
 
 #sidebar-wrapper {
@@ -37,9 +37,9 @@ $toggle-duration: 0.5s;
   font-size: calc($toggle-size / 2);
   text-align: center;
   cursor: pointer;
-  background-color: var(--container-background);
-  box-shadow: 0 0 0 0.35rem var(--shadow-color);
+  background: rgba(var(--color-primary-rgb), 0.7);
   transition: all $toggle-duration ease-in-out;
+  border-radius: 0.5rem;
 
   .open > & {
     top: 1rem;

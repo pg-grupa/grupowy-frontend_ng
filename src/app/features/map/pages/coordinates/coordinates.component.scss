@@ -6,13 +6,11 @@ $nav-size: 3rem;
 :host {
   position: absolute;
   bottom: 0;
+  padding: 0;
   left: 0;
   z-index: 899999;
   width: 100%;
   max-height: 50vh;
-  background-color: var(--container-background);
-  color: var(--text-color);
-  box-shadow: 0 0 0 0.35rem var(--shadow-color);
 }
 
 .controls {
@@ -116,7 +114,6 @@ $nav-size: 3rem;
     flex-grow: 1;
     font-size: calc($nav-size / 2);
     border-right: 1px solid var(--shadow-color);
-    background-color: var(--container-background);
     color: var(--text-color);
     text-decoration: none;
     transition: all 375ms ease-in-out;
@@ -176,6 +173,7 @@ $nav-size: 3rem;
     top: 0.5rem;
     box-shadow: none;
     border: none;
+    background: none;
   }
 
   .open-toggle {
@@ -193,8 +191,8 @@ $nav-size: 3rem;
   // }
 
   .location-nav {
-    > a:hover {
-      filter: brightness(70%);
+    > a:hover:not(.active) {
+      color: var(--color-primary);
     }
   }
 }

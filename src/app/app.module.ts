@@ -32,11 +32,11 @@ import { ErrorInterceptor } from './core/interceptors/error.interceptor';
       useClass: APIInterceptor,
       multi: true,
     },
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: LoadingInterceptor,
-      multi: true,
-    },
+    // {
+    //   provide: HTTP_INTERCEPTORS,
+    //   useClass: LoadingInterceptor,
+    //   multi: true,
+    // },
     {
       provide: HTTP_INTERCEPTORS,
       useClass: ErrorInterceptor,

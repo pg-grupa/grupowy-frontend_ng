@@ -16,6 +16,7 @@ export class HamburgerAnimatedComponent implements OnInit {
   @Input() size: string = '1em';
   @Input() toggled: boolean = false;
   @Input() color: string = '#000000';
+  @Input() colorToggled: string = '#000000';
   @Input() duration: string = '0.375s';
 
   @ViewChild('template', { static: true }) template!: any;

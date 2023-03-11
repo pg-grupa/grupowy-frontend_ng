@@ -38,7 +38,7 @@ import { HttpErrorResponse } from '@angular/common/http';
       ]),
     ]),
   ],
-  host: { '[@fadeInOut]': '' },
+  host: { '[@fadeInOut]': '', class: 'container shadow' },
 })
 export class LocationDetailsComponent {
   location!: ILocationFull;

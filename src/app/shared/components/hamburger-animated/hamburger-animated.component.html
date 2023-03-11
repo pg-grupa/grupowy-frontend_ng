@@ -1,10 +1,10 @@
 <ng-template #template>
   <div id="hamburger" [style]="hamburgerStyle" [class.toggled]="toggled">
-    <span [style.backgroundColor]="color"></span>
-    <span [style.backgroundColor]="color"></span>
-    <span [style.backgroundColor]="color"></span>
-    <span [style.backgroundColor]="color"></span>
-    <span [style.backgroundColor]="color"></span>
-    <span [style.backgroundColor]="color"></span>
+    <span [style.backgroundColor]="toggled ? colorToggled : color"></span>
+    <span [style.backgroundColor]="toggled ? colorToggled : color"></span>
+    <span [style.backgroundColor]="toggled ? colorToggled : color"></span>
+    <span [style.backgroundColor]="toggled ? colorToggled : color"></span>
+    <span [style.backgroundColor]="toggled ? colorToggled : color"></span>
+    <span [style.backgroundColor]="toggled ? colorToggled : color"></span>
   </div>
 </ng-template>
