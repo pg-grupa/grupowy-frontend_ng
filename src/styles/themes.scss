@@ -1,17 +1,18 @@
 :root,
 .theme\:light {
   --body-background: radial-gradient(circle at 0 0, #fff 0%, #ecf2ff 25%);
-  --container-background: #fff;
+  --container-background: rgba(245, 248, 255, 0.85);
+  // --container-background: rgb(255, 255, 255, 0.8);
   --text-color: #000;
   --shadow-color: rgba(100, 100, 100, 0.25);
   --leaflet-filter: none;
 
-  --form-background: hsl(256, 11%, 90%);
+  --form-background: hsl(252, 10%, 85%);
   --form-color: rgb(0, 0, 0);
   --form-color-disabled: rgb(80, 80, 80);
 
-  --color-primary: rgb(129, 12, 168);
-  --color-primary-rgb: 129, 12, 168;
+  --color-primary: rgb(150, 5, 199);
+  --color-primary-rgb: 150, 5, 199;
   --color-primary-contrast: rgb(255, 255, 255);
   --color-primary-light: hsl(285, 87%, 70%);
   --color-secondary: rgb(110, 110, 110);
@@ -37,9 +38,12 @@
 }
 
 .theme\:dark {
-  // --body-background: radial-gradient(circle at 0 0, #443c68 0%, #393053 25%);
-  --body-background: radial-gradient(circle at 0 0, #393053 0%, #18122b 25%);
-  --container-background: #393053;
+  --body-background: radial-gradient(
+    circle at 0 0,
+    #393053 0%,
+    hsl(254, 27%, 10%) 25%
+  );
+  --container-background: rgba(35, 30, 52, 0.85);
   --text-color: #fff;
   --shadow-color: rgba(250, 250, 250, 0.25);
   --leaflet-filter: brightness(0.6) invert(1) contrast(3) hue-rotate(200deg)

@@ -17,11 +17,11 @@ export function slideInOutTrigger(params?: params) {
   };
   return trigger('slideInOut', [
     transition(':enter', [
-      style({ position: 'absolute' }),
+      style({ position: 'relative' }),
       useAnimation(slideIn, { params: animationParams }),
     ]),
     transition(':leave', [
-      style({ position: 'absolute' }),
+      style({ position: 'relative' }),
       useAnimation(slideOut, { params: animationParams }),
     ]),
   ]);

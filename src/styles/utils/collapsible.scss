@@ -1,0 +1,10 @@
+.collapsible {
+  height: fit-content;
+  max-height: 100vh;
+  overflow: hidden;
+  transition: max-height 375ms ease-in-out;
+
+  &.collapsed {
+    max-height: 0 !important;
+  }
+}

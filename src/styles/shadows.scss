@@ -1,15 +1,10 @@
-@mixin shadow-color($color, $spread: 0.25rem) {
-  box-shadow: 0px 0px 0px $spread $color;
-}
-
-.shadow-gray {
-  @include shadow-color(rgba(0, 0, 0, 0.25));
-}
-
-.shadow-blue {
-  @include shadow-color(rgba(0, 0, 255, 0.2));
-}
+// .shadow {
+//   box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
+//     rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
+//     rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+// }
 
 .shadow {
-  box-shadow: 0 0 0 0.35rem var(--shadow-color);
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px,
+    rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
 }

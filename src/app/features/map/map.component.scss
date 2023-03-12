@@ -1,7 +1,6 @@
-@use "/src/styles/breakpoints.scss" as breakpoint;
+@use "/src/styles/mixin/breakpoints.scss" as breakpoint;
 
-$toggle-size: 2.5rem;
-$nav-size: 2.5rem;
+$nav-size: 2.75rem;
 
 :host {
   position: relative;
@@ -24,4 +23,8 @@ $nav-size: 2.5rem;
   background-color: var(--container-background);
   color: var(--text-color);
   cursor: pointer;
+}
+
+#details {
+  color: red;
 }

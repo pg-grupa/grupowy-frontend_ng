@@ -1,5 +1,59 @@
+$nav-size: 3rem;
+
 .container {
-  background-color: var(--container-background);
-  box-shadow: 0 0 0 0.35rem var(--shadow-color);
+  background: var(--container-background);
+  backdrop-filter: blur(6px);
+}
+
+.container__header {
+  display: flex;
+  align-items: center;
   padding: 0.5rem 1rem;
+  padding-right: 1rem;
+  margin: 0;
+  min-height: 4rem;
+  border-bottom: 1px solid var(--shadow-color);
+}
+
+.container__icon-header {
+  @extend .container__header;
+  padding-left: 0;
+
+  > .icon {
+    font-size: 1.5rem;
+    text-align: center;
+    width: 3.5rem;
+    line-height: 1.5rem;
+  }
+}
+
+.container__item {
+  padding: 1rem 2rem;
+}
+
+.container__nav {
+  display: flex;
+  flex-wrap: nowrap;
+
+  > a {
+    height: $nav-size;
+    min-width: $nav-size;
+    text-align: center;
+    line-height: $nav-size;
+    margin: 0;
+    flex-grow: 1;
+    font-size: calc($nav-size / 2);
+    color: var(--text-color);
+    text-decoration: none;
+    transition: all 375ms ease-in-out;
+  }
+
+  > a.active {
+    background-color: var(--color-primary);
+    color: var(--color-primary-contrast);
+  }
+
+  > a:hover:not(.active) {
+    color: var(--color-primary);
+  }
 }

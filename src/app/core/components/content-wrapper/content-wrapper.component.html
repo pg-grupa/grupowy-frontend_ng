@@ -1,13 +1,14 @@
 <div id="sidebar-wrapper" [class.open]="isOpen">
   <a
-    class="toggle-button border:rounded-2"
+    class="toggle-button shadow"
     (click)="toggle()"
     [class.open]="isOpen"
     *ngIf="sidebarContent.children.length"
   >
     <shared-hamburger
       [toggled]="isOpen"
-      [color]="'var(--text-color)'"
+      [color]="'var(--color-primary-contrast)'"
+      [colorToggled]="'var(--text-color)'"
     ></shared-hamburger>
   </a>
   <div id="sidebar-content" #sidebarContent>
