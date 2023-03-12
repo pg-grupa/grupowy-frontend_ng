@@ -1,14 +1,12 @@
 @use "/src/styles/mixin/breakpoints.scss" as breakpoint;
 
 $btn-size: 2.5rem;
-$nav-size: 3rem;
-$max-width: 400px;
-$margin: 1rem;
 $margin-top: 5rem;
+$margin-bottom: 1rem;
 
 #details {
   height: fit-content;
-  max-height: 60vh;
+  max-height: 50vh;
 }
 
 .controls {
@@ -90,6 +88,7 @@ $margin-top: 5rem;
 @include breakpoint.up("sm") {
   #details {
     border-radius: 0.5rem;
+    max-height: calc(100% - $margin-top - $margin-bottom);
   }
 
   .controls {

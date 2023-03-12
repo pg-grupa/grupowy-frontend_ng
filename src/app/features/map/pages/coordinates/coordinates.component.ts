@@ -5,6 +5,7 @@ import {
   group,
   query,
   animate,
+  animateChild,
 } from '@angular/animations';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
@@ -19,7 +20,7 @@ import { MapModuleService } from '../../services/map-module.service';
   templateUrl: './coordinates.component.html',
   styleUrls: ['./coordinates.component.scss'],
   animations: [
-    trigger('fadeInOut', [
+    trigger('fadeInOutInner', [
       transition(':enter', [
         useAnimation(fadeIn, { params: { from: '0, 100%' } }),
       ]),
@@ -31,12 +32,16 @@ import { MapModuleService } from '../../services/map-module.service';
         ]),
       ]),
     ]),
+    trigger('fadeInOut', [
+      transition(':enter', [query('@*', [animateChild()], { optional: true })]),
+      transition(':leave', [query('@*', [animateChild()], { optional: true })]),
+    ]),
   ],
-  host: { '[@fadeInOut]': '', class: 'container shadow' },
+  host: { '[@fadeInOut]': '' },
 })
 export class CoordinatesComponent implements OnInit, OnDestroy {
   coords!: PrettyLatLng;
-  openMobile: boolean = false;
+  openMobile: boolean = true;
   movestartSubscription!: Subscription;
   address?: { [key: string]: string };
 
