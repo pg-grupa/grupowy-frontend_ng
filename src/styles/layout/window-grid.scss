@@ -1,0 +1,83 @@
+@use "/src/styles/mixin/breakpoints.scss" as breakpoint;
+
+$margin-top: 5rem;
+$margin-left: 1rem;
+
+.absolute-grid {
+  position: absolute;
+
+  left: 0;
+  bottom: 0;
+
+  width: 100%;
+  height: 100%;
+}
+
+@each $name, $value in breakpoint.$breakpoints {
+  .absolute-grid.#{$name}\:1-of-3 {
+    z-index: 899997;
+  }
+
+  .absolute-grid.#{$name}\:2-of-3 {
+    z-index: 899998;
+  }
+
+  .absolute-grid.#{$name}\:3-of-3 {
+    z-index: 899999;
+  }
+
+  .absolute-grid.#{$name}\:1-of-2 {
+    z-index: 899998;
+  }
+
+  .absolute-grid.#{$name}\:2-of-2 {
+    z-index: 899999;
+  }
+
+  @include breakpoint.up($name) {
+    .absolute-grid.#{$name}\:1-of-3 {
+      top: $margin-top;
+      left: $margin-left;
+
+      height: fit-content;
+      width: 30vw;
+      z-index: 899997;
+    }
+
+    .absolute-grid.#{$name}\:2-of-3 {
+      top: $margin-top;
+      left: calc($margin-left + 33vw);
+
+      height: fit-content;
+      width: 30vw;
+      z-index: 899998;
+    }
+
+    .absolute-grid.#{$name}\:3-of-3 {
+      top: $margin-top;
+      left: calc($margin-left + 66vw);
+
+      height: fit-content;
+      width: 30vw;
+      z-index: 899999;
+    }
+
+    .absolute-grid.#{$name}\:1-of-2 {
+      top: $margin-top;
+      left: $margin-left;
+
+      height: fit-content;
+      width: 45vw;
+      z-index: 899998;
+    }
+
+    .absolute-grid.#{$name}\:2-of-2 {
+      top: $margin-top;
+      left: calc($margin-left + 50vw);
+
+      height: fit-content;
+      width: 45vw;
+      z-index: 899999;
+    }
+  }
+}

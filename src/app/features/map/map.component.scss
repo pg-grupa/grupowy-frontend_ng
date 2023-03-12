@@ -1,4 +1,4 @@
-@use "/src/styles/breakpoints.scss" as breakpoint;
+@use "/src/styles/mixin/breakpoints.scss" as breakpoint;
 
 $nav-size: 2.75rem;
 
@@ -23,4 +23,8 @@ $nav-size: 2.75rem;
   background-color: var(--container-background);
   color: var(--text-color);
   cursor: pointer;
+}
+
+#details {
+  color: red;
 }

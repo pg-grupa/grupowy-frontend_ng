@@ -12,6 +12,7 @@ import {
   group,
   query,
   animate,
+  animateChild,
 } from '@angular/animations';
 import { fadeIn } from 'src/app/shared/animations/fade/fade-in';
 import { fadeOut } from 'src/app/shared/animations/fade/fade-out';
@@ -25,7 +26,7 @@ import { HttpErrorResponse } from '@angular/common/http';
   templateUrl: './location-details.component.html',
   styleUrls: ['./location-details.component.scss'],
   animations: [
-    trigger('fadeInOut', [
+    trigger('fadeInOutInner', [
       transition(':enter', [
         useAnimation(fadeIn, { params: { from: '0, 100%' } }),
       ]),
@@ -37,8 +38,12 @@ import { HttpErrorResponse } from '@angular/common/http';
         ]),
       ]),
     ]),
+    trigger('fadeInOut', [
+      transition(':enter', [query('@*', [animateChild()], { optional: true })]),
+      transition(':leave', [query('@*', [animateChild()], { optional: true })]),
+    ]),
   ],
-  host: { '[@fadeInOut]': '', class: 'container shadow' },
+  host: { '[@fadeInOut]': '' },
 })
 export class LocationDetailsComponent {
   location!: ILocationFull;

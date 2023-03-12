@@ -6,6 +6,7 @@ type params = {
   from?: string;
   to?: string;
   duration?: string;
+  position?: string;
 };
 
 export function fadeInOutTrigger(params?: params) {
@@ -13,15 +14,16 @@ export function fadeInOutTrigger(params?: params) {
     from: '100%, 0',
     to: '-100%, 0',
     duration: '375ms',
+    position: 'relative',
     ...params,
   };
   return trigger('fadeInOut', [
     transition(':enter', [
-      style({ position: 'relative' }),
+      style({ position: animationParams.position }),
       useAnimation(fadeIn, { params: animationParams }),
     ]),
     transition(':leave', [
-      style({ position: 'relative' }),
+      style({ position: animationParams.position }),
       useAnimation(fadeOut, { params: animationParams }),
     ]),
   ]);
