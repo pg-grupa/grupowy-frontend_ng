@@ -1,10 +1,23 @@
-<div id="services" class="absolute-grid sm:2-of-2 lg:2-of-3 container shadow" @fadeInOut>
-  <a
-    class="btn-primary back-button"
-    [routerLink]="['..']"
-    queryParamsHandling="preserve"
-    ><i class="fa-solid fa-circle-chevron-left"></i> Back</a
-  >
+<div
+  id="services"
+  class="absolute-grid sm:2-of-2 lg:2-of-3 container shadow"
+  @fadeInOut
+>
+  <a class="close-button" [routerLink]="['../']" queryParamsHandling="preserve">
+    <i class="fa-solid fa-x"></i>
+  </a>
 
-  <p>location-services works!</p>
+  <div class="container__icon-header">
+    <i class="icon fa-solid fa-money-bill-wave"></i>
+    <div>
+      <h3>Services</h3>
+    </div>
+  </div>
+
+  <div class="padding:5 overflow:y-auto">
+    <div class="alert warning">
+      <i class="fa-solid fa-triangle-exclamation"></i>
+      WIP
+    </div>
+  </div>
 </div>

@@ -1,0 +1,27 @@
+<div class="review">
+  <div class="review__header">
+    <div class="review__rating">
+      <shared-rating [value]="review.rating"></shared-rating>
+    </div>
+    <div class="review__timestamp">{{ review.created | date }}</div>
+  </div>
+  <div class="review__text" [class.collapsed]="collapsed" #reviewText>
+    {{ review.text }}
+  </div>
+  <div class="review__toggle" *ngIf="overflow">
+    <a
+      *ngIf="collapsed"
+      (click)="toggleCollapsed()"
+      >show more</a
+    >
+    <a
+      *ngIf="!collapsed"
+      (click)="toggleCollapsed()"
+      >show less</a
+    >
+
+  </div>
+  <div class="review__footer">
+    <div class="review__author">&#8212; {{ review.user }}</div>
+  </div>
+</div>

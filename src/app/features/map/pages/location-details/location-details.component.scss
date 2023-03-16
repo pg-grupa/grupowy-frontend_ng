@@ -70,6 +70,21 @@ $margin-bottom: 1rem;
   }
 }
 
+#rating {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  // justify-content: flex-end;
+
+  .rating__value {
+    color: var(--color-secondary);
+  }
+
+  .rating__stars {
+    color: var(--color-primary);
+  }
+}
+
 .details-label {
   font-size: 0.8rem;
   text-transform: uppercase;

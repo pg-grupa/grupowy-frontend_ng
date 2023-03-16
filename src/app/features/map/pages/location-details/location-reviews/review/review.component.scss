@@ -1,0 +1,47 @@
+.review {
+  padding: 1rem 1rem 0.25rem;
+  border-radius: 0.5rem;
+  background: rgba(var(--color-primary-rgb), 0.15);
+  margin-bottom: 1rem;
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.25rem;
+  }
+
+  &__text {
+    font-size: 0.95em;
+    overflow-y: hidden;
+    max-height: 30rem;
+    transition: max-height 0.375s ease-in-out;
+
+    &.collapsed {
+      max-height: 3rem;
+    }
+  }
+
+  &__toggle {
+    display: flex;
+    justify-content: flex-end;
+    color: var(--color-primary);
+    font-size: 0.9em;
+  }
+
+  &__timestamp {
+    font-size: 0.95em;
+    color: var(--color-secondary);
+  }
+
+  &__rating {
+    color: var(--color-primary);
+    margin-bottom: 0.25rem;
+  }
+
+  &__footer {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    color: var(--color-secondary);
+  }
+}

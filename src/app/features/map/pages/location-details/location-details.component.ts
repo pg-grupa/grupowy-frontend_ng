@@ -137,7 +137,7 @@ export class LocationDetailsComponent {
     if (this.location.favourited) {
       this._notificationsService.success('Location added to favourites.');
     } else {
-      this._notificationsService.info('Location removed from favourites.');
+      this._notificationsService.success('Location removed from favourites.');
     }
   }
 }
