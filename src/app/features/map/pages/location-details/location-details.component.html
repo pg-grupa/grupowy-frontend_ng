@@ -43,7 +43,13 @@
             >.
           </span>
           <ng-template #noReviews>
-            <span>No <u>reviews</u> yet.</span>
+            <span
+              >No
+              <a [routerLink]="['reviews']" queryParamsHandling="preserve"
+                >reviews</a
+              >
+              yet.</span
+            >
           </ng-template>
         </div>
       </div>
@@ -64,16 +70,14 @@
       <a class="disabled">
         <i class="fa-solid fa-location-arrow"></i>
         <span class="container__link-label">Navigate</span>
-      
       </a>
       <a (click)="toggleFavourite()" [class.favourite]="location.favourited"
         ><i
           class="fa-heart"
           [class]="location.favourited ? 'fa-solid' : 'fa-regular'"
-        ></i
-      >
-      <span class="container__link-label">Favourite</span>
-    </a>
+        ></i>
+        <span class="container__link-label">Favourite</span>
+      </a>
       <a
         [routerLink]="['reviews']"
         queryParamsHandling="preserve"
@@ -82,13 +86,13 @@
         <i class="fa-solid fa-thumbs-up"></i>
         <span class="container__link-label">Reviews</span>
       </a>
-      <a class="disabled"
+      <a
+        class="disabled"
         [routerLink]="['services']"
         queryParamsHandling="preserve"
         routerLinkActive="active"
         ><i class="fa-solid fa-money-bill-wave"></i>
         <span class="container__link-label">Services</span>
-      
       </a>
       <a
         [routerLink]="[

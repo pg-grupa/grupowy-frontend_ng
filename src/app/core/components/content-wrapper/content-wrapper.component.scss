@@ -29,7 +29,7 @@ $toggle-duration: 0.5s;
   position: absolute;
   z-index: 900;
   top: 0.5rem;
-  right: calc(0rem - $toggle-size - 0.5rem);
+  right: calc(0rem - $toggle-size - 1rem);
   justify-content: center;
   align-items: center;
   width: $toggle-size;
