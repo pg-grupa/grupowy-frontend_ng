@@ -15,4 +15,6 @@ export interface ILocationFull extends Omit<ILocation, 'type'> {
   city: string;
   postal_code: string;
   favourited: boolean;
+  rating_avg: null | number;
+  reviews_count: number;
 }

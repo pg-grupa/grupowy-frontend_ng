@@ -15,6 +15,7 @@ import { LocationMarkerComponent } from './components/map/markers/location-marke
 import { NotificationsComponent } from './components/notifications/notifications.component';
 import { NotificationComponent } from './components/notifications/notification/notification.component';
 import { ContentWrapperComponent } from './components/content-wrapper/content-wrapper.component';
+import { ConfirmationModalComponent } from './components/confirmation-modal/confirmation-modal.component';
 
 const exports = [
   LoadingComponent,
@@ -27,12 +28,14 @@ const exports = [
   FeatureGroupComponent,
   ClusterGroupComponent,
   NotificationsComponent,
+  ContentWrapperComponent,
+  ConfirmationModalComponent,
 ];
 
 const declarations = [NotificationComponent];
 
 @NgModule({
-  declarations: [...exports, ...declarations, ContentWrapperComponent],
+  declarations: [...exports, ...declarations],
   imports: [
     CommonModule,
     SharedModule,
@@ -43,6 +46,6 @@ const declarations = [NotificationComponent];
     }),
     RouterModule,
   ],
-  exports: [...exports, ContentWrapperComponent],
+  exports: [...exports],
 })
 export class CoreModule {}

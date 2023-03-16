@@ -1,4 +1,4 @@
-@use "/src/styles/breakpoints" as breakpoint;
+@use "/src/styles/mixin/breakpoints" as breakpoint;
 
 #notifications-container {
   display: flex;

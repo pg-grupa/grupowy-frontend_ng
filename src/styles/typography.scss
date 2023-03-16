@@ -30,6 +30,11 @@ $font-sizes: (
   .font\:#{$index} {
     font-size: $size;
   }
+
+  h#{$index} {
+    @extend .brand;
+    font-size: $size;
+  }
 }
 
 /**
@@ -50,7 +55,7 @@ $font-sizes-fluid: (
     ),
   3:
     clamp(
-      $font-size-scale * 1.25rem,
+      $font-size-scale * 1.45rem,
       $font-size-scale * 5vw,
       $font-size-scale * 1.75rem
     ),
@@ -79,7 +84,15 @@ $font-sizes-fluid: (
     font-size: $size;
   }
 
-  h#{$index} {
+  h#{$index}.fluid {
     font-size: $size;
   }
+}
+
+.font\:uppercase {
+  text-transform: uppercase;
+}
+
+.font\:lowercase {
+  text-transform: lowercase;
 }

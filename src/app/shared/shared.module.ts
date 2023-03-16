@@ -8,6 +8,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { InputErrorsComponent } from './components/forms/input-errors.component';
 import { PasswordInputComponent } from './components/forms/password-input/password-input.component';
 import { TextareaInputComponent } from './components/forms/textarea-input/textarea-input.component';
+import { StarRatingComponent } from './components/star-rating/star-rating.component';
 
 const declarations = [
   BouncingPinComponent,
@@ -18,6 +19,7 @@ const declarations = [
   PasswordInputComponent,
   InputErrorsComponent,
   TextareaInputComponent,
+  StarRatingComponent,
 ];
 const imports = [FormsModule, ReactiveFormsModule];
 

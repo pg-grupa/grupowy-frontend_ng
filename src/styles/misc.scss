@@ -7,4 +7,5 @@ hr {
 
 a {
   cursor: pointer;
+  color: var(--link-color, var(--color-primary));
 }

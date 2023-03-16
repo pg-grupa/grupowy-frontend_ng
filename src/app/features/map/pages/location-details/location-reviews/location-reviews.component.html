@@ -1,0 +1,37 @@
+<div
+  id="reviews"
+  class="absolute-grid sm:2-of-2 lg:2-of-3 container shadow"
+  @fadeInOut
+>
+  <a class="close-button" [routerLink]="['../']" queryParamsHandling="preserve">
+    <i class="fa-solid fa-x"></i>
+  </a>
+
+  <div class="container__icon-header">
+    <i class="icon fa-solid fa-thumbs-up"></i>
+    <div>
+      <h3>Reviews</h3>
+    </div>
+  </div>
+
+  <div class="padding:5 overflow:y-auto">
+    <!-- <div id="my-review" *ngIf="isAuthenticated">
+      <h4 class="font:uppercase margin:b-1">My review</h4>
+      <div class="flex justify:center margin:b-5 padding:b-5" *ngIf="loading">
+        <spinner-bouncing-pin size="3rem"></spinner-bouncing-pin>
+
+      </div>
+      <map-location-review *ngIf="myReview && !loading" [review]="myReview">
+      </map-location-review>
+      <div class="flex justify:end align:center">
+        <a class="btn-primary margin:1"><i class="fa-solid fa-plus margin:r-2"></i>Add review</a>
+      </div>
+    </div> -->
+    <h4 class="font:uppercase margin:b-3">Users' reviews</h4>
+    <map-location-review *ngFor="let review of reviews" [review]="review">
+    </map-location-review>
+    <div class="alert info" *ngIf="reviews.length === 0">
+      <i class="fa-solid fa-circle-info"></i> No reviews yet.
+    </div>
+  </div>
+</div>

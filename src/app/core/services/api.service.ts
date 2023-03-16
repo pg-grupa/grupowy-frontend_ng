@@ -6,6 +6,7 @@ import { IUser } from '../models/user';
 import { ILocation } from '../models/location';
 import { ILocationType } from '../models/location-type';
 import { IReport } from '../models/report';
+import { IReview } from '../models/review';
 
 /** Service responsible for api requests. */
 @Injectable({
@@ -21,7 +22,11 @@ export class APIService {
       favourite: (id: number): string => `locations/details/${id}/favourite/`,
     },
     reports: {
-      postReport: 'locations/report/',
+      postReport: 'report/',
+    },
+    reviews: {
+      locationReviews: (id: number) => `reviews/location/${id}/`,
+      myReview: (id: number) => `reviews/location/${id}/my-review/`,
     },
   };
 
@@ -54,5 +59,13 @@ export class APIService {
 
   removeFavourite(id: number): Observable<any> {
     return this._http.delete(this._apiUrls.locations.favourite(id));
+  }
+
+  getLocationReviews(id: number): Observable<IReview[]> {
+    return this._http.get<IReview[]>(this._apiUrls.reviews.locationReviews(id));
+  }
+
+  getMyReview(id: number): Observable<IReview> {
+    return this._http.get<IReview>(this._apiUrls.reviews.myReview(id));
   }
 }

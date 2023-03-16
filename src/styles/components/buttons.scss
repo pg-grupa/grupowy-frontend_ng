@@ -2,19 +2,19 @@
   border: 0;
   background: none;
   // margin: 0.5rem;
-  padding: 0.5rem 1rem;
+  padding: 0.25rem 1rem;
   border-radius: 0.5rem;
   cursor: pointer;
   text-decoration: none;
 
   &-sm {
-    padding: 0.25rem 0.5rem;
-    font-size: 0.8em;
+    padding: 0.15rem 0.5rem;
+    font-size: 0.75em;
   }
 
   &-lg {
-    padding: 0.75rem 1.5rem;
-    font-size: 1.2em;
+    padding: 0.5rem 1.5rem;
+    font-size: 1.25em;
   }
 
   &:not([disabled]):hover {
@@ -37,4 +37,28 @@
   @extend .btn;
   background-color: var(--color-secondary);
   color: var(--color-secondary-contrast);
+}
+
+.btn-success {
+  @extend .btn;
+  background-color: var(--color-success);
+  color: var(--color-success-contrast);
+}
+
+.btn-error {
+  @extend .btn;
+  background-color: var(--color-error);
+  color: var(--color-error-contrast);
+}
+
+.btn-warning {
+  @extend .btn;
+  background-color: var(--color-warning);
+  color: var(--color-warning-contrast);
+}
+
+.btn-info {
+  @extend .btn;
+  background-color: var(--color-info);
+  color: var(--color-info-contrast);
 }

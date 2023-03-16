@@ -21,7 +21,7 @@ $btn-size: 2.5rem;
 }
 
 @include breakpoint.up("sm") {
-  #services {
+  #reviews {
     border-radius: 0.5rem;
   }
 
@@ -29,3 +29,9 @@ $btn-size: 2.5rem;
     padding-left: 0;
   }
 }
+
+// @include breakpoint.up("lg") {
+//   #reviews {
+//     width: 63vw;
+//   }
+// }
