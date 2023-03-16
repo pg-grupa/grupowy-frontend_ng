@@ -1,0 +1,11 @@
+<div class="wrapper" *ngIf="!hidden">
+  <div class="question container"  @fadeInOut>
+    <div class="question__text">{{ question?.question }}</div>
+    <div class="question__answers">
+      <a 
+      *ngFor="let answer of question?.answers"
+      class="btn-{{ answer.btnClass }} margin:r-1"
+      (click)="sendAnswer(answer.value)">{{ answer.btnText }}</a>
+    </div>
+  </div>
+</div>

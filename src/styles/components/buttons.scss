@@ -38,3 +38,27 @@
   background-color: var(--color-secondary);
   color: var(--color-secondary-contrast);
 }
+
+.btn-success {
+  @extend .btn;
+  background-color: var(--color-success);
+  color: var(--color-success-contrast);
+}
+
+.btn-error {
+  @extend .btn;
+  background-color: var(--color-error);
+  color: var(--color-error-contrast);
+}
+
+.btn-warning {
+  @extend .btn;
+  background-color: var(--color-warning);
+  color: var(--color-warning-contrast);
+}
+
+.btn-info {
+  @extend .btn;
+  background-color: var(--color-info);
+  color: var(--color-info-contrast);
+}

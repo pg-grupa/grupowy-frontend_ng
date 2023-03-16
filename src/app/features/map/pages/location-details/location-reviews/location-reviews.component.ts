@@ -1,7 +1,7 @@
 import { trigger, transition, query, animateChild } from '@angular/animations';
-import { Component, ElementRef } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { finalize, Observable, Subscription } from 'rxjs';
+import { finalize, Subscription } from 'rxjs';
 import { ILocationFull } from 'src/app/core/models/location';
 import { IReview } from 'src/app/core/models/review';
 import { APIService } from 'src/app/core/services/api.service';
@@ -23,7 +23,7 @@ import { fadeInOutTrigger } from 'src/app/shared/animations/fade/fade-in-out-tri
     '[@fadeInOutOuter]': '',
   },
 })
-export class LocationReviewsComponent {
+export class LocationReviewsComponent implements OnInit, OnDestroy {
   location!: ILocationFull;
   reviews: IReview[] = [];
   myReview?: IReview;
@@ -53,6 +53,10 @@ export class LocationReviewsComponent {
           this.myReview = undefined;
         }
       });
+  }
+
+  ngOnDestroy(): void {
+    this._authServiceSubscription.unsubscribe();
   }
 
   refreshMyReview(): void {
