@@ -43,7 +43,11 @@ export class ConfirmationService {
     this._questionSubject = new Subject();
   }
 
-  ask<T>(question: string, helpText: string, ...answers: Answer<T>[]) {
+  ask<T>(
+    question: string,
+    helpText: string,
+    ...answers: Answer<T>[]
+  ): Observable<T> {
     this._answerSubject = new Subject<T>();
     this._questionSubject.next({ question, helpText, answers });
     return this._answerSubject.asObservable();

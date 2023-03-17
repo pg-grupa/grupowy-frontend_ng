@@ -10,7 +10,10 @@ import { FiltersComponent } from './pages/filters/filters.component';
 import { LocationServicesComponent } from './pages/location-details/location-services/location-services.component';
 import { CoordinatesComponent } from './pages/coordinates/coordinates.component';
 import { LocationReviewsComponent } from './pages/location-details/location-reviews/location-reviews.component';
-import { ReviewComponent } from './pages/location-details/location-reviews/review/review.component';
+import { ReviewComponent } from './components/review/review.component';
+import { LocationReviewsListComponent } from './pages/location-details/location-reviews/location-reviews-list/location-reviews-list.component';
+import { LocationReviewAddComponent } from './pages/location-details/location-reviews/location-review-add/location-review-add.component';
+import { LocationReviewEditComponent } from './pages/location-details/location-reviews/location-review-edit/location-review-edit.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +24,9 @@ import { ReviewComponent } from './pages/location-details/location-reviews/revie
     CoordinatesComponent,
     LocationReviewsComponent,
     ReviewComponent,
+    LocationReviewsListComponent,
+    LocationReviewAddComponent,
+    LocationReviewEditComponent,
   ],
   imports: [CommonModule, MapRoutingModule, CoreModule, SharedModule],
 })

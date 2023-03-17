@@ -1,6 +1,9 @@
 <div class="wrapper" *ngIf="!hidden">
   <div class="question container"  @fadeInOut>
-    <div class="question__text">{{ question?.question }}</div>
+    <div class="question__text">
+      <h4>{{ question?.question }}</h4>
+    </div>
+    <div class="question__helptext" *ngIf="question?.helpText">{{ question?.helpText }}</div>
     <div class="question__answers">
       <a 
       *ngFor="let answer of question?.answers"

@@ -5,7 +5,7 @@ import { NotificationType, INotification } from '../interfaces/notification';
 @Injectable({
   providedIn: 'root',
 })
-export class NotificationsService {
+export class NotificationService {
   private _notificationSubject = new ReplaySubject<INotification>(1);
   public readonly notifications$: Observable<INotification> =
     this._notificationSubject.asObservable();

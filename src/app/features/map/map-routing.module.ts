@@ -6,8 +6,13 @@ import { LocationResolver } from 'src/app/core/resolvers/location.resolver';
 import { MapComponent } from './map.component';
 import { CoordinatesComponent } from './pages/coordinates/coordinates.component';
 import { LocationDetailsComponent } from './pages/location-details/location-details.component';
+import { LocationReviewEditComponent } from './pages/location-details/location-reviews/location-review-edit/location-review-edit.component';
+import { LocationReviewsListComponent } from './pages/location-details/location-reviews/location-reviews-list/location-reviews-list.component';
 import { LocationReviewsComponent } from './pages/location-details/location-reviews/location-reviews.component';
 import { LocationServicesComponent } from './pages/location-details/location-services/location-services.component';
+import * as AuthGuard from 'src/app/core/guards/auth.guard';
+import { LocationReviewAddComponent } from './pages/location-details/location-reviews/location-review-add/location-review-add.component';
+import { LocationMyReviewResolver } from 'src/app/core/resolvers/location-my-review.resolver';
 
 const routes: Routes = [
   {
@@ -36,9 +41,35 @@ const routes: Routes = [
               {
                 path: 'reviews',
                 component: LocationReviewsComponent,
-                resolve: {
-                  reviews: LocationReviewsResolver,
-                },
+                children: [
+                  {
+                    path: '',
+                    redirectTo: 'list',
+                    pathMatch: 'full',
+                  },
+                  {
+                    path: 'list',
+                    component: LocationReviewsListComponent,
+                    // Moved myReview loading to component
+                    // resolve: {
+                    //   reviews: LocationReviewsResolver,
+                    //   myReview: LocationMyReviewResolver,
+                    // },
+                  },
+                  {
+                    path: 'add',
+                    component: LocationReviewAddComponent,
+                    canActivate: [AuthGuard.canActivate],
+                  },
+                  {
+                    path: 'edit',
+                    component: LocationReviewEditComponent,
+                    canActivate: [AuthGuard.canActivate],
+                    resolve: {
+                      myReview: LocationMyReviewResolver,
+                    },
+                  },
+                ],
               },
             ],
           },

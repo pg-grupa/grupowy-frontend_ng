@@ -4,7 +4,7 @@ import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { catchError } from 'rxjs';
 import { APIService } from 'src/app/core/services/api.service';
-import { NotificationsService } from 'src/app/core/services/notifications.service';
+import { NotificationService } from 'src/app/core/services/notification.service';
 
 @Component({
   templateUrl: './general-report.component.html',
@@ -30,7 +30,7 @@ export class GeneralReportComponent {
     private _fb: FormBuilder,
     private _apiService: APIService,
     private _router: Router,
-    private _notifications: NotificationsService
+    private _notifications: NotificationService
   ) {}
 
   countLength() {

@@ -9,6 +9,8 @@ import { InputErrorsComponent } from './components/forms/input-errors.component'
 import { PasswordInputComponent } from './components/forms/password-input/password-input.component';
 import { TextareaInputComponent } from './components/forms/textarea-input/textarea-input.component';
 import { StarRatingComponent } from './components/star-rating/star-rating.component';
+import { RatingInputComponent } from './components/forms/rating-input/rating-input.component';
+import { StarRatingIntegerComponent } from './components/star-rating-integer/star-rating-integer.component';
 
 const declarations = [
   BouncingPinComponent,
@@ -20,6 +22,8 @@ const declarations = [
   InputErrorsComponent,
   TextareaInputComponent,
   StarRatingComponent,
+  RatingInputComponent,
+  StarRatingIntegerComponent,
 ];
 const imports = [FormsModule, ReactiveFormsModule];
 

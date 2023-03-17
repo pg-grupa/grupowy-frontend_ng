@@ -1,7 +1,7 @@
 <div class="review">
   <div class="review__header">
     <div class="review__rating">
-      <shared-rating [value]="review.rating"></shared-rating>
+      <shared-rating-integer [value]="review.rating"></shared-rating-integer>
     </div>
     <div class="review__timestamp">{{ review.created | date }}</div>
   </div>

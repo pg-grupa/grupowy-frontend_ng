@@ -1,4 +1,12 @@
-import { trigger, transition, style, useAnimation } from '@angular/animations';
+import {
+  trigger,
+  transition,
+  style,
+  useAnimation,
+  animate,
+  query,
+  group,
+} from '@angular/animations';
 import { fadeIn } from './fade-in';
 import { fadeOut } from './fade-out';
 
@@ -9,7 +17,7 @@ type params = {
   position?: string;
 };
 
-export function fadeInOutTrigger(params?: params) {
+export function fadeInOutTrigger(name: string = 'fadeInOut', params?: params) {
   const animationParams = {
     from: '100%, 0',
     to: '-100%, 0',
@@ -17,14 +25,18 @@ export function fadeInOutTrigger(params?: params) {
     position: 'relative',
     ...params,
   };
-  return trigger('fadeInOut', [
+  return trigger(name, [
     transition(':enter', [
       style({ position: animationParams.position }),
       useAnimation(fadeIn, { params: animationParams }),
     ]),
     transition(':leave', [
       style({ position: animationParams.position }),
-      useAnimation(fadeOut, { params: animationParams }),
+      group([
+        // inner router stays in DOM for duration of animation
+        query(':leave', [animate('375ms')], { optional: true }),
+        useAnimation(fadeOut, { params: animationParams }),
+      ]),
     ]),
   ]);
 }

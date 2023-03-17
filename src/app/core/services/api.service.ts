@@ -27,6 +27,7 @@ export class APIService {
     },
     reviews: {
       locationReviews: (id: number) => `reviews/location/${id}/`,
+      createReview: (id: number) => `reviews/location/${id}/create/`,
       myReview: (id: number) => `reviews/location/${id}/my-review/`,
     },
   };
@@ -70,6 +71,16 @@ export class APIService {
     return this._http.get<IReview[]>(this._apiUrls.reviews.locationReviews(id));
   }
 
+  createReview(
+    id: number,
+    review: { rating: number; text: string }
+  ): Observable<IReview> {
+    return this._http.post<IReview>(
+      this._apiUrls.reviews.createReview(id),
+      review
+    );
+  }
+
   getMyReview(id: number): Observable<IReview | undefined> {
     return this._http
       .get<IReview>(this._apiUrls.reviews.myReview(id), { observe: 'response' })
@@ -82,6 +93,13 @@ export class APIService {
           return response.body!;
         })
       );
+  }
+
+  updateMyReview(
+    id: number,
+    review: { rating: number; text: string }
+  ): Observable<IReview> {
+    return this._http.put<IReview>(this._apiUrls.reviews.myReview(id), review);
   }
 
   deleteMyReview(id: number): Observable<void> {

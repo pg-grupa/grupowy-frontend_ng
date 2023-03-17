@@ -10,7 +10,7 @@ import {
   selector: 'core-confirmation-modal',
   templateUrl: './confirmation-modal.component.html',
   styleUrls: ['./confirmation-modal.component.scss'],
-  animations: [fadeInOutTrigger({ from: '0, 100%' })],
+  animations: [fadeInOutTrigger('fadeInOut', { from: '0, 100%' })],
 })
 export class ConfirmationModalComponent implements OnDestroy {
   question?: Question;

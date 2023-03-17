@@ -1,0 +1,30 @@
+<ng-container *ngIf="isAuthenticated$ | async">
+  <h4 class="font:uppercase margin:b-3">My Review</h4>
+  <map-location-review *ngIf="myReview" [review]="myReview"></map-location-review>
+  <div class="controls flex justify:end" *ngIf="!myReview">
+    <a
+      class="btn-primary"
+      [routerLink]="['../add']"
+      queryParamsHandling="preserve"
+    >
+      <i class="fa-solid fa-plus"></i> Add review
+    </a>
+  </div>
+  <div class="controls flex justify:end" *ngIf="myReview">
+    <a
+      class="btn-primary margin:r-2"
+      [routerLink]="['../edit']"
+      queryParamsHandling="preserve"
+    >
+      <i class="fa-solid fa-pen-to-square"></i> Edit
+    </a>
+    <a class="btn-error" (click)="deleteMyReview()"><i class="fa-solid fa-trash"></i> Delete</a>
+  </div>
+  
+</ng-container>
+<h4 class="font:uppercase margin:b-3">Users' reviews</h4>
+<map-location-review *ngFor="let review of reviews" [review]="review">
+</map-location-review>
+<div class="alert info" *ngIf="reviews.length === 0">
+  <i class="fa-solid fa-circle-info"></i> No reviews yet.
+</div>

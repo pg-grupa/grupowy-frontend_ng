@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from 'src/app/core/services/auth.service';
-import { NotificationsService } from 'src/app/core/services/notifications.service';
+import { NotificationService } from 'src/app/core/services/notification.service';
 import { FormBaseComponent } from 'src/app/shared/components/forms/form-base.component';
 
 @Component({
@@ -20,7 +20,7 @@ export class LoginComponent extends FormBaseComponent {
     private _fb: FormBuilder,
     private _route: ActivatedRoute,
     private _router: Router,
-    private _notifications: NotificationsService
+    private _notifications: NotificationService
   ) {
     super();
   }

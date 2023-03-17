@@ -7,7 +7,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 
-enum StarType {
+export enum StarType {
   Full = 'fa-solid fa-star',
   Half = 'fa-regular fa-star-half-stroke',
   Empty = 'fa-regular fa-star',
@@ -35,17 +35,18 @@ export class StarRatingComponent {
   }
 
   setStars() {
-    this.stars = new Array(5).fill(StarType.Empty);
+    const stars = new Array(5).fill(StarType.Empty);
     let i = 0;
     for (i = 0; i < Math.floor(this._value); i++) {
-      this.stars[i] = StarType.Full;
+      stars[i] = StarType.Full;
     }
 
     let decimal = this._value % 1;
     if (decimal > 0.75) {
-      this.stars[i] = StarType.Full;
+      stars[i] = StarType.Full;
     } else if (decimal > 0.25) {
-      this.stars[i] = StarType.Half;
+      stars[i] = StarType.Half;
     }
+    this.stars = stars;
   }
 }

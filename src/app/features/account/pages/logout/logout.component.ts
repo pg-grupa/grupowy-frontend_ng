@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from 'src/app/core/services/auth.service';
-import { NotificationsService } from 'src/app/core/services/notifications.service';
+import { NotificationService } from 'src/app/core/services/notification.service';
 
 @Component({
   templateUrl: './logout.component.html',
@@ -12,7 +12,7 @@ export class LogoutComponent implements OnInit {
     private _authService: AuthService,
     private _route: ActivatedRoute,
     private _router: Router,
-    private _notifications: NotificationsService
+    private _notifications: NotificationService
   ) {}
 
   ngOnInit() {

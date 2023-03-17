@@ -12,6 +12,7 @@ import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { GeosearchService } from 'src/app/core/services/geosearch.service';
 import { fadeIn } from 'src/app/shared/animations/fade/fade-in';
+import { fadeInOutTrigger } from 'src/app/shared/animations/fade/fade-in-out-trigger';
 import { fadeOut } from 'src/app/shared/animations/fade/fade-out';
 import { PrettyLatLng } from 'src/app/shared/utils/coords';
 import { MapModuleService } from '../../services/map-module.service';
@@ -20,24 +21,17 @@ import { MapModuleService } from '../../services/map-module.service';
   templateUrl: './coordinates.component.html',
   styleUrls: ['./coordinates.component.scss'],
   animations: [
-    trigger('fadeInOutInner', [
-      transition(':enter', [
-        useAnimation(fadeIn, { params: { from: '0, 100%' } }),
-      ]),
-      transition(':leave', [
-        group([
-          // inner router stays in DOM for duration of animation
-          query(':leave', [animate('375ms')], { optional: true }),
-          useAnimation(fadeOut, { params: { to: '0, 100%' } }),
-        ]),
-      ]),
-    ]),
-    trigger('fadeInOut', [
+    fadeInOutTrigger('fadeInOutInner', {
+      from: '0, 100%',
+      to: '0, 100%',
+      position: 'absolute',
+    }),
+    trigger('fadeInOutOuter', [
       transition(':enter', [query('@*', [animateChild()], { optional: true })]),
       transition(':leave', [query('@*', [animateChild()], { optional: true })]),
     ]),
   ],
-  host: { '[@fadeInOut]': '' },
+  host: { '[@fadeInOutOuter]': '' },
 })
 export class CoordinatesComponent implements OnInit, OnDestroy {
   coords!: PrettyLatLng;
