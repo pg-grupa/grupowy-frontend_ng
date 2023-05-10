@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { INotification } from '../../interfaces/notification';
-import { NotificationsService } from '../../services/notifications.service';
+import { NotificationService } from '../../services/notification.service';
 
 @Component({
   selector: 'core-notifications',
@@ -13,7 +13,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
 
   private _subscription!: Subscription;
 
-  constructor(private _notificationsService: NotificationsService) {}
+  constructor(private _notificationsService: NotificationService) {}
 
   ngOnInit() {
     this._subscription = this._notificationsService.notifications$.subscribe(

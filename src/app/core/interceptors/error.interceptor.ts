@@ -7,7 +7,7 @@ import {
   HttpErrorResponse,
 } from '@angular/common/http';
 import { catchError, Observable, throwError } from 'rxjs';
-import { NotificationsService } from '../services/notifications.service';
+import { NotificationService } from '../services/notification.service';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 
@@ -15,7 +15,7 @@ import { AuthService } from '../services/auth.service';
 export class ErrorInterceptor implements HttpInterceptor {
   constructor(
     private _router: Router,
-    private _notifications: NotificationsService,
+    private _notifications: NotificationService,
     private _authService: AuthService
   ) {}
 

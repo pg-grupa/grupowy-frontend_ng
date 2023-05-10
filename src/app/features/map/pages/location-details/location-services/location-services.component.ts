@@ -8,7 +8,11 @@ import { slideInOutTrigger } from 'src/app/shared/animations/slide/slide-in-out-
   templateUrl: './location-services.component.html',
   styleUrls: ['./location-services.component.scss'],
   animations: [
-    fadeInOutTrigger({ from: '0, 100%', to: '0, 100%', position: 'absolute' }),
+    fadeInOutTrigger('fadeInOut', {
+      from: '0, 100%',
+      to: '0, 100%',
+      position: 'absolute',
+    }),
     trigger('fadeInOutOuter', [
       transition(':enter', [query('@*', [animateChild()], { optional: true })]),
       transition(':leave', [query('@*', [animateChild()], { optional: true })]),

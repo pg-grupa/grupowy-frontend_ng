@@ -100,7 +100,7 @@ export class MapModuleService {
       query.type = this.selectedTypes;
     }
 
-    this._cacheService.getLocations(query).subscribe((locations) => {
+    this._cacheService.getLocations(query, true).subscribe((locations) => {
       this._locationsSubject.next(locations);
     });
   }

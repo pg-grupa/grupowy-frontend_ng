@@ -27,11 +27,12 @@
         <a class="btn-primary margin:1"><i class="fa-solid fa-plus margin:r-2"></i>Add review</a>
       </div>
     </div> -->
-    <h4 class="font:uppercase margin:b-3">Users' reviews</h4>
+    <!-- <h4 class="font:uppercase margin:b-3">Users' reviews</h4>
     <map-location-review *ngFor="let review of reviews" [review]="review">
     </map-location-review>
     <div class="alert info" *ngIf="reviews.length === 0">
       <i class="fa-solid fa-circle-info"></i> No reviews yet.
-    </div>
+    </div> -->
+    <router-outlet></router-outlet>
   </div>
 </div>

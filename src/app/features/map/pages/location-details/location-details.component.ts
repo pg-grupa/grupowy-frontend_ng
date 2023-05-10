@@ -16,7 +16,7 @@ import {
 } from '@angular/animations';
 import { fadeIn } from 'src/app/shared/animations/fade/fade-in';
 import { fadeOut } from 'src/app/shared/animations/fade/fade-out';
-import { NotificationsService } from 'src/app/core/services/notifications.service';
+import { NotificationService } from 'src/app/core/services/notification.service';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { APIService } from 'src/app/core/services/api.service';
 import { LoggerService } from 'src/app/core/services/logger.service';
@@ -54,7 +54,7 @@ export class LocationDetailsComponent {
     private _route: ActivatedRoute,
     private _router: Router,
     private _mapModuleService: MapModuleService,
-    private _notificationsService: NotificationsService,
+    private _notificationsService: NotificationService,
     private _authService: AuthService,
     private _apiService: APIService,
     private _logger: LoggerService

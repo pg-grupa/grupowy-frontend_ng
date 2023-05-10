@@ -1,0 +1,18 @@
+<h4 class="font:uppercase margin:b-3">Add review</h4>
+<form [formGroup]="form" (ngSubmit)="saveReview()">
+  <div class="alert error" *ngIf="nonFieldErrors.length">
+    {{ nonFieldErrors }}
+  </div>
+
+  <rating-input formControlName="rating" autocomplete="rating">
+    <label for="rating" class="form-label">Rating</label>
+  </rating-input>
+  <textarea-input formControlName="text" [maxLength]="maxLength">
+    <label class="form-label" for="message">Message</label>
+  </textarea-input>
+  <div class="flex justify:end">
+    <button type="submit" class="btn-lg btn-primary" [disabled]="!form.valid">
+      Save
+    </button>
+  </div>
+</form>

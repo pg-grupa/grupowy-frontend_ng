@@ -5,7 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { catchError } from 'rxjs';
 import { ILocationFull } from 'src/app/core/models/location';
 import { APIService } from 'src/app/core/services/api.service';
-import { NotificationsService } from 'src/app/core/services/notifications.service';
+import { NotificationService } from 'src/app/core/services/notification.service';
 
 @Component({
   templateUrl: './location-report.component.html',
@@ -35,7 +35,7 @@ export class LocationReportComponent implements OnInit {
     private _router: Router,
     private _fb: FormBuilder,
     private _apiService: APIService,
-    private _notifications: NotificationsService
+    private _notifications: NotificationService
   ) {}
 
   ngOnInit(): void {

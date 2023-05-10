@@ -1,0 +1,9 @@
+<div class="form-group">
+  <ng-content select="label"></ng-content>
+  <div class="flex stars" [class.disabled]="disabled">
+    <a *ngFor="let star of stars; index as i" (click)="starSelected(i)">
+      <i  [class]="star"></i>
+    </a>
+  </div>
+  <input-errors [control]="control"></input-errors>
+</div>

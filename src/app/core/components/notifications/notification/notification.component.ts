@@ -13,7 +13,7 @@ import { fadeInOutTrigger } from 'src/app/shared/animations/fade/fade-in-out-tri
   selector: 'core-notification',
   templateUrl: './notification.component.html',
   styleUrls: ['./notification.component.scss'],
-  animations: [fadeInOutTrigger({ duration: '200ms' })],
+  animations: [fadeInOutTrigger('fadeInOut', { duration: '200ms' })],
   host: { '[@fadeInOut]': '' },
 })
 export class NotificationComponent implements OnInit {

@@ -1,11 +1,20 @@
 import { Injectable } from '@angular/core';
-import { catchError, map, Observable, of, ReplaySubject, take } from 'rxjs';
+import {
+  catchError,
+  finalize,
+  map,
+  Observable,
+  of,
+  ReplaySubject,
+  take,
+} from 'rxjs';
 import { IBoundsQueryParams } from '../interfaces/location-query-params';
 import { ILocation } from '../models/location';
 import { ILocationType } from '../models/location-type';
 import { APIService } from './api.service';
 import { LoggerService } from './logger.service';
 import * as L from 'leaflet';
+import { LoadingService } from './loading.service';
 
 @Injectable({
   providedIn: 'root',
@@ -22,7 +31,12 @@ export class CacheService {
 
   private _locationTypes: ILocationType[] = [];
 
-  constructor(private _apiService: APIService, private _logger: LoggerService) {
+  constructor(
+    private _apiService: APIService,
+    private _logger: LoggerService,
+    private _loadingService: LoadingService
+  ) {
+    this._loadingService.start();
     this._logger.debug('CacheService', 'constructor');
     this._apiService
       .getTypes()
@@ -32,6 +46,9 @@ export class CacheService {
           // navigation to error page done in ErrorInterceptor
           // return of([]);
           throw error;
+        }),
+        finalize(() => {
+          this._loadingService.stop();
         })
       )
       .subscribe((response) => {
@@ -66,9 +83,12 @@ export class CacheService {
     return this._locationTypes.find((type) => type.id === id);
   }
 
-  getLocations(params: IBoundsQueryParams): Observable<ILocation[]> {
+  getLocations(
+    params: IBoundsQueryParams,
+    noLoading: boolean = false
+  ): Observable<ILocation[]> {
     // TODO: cache locations in memory
-    return this._apiService.getLocations(params);
+    return this._apiService.getLocations(params, noLoading);
   }
 
   getLocationDetails(id: number): Observable<ILocation> {

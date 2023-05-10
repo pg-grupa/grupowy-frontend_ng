@@ -5,7 +5,7 @@ import { BehaviorSubject, finalize, map, Observable } from 'rxjs';
 import { IUser } from '../models/user';
 import { APIService } from './api.service';
 import { LoggerService } from './logger.service';
-import { NotificationsService } from './notifications.service';
+import { NotificationService } from './notification.service';
 
 /**
  * Service for authenticating user, retrieving and updating user's profile
@@ -33,7 +33,7 @@ export class AuthService {
     private _http: HttpClient,
     private _router: Router,
     private _route: ActivatedRoute,
-    private _notificationsService: NotificationsService,
+    private _notificationsService: NotificationService,
     private _logger: LoggerService
   ) {
     // Check if user is authenticated and load user data from localStorage
