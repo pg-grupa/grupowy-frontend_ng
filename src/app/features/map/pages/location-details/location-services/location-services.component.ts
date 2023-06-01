@@ -1,5 +1,7 @@
 import { trigger, transition, query, animateChild } from '@angular/animations';
 import { Component } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { IPlaceService } from 'src/app/core/models/location-service';
 import { fadeInOutTrigger } from 'src/app/shared/animations/fade/fade-in-out-trigger';
 import { slideInOutTrigger } from 'src/app/shared/animations/slide/slide-in-out-trigger';
 
@@ -22,4 +24,15 @@ import { slideInOutTrigger } from 'src/app/shared/animations/slide/slide-in-out-
     '[@fadeInOutOuter]': '',
   },
 })
-export class LocationServicesComponent {}
+export class LocationServicesComponent {
+  locationServices: IPlaceService[] = [];
+
+  constructor(private _route: ActivatedRoute) {}
+
+  ngOnInit(): void {
+    this._route.data.subscribe((data) => {
+      this.locationServices = data['locationServices'];
+      console.log(this.locationServices);
+    });
+  }
+}

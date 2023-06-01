@@ -20,6 +20,32 @@ $btn-size: 2.5rem;
   padding-left: 3.5rem;
 }
 
+table {
+  width: 100%;
+
+  td {
+    padding: 0.5rem;
+  }
+}
+
+.table-header-name {
+  width: 100%;
+}
+
+tbody > tr:nth-child(odd) {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.price-cell {
+  text-align: right;
+}
+
+.price-type {
+  font-size: 0.8rem;
+  color: var(--color-secondary);
+  // text-transform: uppercase;
+}
+
 @include breakpoint.up("sm") {
   #services {
     border-radius: 0.5rem;

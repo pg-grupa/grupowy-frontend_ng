@@ -13,6 +13,7 @@ import { LocationServicesComponent } from './pages/location-details/location-ser
 import * as AuthGuard from 'src/app/core/guards/auth.guard';
 import { LocationReviewAddComponent } from './pages/location-details/location-reviews/location-review-add/location-review-add.component';
 import { LocationMyReviewResolver } from 'src/app/core/resolvers/location-my-review.resolver';
+import { LocationServicesResolver } from 'src/app/core/resolvers/location-services.resolver';
 
 const routes: Routes = [
   {
@@ -37,6 +38,9 @@ const routes: Routes = [
               {
                 path: 'services',
                 component: LocationServicesComponent,
+                resolve: {
+                  locationServices: LocationServicesResolver,
+                },
               },
               {
                 path: 'reviews',

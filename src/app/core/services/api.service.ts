@@ -8,6 +8,7 @@ import { ILocationType } from '../models/location-type';
 import { IReport } from '../models/report';
 import { IReview } from '../models/review';
 import { NO_LOADING } from '../interceptors/loading.interceptor';
+import { IPlaceService } from '../models/location-service';
 
 /** Service responsible for api requests. */
 @Injectable({
@@ -20,7 +21,8 @@ export class APIService {
       getTypes: 'serviceTypes/',
       getLocations: 'locations/',
       getLocation: (id: number): string => `location/${id}/details/`,
-      favourite: (id: number): string => `locations/details/${id}/favourite/`,
+      getLocationServices: (id: number): string => `location/${id}/services/`,
+      favourite: 'favourite-locations/',
     },
     reports: {
       postReport: 'report/',
@@ -57,16 +59,26 @@ export class APIService {
     );
   }
 
+  getLocationServices(id: number): Observable<IPlaceService[]> {
+    return this._http.get<IPlaceService[]>(
+      this._apiUrls.locations.getLocationServices(id)
+    );
+  }
+
   postReport(report: IReport): Observable<void> {
     return this._http.post<void>(this._apiUrls.reports.postReport, report);
   }
 
   addFavourite(id: number): Observable<any> {
-    return this._http.post(this._apiUrls.locations.favourite(id), {});
+    return this._http.put(this._apiUrls.locations.favourite, {
+      location_id: id,
+    });
   }
 
   removeFavourite(id: number): Observable<any> {
-    return this._http.delete(this._apiUrls.locations.favourite(id));
+    return this._http.delete(this._apiUrls.locations.favourite, {
+      body: { location_id: id },
+    });
   }
 
   getLocationReviews(id: number): Observable<IReview[]> {

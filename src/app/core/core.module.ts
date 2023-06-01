@@ -41,8 +41,8 @@ const declarations = [NotificationComponent];
     SharedModule,
     HttpClientModule,
     HttpClientXsrfModule.withOptions({
-      cookieName: 'csrftoken',
-      headerName: 'X-CSRFTOKEN',
+      cookieName: 'XSRF-TOKEN',
+      headerName: 'X-XSRF-TOKEN',
     }),
     RouterModule,
   ],
