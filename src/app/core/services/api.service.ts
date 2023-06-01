@@ -1,9 +1,9 @@
 import { HttpClient, HttpContext, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map, Observable } from 'rxjs';
+import { map, Observable, tap } from 'rxjs';
 import { IBoundsQueryParams } from '../interfaces/location-query-params';
 import { IUser } from '../models/user';
-import { ILocation } from '../models/location';
+import { ILocation, ILocationFull } from '../models/location';
 import { ILocationType } from '../models/location-type';
 import { IReport } from '../models/report';
 import { IReview } from '../models/review';
@@ -17,9 +17,9 @@ export class APIService {
   /** API urls used by this service. */
   private _apiUrls = {
     locations: {
-      getTypes: 'locations/types/',
-      getLocations: 'locations/list/',
-      getLocation: (id: number): string => `locations/details/${id}/`,
+      getTypes: 'serviceTypes/',
+      getLocations: 'locations/',
+      getLocation: (id: number): string => `location/${id}/details/`,
       favourite: (id: number): string => `locations/details/${id}/favourite/`,
     },
     reports: {
@@ -51,8 +51,10 @@ export class APIService {
     });
   }
 
-  getLocationDetails(id: number): Observable<ILocation> {
-    return this._http.get<ILocation>(this._apiUrls.locations.getLocation(id));
+  getLocationDetails(id: number): Observable<ILocationFull> {
+    return this._http.get<ILocationFull>(
+      this._apiUrls.locations.getLocation(id)
+    );
   }
 
   postReport(report: IReport): Observable<void> {

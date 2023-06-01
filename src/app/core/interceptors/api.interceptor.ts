@@ -18,7 +18,10 @@ export class APIInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<unknown>> {
     const apiRequest = request.clone({
       url: `${environment.apiUrl}${request.url}`,
-      withCredentials: true,
+      setHeaders: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
     });
     return next.handle(apiRequest);
   }

@@ -8,6 +8,7 @@
     class="form-control"
     [attr.placeholder]="placeholder"
     [attr.autocomplete]="autocomplete"
+    [attr.name]="control?.name"
   />
   <input-errors [control]="control"></input-errors>
 </div>

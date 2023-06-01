@@ -9,7 +9,7 @@ import {
   take,
 } from 'rxjs';
 import { IBoundsQueryParams } from '../interfaces/location-query-params';
-import { ILocation } from '../models/location';
+import { ILocation, ILocationFull } from '../models/location';
 import { ILocationType } from '../models/location-type';
 import { APIService } from './api.service';
 import { LoggerService } from './logger.service';
@@ -91,7 +91,7 @@ export class CacheService {
     return this._apiService.getLocations(params, noLoading);
   }
 
-  getLocationDetails(id: number): Observable<ILocation> {
+  getLocationDetails(id: number): Observable<ILocationFull> {
     return this._apiService.getLocationDetails(id);
   }
 }

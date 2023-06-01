@@ -7,19 +7,27 @@ export interface IRadiusQueryParams {
   type?: number[];
 }
 
+// export interface IBoundsQueryParams {
+//   longitude__gte: number;
+//   longitude__lt: number;
+//   latitude__gte: number;
+//   latitude__lt: number;
+//   type?: number[];
+// }
+
 export interface IBoundsQueryParams {
-  longitude__gte: number;
-  longitude__lt: number;
-  latitude__gte: number;
-  latitude__lt: number;
+  lng1: number;
+  lng2: number;
+  lat1: number;
+  lat2: number;
   type?: number[];
 }
 
 export function parseBoundsToQuery(bounds: L.LatLngBounds): IBoundsQueryParams {
   return {
-    longitude__gte: bounds.getWest(),
-    longitude__lt: bounds.getEast(),
-    latitude__gte: bounds.getSouth(),
-    latitude__lt: bounds.getNorth(),
+    lng1: bounds.getWest(),
+    lng2: bounds.getEast(),
+    lat1: bounds.getSouth(),
+    lat2: bounds.getNorth(),
   };
 }

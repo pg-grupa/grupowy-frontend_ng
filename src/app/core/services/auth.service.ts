@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BehaviorSubject, finalize, map, Observable } from 'rxjs';
+import { BehaviorSubject, finalize, map, Observable, of } from 'rxjs';
 import { IUser } from '../models/user';
 import { APIService } from './api.service';
 import { LoggerService } from './logger.service';
@@ -16,7 +16,7 @@ import { NotificationService } from './notification.service';
 export class AuthService {
   /** API urls iused by this service */
   private _apiUrls = {
-    login: 'accounts/login/',
+    login: 'token/',
     logout: 'accounts/logout/',
     register: 'accounts/register/',
     update: 'accounts/update/',
@@ -81,11 +81,12 @@ export class AuthService {
    * Log user in with provided credentials.
    */
   public postLogin(data: {
-    username: string;
+    email: string;
     password: string;
   }): Observable<IUser> {
-    return this._http.post<IUser>(this._apiUrls.login, data).pipe(
-      map((user: IUser) => {
+    return this._http.post<any>(this._apiUrls.login, data).pipe(
+      map((response) => {
+        const user = response.data;
         this._logger.debug('AuthService', 'Authenticated as:', user);
         return this._startSession(user);
       })
@@ -103,11 +104,12 @@ export class AuthService {
    * Send request to log user out, on successful response delete user data from storage.
    */
   public getLogout(redirectHome: boolean = false) {
-    return this._http.get(this._apiUrls.logout).pipe(
-      map(() => {
-        this._stopSession(redirectHome);
-      })
-    );
+    // return this._http.get(this._apiUrls.logout).pipe(
+    //   map(() => {
+    //     this._stopSession(redirectHome);
+    //   }),
+    // );
+    return of(this._stopSession(redirectHome));
   }
 
   /**

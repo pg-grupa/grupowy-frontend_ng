@@ -26,12 +26,12 @@ export class LocationMarkerComponent extends MapMarkerComponent {
     if (!this.icon) {
       let locationType: ILocationType;
 
-      if (typeof this.location.type === 'number') {
+      if (typeof this.location.place_type_id === 'number') {
         locationType = this._cacheService.getLocationType(
-          this.location.type as number
+          this.location.place_type_id as number
         )!;
       } else {
-        locationType = this.location.type as ILocationType;
+        locationType = this.location.place_type_id as ILocationType;
       }
       this.icon = locationType.icon;
     }

@@ -4,7 +4,7 @@ import { IEnvironment } from 'src/app/core/interfaces/environment';
 export const defaultEnv: IEnvironment = {
   production: false,
   logging: [],
-  apiUrl: 'http://localhost:8000/api/',
+  apiUrl: 'http://localhost:80/api/v1/',
   initMapConfig: {
     lat: 54.26993584511107,
     lng: 18.26837539672852,
