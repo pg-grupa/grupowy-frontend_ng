@@ -17,10 +17,10 @@ export class AuthService {
   /** API urls iused by this service */
   private _apiUrls = {
     login: 'token/',
-    logout: 'accounts/logout/',
-    register: 'accounts/register/',
-    update: 'accounts/update/',
-    whoami: 'accounts/whoami/',
+    // logout: 'accounts/logout/',
+    register: 'register/',
+    // update: 'accounts/update/',
+    // whoami: 'accounts/whoami/',
   };
 
   /** Subject for storing authenticated user */
@@ -96,8 +96,8 @@ export class AuthService {
   /**
    * Register user with provided credentials.
    */
-  public postRegister(params: { [key: string]: string }): Observable<IUser> {
-    return this._http.post<IUser>(this._apiUrls.register, params);
+  public postRegister(params: { [key: string]: string }): Observable<void> {
+    return this._http.post<void>(this._apiUrls.register, params);
   }
 
   /**
@@ -115,19 +115,19 @@ export class AuthService {
   /**
    * Update user's profile, on successful response update user's data in storage.
    */
-  public postUpdateProfile(params: {
-    [key: string]: string;
-  }): Observable<IUser> {
-    return this._http.post<IUser>(this._apiUrls.update, params).pipe(
-      map((user) => {
-        return this._startSession(user);
-      })
-    );
-  }
+  // public postUpdateProfile(params: {
+  //   [key: string]: string;
+  // }): Observable<IUser> {
+  //   return this._http.post<IUser>(this._apiUrls.update, params).pipe(
+  //     map((user) => {
+  //       return this._startSession(user);
+  //     })
+  //   );
+  // }
 
-  public getWhoAmI() {
-    return this._http.get<IUser>(this._apiUrls.whoami);
-  }
+  // public getWhoAmI() {
+  //   return this._http.get<IUser>(this._apiUrls.whoami);
+  // }
 
   /** Update user's data in localStorage. */
   private _startSession(user: IUser): IUser {

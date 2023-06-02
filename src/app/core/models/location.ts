@@ -1,6 +1,12 @@
 import { ILocationOpenhours, IOpenHours } from './location-openhours';
 import { ILocationType } from './location-type';
 
+export interface IFavouriteLocation {
+  id: number;
+  name: string;
+  type: string;
+}
+
 export interface ILocation {
   id?: number;
   name: string;

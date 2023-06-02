@@ -42,7 +42,7 @@
   >
     <a>
       <i class="item-icon fa-solid fa-circle-user"></i>
-      <span class="item-text">Account</span>
+      <span class="item-text">{{ (user$ | async)?.name }}</span>
     </a>
     <a
       [routerLink]="[{ outlets: { auth: 'account/auth/logout' } }]"

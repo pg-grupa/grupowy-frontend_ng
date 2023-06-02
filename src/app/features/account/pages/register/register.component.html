@@ -1,1 +1,36 @@
-<p>register works!</p>
+<div class="flex margin:b-5">
+  <shared-logo-pin
+    size="clamp(2rem, 7vw, 3rem)"
+    color="var(--color-primary)"
+    shadowColor="var(--color-secondary)"
+  ></shared-logo-pin>
+  <h1 class="brand margin:l-5">ServoMap</h1>
+</div>
+<form [formGroup]="form" (ngSubmit)="register()">
+  <div class="alert error" *ngIf="nonFieldErrors.length">
+    {{ nonFieldErrors }}
+  </div>
+
+  <string-input formControlName="first_name" autocomplete="first_name">
+    <label for="first_name" class="form-label">First name</label>
+  </string-input>
+  <string-input formControlName="last_name" autocomplete="last_name">
+    <label for="last_name" class="form-label">Last name</label>
+  </string-input>
+  <email-input formControlName="email" autocomplete="email">
+    <label for="email" class="form-label">Email</label>
+  </email-input>
+  <password-input formControlName="password" autocomplete="current-password">
+    <label for="password" class="form-label">Password</label>
+  </password-input>
+  <div class="flex justify:end">
+    <button type="submit" class="btn-lg btn-primary" [disabled]="!form.valid">
+      Sign up
+    </button>
+  </div>
+  <div class="flex justify:end margin:t-2">
+    <span class="margin:r-1">Already have an account?</span>
+    <a [routerLink]="['..', 'login']"
+    queryParamsHandling="preserve">Sign in</a>
+  </div>
+</form>

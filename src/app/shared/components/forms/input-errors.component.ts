@@ -11,9 +11,10 @@ import { NgControl } from '@angular/forms';
         {{ control.errors?.['maxlength'].requiredLength }}
       </li>
       <li *ngIf="control.errors?.['minlength']">
-        Input too short. Max length:
+        Input too short. Min length:
         {{ control.errors?.['minlength'].requiredLength }}
       </li>
+      <li *ngIf="control.errors?.['email']">Enter valid email address.</li>
       <li *ngIf="control.errors?.['serverErrors']">
         {{ control.errors?.['serverErrors']}}
       </li>

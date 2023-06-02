@@ -3,7 +3,11 @@ import { Injectable } from '@angular/core';
 import { map, Observable, tap } from 'rxjs';
 import { IBoundsQueryParams } from '../interfaces/location-query-params';
 import { IUser } from '../models/user';
-import { ILocation, ILocationFull } from '../models/location';
+import {
+  IFavouriteLocation,
+  ILocation,
+  ILocationFull,
+} from '../models/location';
 import { ILocationType } from '../models/location-type';
 import { IReport } from '../models/report';
 import { IReview } from '../models/review';
@@ -67,6 +71,12 @@ export class APIService {
 
   postReport(report: IReport): Observable<void> {
     return this._http.post<void>(this._apiUrls.reports.postReport, report);
+  }
+
+  getFavourites(): Observable<IFavouriteLocation[]> {
+    return this._http
+      .get<{ data: IFavouriteLocation[] }>(this._apiUrls.locations.favourite)
+      .pipe(map((response) => response.data));
   }
 
   addFavourite(id: number): Observable<any> {

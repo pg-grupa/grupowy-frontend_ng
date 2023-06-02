@@ -11,7 +11,7 @@ import { FormBaseComponent } from 'src/app/shared/components/forms/form-base.com
 })
 export class LoginComponent extends FormBaseComponent {
   override form: FormGroup = this._fb.group({
-    email: this._fb.control('', [Validators.required]),
+    email: this._fb.control('', [Validators.required, Validators.email]),
     password: this._fb.control('', [Validators.required]),
   });
 
