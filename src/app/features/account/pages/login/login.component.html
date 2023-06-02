@@ -22,4 +22,9 @@
       Login
     </button>
   </div>
+  <div class="flex justify:end margin:t-2">
+    <span class="margin:r-1">Don't have an account?</span>
+    <a [routerLink]="['..', 'register']"
+    queryParamsHandling="preserve">Sign up</a>
+  </div>
 </form>

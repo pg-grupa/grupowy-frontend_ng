@@ -1,0 +1,77 @@
+<div
+  id="services"
+  class="absolute-grid sm:2-of-2 lg:2-of-3 container shadow"
+  @fadeInOut
+>
+  <a class="close-button" [routerLink]="['../']" queryParamsHandling="preserve">
+    <i class="fa-solid fa-x"></i>
+  </a>
+
+  <div class="container__icon-header">
+    <i class="icon fa-solid fa-calendar-days"></i>
+    <div>
+      <h3>Open Hours</h3>
+    </div>
+  </div>
+
+  <div class="overflow:y-auto">
+    <table>
+      <thead>
+        <tr>
+          <th scope="col" class="table-header-name">Day</th>
+          <th scope="col">Open</th>
+          <th scope="col">Close</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngIf="openHours.Monday">
+          <td>Monday</td>
+          <td>{{ openHours.Monday.from }}</td>
+          <td>{{ openHours.Monday.to }}</td>
+        </tr>
+        <tr *ngIf="openHours.Tuesday">
+          <td>Tuesday</td>
+          <td>{{ openHours.Tuesday.from }}</td>
+          <td>{{ openHours.Tuesday.to }}</td>
+        </tr>
+        <tr *ngIf="openHours.Wednesday">
+          <td>Wednesday</td>
+          <td>{{ openHours.Wednesday.from }}</td>
+          <td>{{ openHours.Wednesday.to }}</td>
+        </tr>
+        <tr *ngIf="openHours.Thursday">
+          <td>Thursday</td>
+          <td>{{ openHours.Thursday.from }}</td>
+          <td>{{ openHours.Thursday.to }}</td>
+        </tr>
+        <tr *ngIf="openHours.Friday">
+          <td>Friday</td>
+          <td>{{ openHours.Friday.from }}</td>
+          <td>{{ openHours.Friday.to }}</td>
+        </tr>
+        <tr *ngIf="openHours.Saturday">
+          <td>Saturday</td>
+          <td>{{ openHours.Saturday.from }}</td>
+          <td>{{ openHours.Saturday.to }}</td>
+        </tr>
+        <tr *ngIf="openHours.Sunday">
+          <td>Sunday</td>
+          <td>{{ openHours.Sunday.from }}</td>
+          <td>{{ openHours.Sunday.to }}</td>
+        </tr>
+        <!-- <tr *ngFor="let locationService of locationServices">
+          <td>{{ locationService.name }}</td>
+          <td class="price-cell">
+            {{ locationService.price }}
+            <p *ngIf="locationService.priceType == 'MONTHLY'" class="price-type">
+              /month
+            </p>
+            <p *ngIf="locationService.priceType == 'PER_HOUR'" class="price-type">
+              /hour
+            </p>
+          </td>
+        </tr> -->
+      </tbody>
+    </table>
+  </div>
+</div>

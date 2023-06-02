@@ -1,3 +1,4 @@
+import { ILocationOpenhours, IOpenHours } from './location-openhours';
 import { ILocationType } from './location-type';
 
 export interface ILocation {
@@ -16,6 +17,7 @@ export interface ILocationFull extends Omit<ILocation, 'type'> {
   phone: string;
   owner: string;
   favourited: boolean;
+  openHours: ILocationOpenhours;
   // rating_avg: null | number;
   // reviews_count: number;
 }

@@ -14,6 +14,7 @@ import * as AuthGuard from 'src/app/core/guards/auth.guard';
 import { LocationReviewAddComponent } from './pages/location-details/location-reviews/location-review-add/location-review-add.component';
 import { LocationMyReviewResolver } from 'src/app/core/resolvers/location-my-review.resolver';
 import { LocationServicesResolver } from 'src/app/core/resolvers/location-services.resolver';
+import { LocationOpenhoursComponent } from './pages/location-details/location-openhours/location-openhours.component';
 
 const routes: Routes = [
   {
@@ -35,6 +36,10 @@ const routes: Routes = [
             component: LocationDetailsComponent,
             title: LocationTitleResolver,
             children: [
+              {
+                path: 'open-hours',
+                component: LocationOpenhoursComponent,
+              },
               {
                 path: 'services',
                 component: LocationServicesComponent,

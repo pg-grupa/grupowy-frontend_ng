@@ -78,13 +78,20 @@
         ></i>
         <span class="container__link-label">Favourite</span>
       </a>
-      <a
+      <!-- <a
         [routerLink]="['reviews']"
         queryParamsHandling="preserve"
         routerLinkActive="active"
       >
         <i class="fa-solid fa-thumbs-up"></i>
         <span class="container__link-label">Reviews</span>
+      </a> -->
+      <a
+        [routerLink]="['open-hours']"
+        queryParamsHandling="preserve"
+        routerLinkActive="active"
+        ><i class="fa-solid fa-calendar-days"></i>
+        <span class="container__link-label">Openhours</span>
       </a>
       <a
         [routerLink]="['services']"
