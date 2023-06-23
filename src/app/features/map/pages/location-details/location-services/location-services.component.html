@@ -14,10 +14,28 @@
     </div>
   </div>
 
-  <div class="padding:5 overflow:y-auto">
-    <div class="alert warning">
-      <i class="fa-solid fa-triangle-exclamation"></i>
-      WIP
-    </div>
+  <div class="overflow:y-auto">
+    <table>
+      <thead>
+        <tr>
+          <th scope="col" class="table-header-name">Name</th>
+          <th scope="col">Price</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let locationService of locationServices">
+          <td>{{ locationService.name }}</td>
+          <td class="price-cell">
+            {{ locationService.price }}
+            <p *ngIf="locationService.priceType == 'MONTHLY'" class="price-type">
+              /month
+            </p>
+            <p *ngIf="locationService.priceType == 'PER_HOUR'" class="price-type">
+              /hour
+            </p>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </div>

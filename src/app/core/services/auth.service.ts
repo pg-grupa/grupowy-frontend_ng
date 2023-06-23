@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BehaviorSubject, finalize, map, Observable } from 'rxjs';
+import { BehaviorSubject, finalize, map, Observable, of } from 'rxjs';
 import { IUser } from '../models/user';
 import { APIService } from './api.service';
 import { LoggerService } from './logger.service';
@@ -16,11 +16,11 @@ import { NotificationService } from './notification.service';
 export class AuthService {
   /** API urls iused by this service */
   private _apiUrls = {
-    login: 'accounts/login/',
-    logout: 'accounts/logout/',
-    register: 'accounts/register/',
-    update: 'accounts/update/',
-    whoami: 'accounts/whoami/',
+    login: 'token/',
+    // logout: 'accounts/logout/',
+    register: 'register/',
+    // update: 'accounts/update/',
+    // whoami: 'accounts/whoami/',
   };
 
   /** Subject for storing authenticated user */
@@ -81,11 +81,12 @@ export class AuthService {
    * Log user in with provided credentials.
    */
   public postLogin(data: {
-    username: string;
+    email: string;
     password: string;
   }): Observable<IUser> {
-    return this._http.post<IUser>(this._apiUrls.login, data).pipe(
-      map((user: IUser) => {
+    return this._http.post<any>(this._apiUrls.login, data).pipe(
+      map((response) => {
+        const user = response.data;
         this._logger.debug('AuthService', 'Authenticated as:', user);
         return this._startSession(user);
       })
@@ -95,37 +96,38 @@ export class AuthService {
   /**
    * Register user with provided credentials.
    */
-  public postRegister(params: { [key: string]: string }): Observable<IUser> {
-    return this._http.post<IUser>(this._apiUrls.register, params);
+  public postRegister(params: { [key: string]: string }): Observable<void> {
+    return this._http.post<void>(this._apiUrls.register, params);
   }
 
   /**
    * Send request to log user out, on successful response delete user data from storage.
    */
   public getLogout(redirectHome: boolean = false) {
-    return this._http.get(this._apiUrls.logout).pipe(
-      map(() => {
-        this._stopSession(redirectHome);
-      })
-    );
+    // return this._http.get(this._apiUrls.logout).pipe(
+    //   map(() => {
+    //     this._stopSession(redirectHome);
+    //   }),
+    // );
+    return of(this._stopSession(redirectHome));
   }
 
   /**
    * Update user's profile, on successful response update user's data in storage.
    */
-  public postUpdateProfile(params: {
-    [key: string]: string;
-  }): Observable<IUser> {
-    return this._http.post<IUser>(this._apiUrls.update, params).pipe(
-      map((user) => {
-        return this._startSession(user);
-      })
-    );
-  }
+  // public postUpdateProfile(params: {
+  //   [key: string]: string;
+  // }): Observable<IUser> {
+  //   return this._http.post<IUser>(this._apiUrls.update, params).pipe(
+  //     map((user) => {
+  //       return this._startSession(user);
+  //     })
+  //   );
+  // }
 
-  public getWhoAmI() {
-    return this._http.get<IUser>(this._apiUrls.whoami);
-  }
+  // public getWhoAmI() {
+  //   return this._http.get<IUser>(this._apiUrls.whoami);
+  // }
 
   /** Update user's data in localStorage. */
   private _startSession(user: IUser): IUser {

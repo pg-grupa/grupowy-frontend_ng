@@ -32,6 +32,10 @@ table {
   width: 100%;
 }
 
+tbody td {
+  padding: 0.5rem;
+}
+
 tbody > tr:nth-child(odd) {
   background: rgba(0, 0, 0, 0.1);
 }

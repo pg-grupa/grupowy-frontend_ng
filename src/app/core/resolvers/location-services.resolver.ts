@@ -8,25 +8,19 @@ import {
 import { map, Observable, of } from 'rxjs';
 import { IReview } from '../models/review';
 import { APIService } from '../services/api.service';
+import { IPlaceService } from '../models/location-service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class LocationReviewsResolver implements Resolve<IReview[]> {
+export class LocationServicesResolver implements Resolve<IPlaceService[]> {
   constructor(private _apiService: APIService) {}
   resolve(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
-  ): Observable<IReview[]> {
+  ): Observable<IPlaceService[]> {
     const id = +route.paramMap.get('id')!;
 
-    return this._apiService.getLocationReviews(id).pipe(
-      map((reviews) => {
-        return reviews.map((review) => {
-          // review.created = new Date(review.created);
-          return review;
-        });
-      })
-    );
+    return this._apiService.getLocationServices(id);
   }
 }

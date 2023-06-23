@@ -11,7 +11,7 @@ import { FormBaseComponent } from 'src/app/shared/components/forms/form-base.com
 })
 export class LoginComponent extends FormBaseComponent {
   override form: FormGroup = this._fb.group({
-    username: this._fb.control('', [Validators.required]),
+    email: this._fb.control('', [Validators.required, Validators.email]),
     password: this._fb.control('', [Validators.required]),
   });
 
@@ -30,7 +30,7 @@ export class LoginComponent extends FormBaseComponent {
       .postLogin(this.form.value)
       .pipe(this.onSubmit)
       .subscribe((response) => {
-        this._notifications.success(`Welcome, ${response.username}!`);
+        this._notifications.success(`Welcome!`);
         // on successful login, go to returnUrl if present, otherwise close login modal
         if (this._route.snapshot.queryParamMap.has('returnUrl')) {
           this._router.navigateByUrl(

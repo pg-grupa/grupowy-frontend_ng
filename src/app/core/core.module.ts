@@ -16,6 +16,7 @@ import { NotificationsComponent } from './components/notifications/notifications
 import { NotificationComponent } from './components/notifications/notification/notification.component';
 import { ContentWrapperComponent } from './components/content-wrapper/content-wrapper.component';
 import { ConfirmationModalComponent } from './components/confirmation-modal/confirmation-modal.component';
+import { LeafletRouteComponent } from './components/map/leaflet-route.component';
 
 const exports = [
   LoadingComponent,
@@ -30,6 +31,7 @@ const exports = [
   NotificationsComponent,
   ContentWrapperComponent,
   ConfirmationModalComponent,
+  LeafletRouteComponent,
 ];
 
 const declarations = [NotificationComponent];
@@ -41,8 +43,8 @@ const declarations = [NotificationComponent];
     SharedModule,
     HttpClientModule,
     HttpClientXsrfModule.withOptions({
-      cookieName: 'csrftoken',
-      headerName: 'X-CSRFTOKEN',
+      cookieName: 'XSRF-TOKEN',
+      headerName: 'X-XSRF-TOKEN',
     }),
     RouterModule,
   ],

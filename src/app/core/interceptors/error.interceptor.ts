@@ -20,7 +20,11 @@ export class ErrorInterceptor implements HttpInterceptor {
   ) {}
 
   private _showNotification(response: HttpErrorResponse) {
-    this._notifications.error(`Error ${response.status}`, 0, response.message);
+    if (response.error.message) {
+      this._notifications.error(response.error.message, 5000);
+    } else {
+      this._notifications.error(`${response.statusText}`, 0, response.message);
+    }
   }
 
   /** Functions called according to error code, 'default' used for not declared codes */

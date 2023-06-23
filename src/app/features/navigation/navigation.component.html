@@ -1,1 +1,37 @@
-<p>navigation works!</p>
+<core-map [(center)]="center" [(zoom)]="zoom">
+  <core-feature-group>
+    <core-marker
+      *ngIf="userPosition"
+      [coordinates]="userPosition"
+      [color]="'orange-dark'"
+      [icon]="'fa-solid fa-person'"
+      [markerOptions]="{
+        zIndexOffset: 999999
+      }"
+    ></core-marker>
+    <core-marker
+      *ngIf="startPosition"
+      [coordinates]="startPosition"
+      [color]="'green'"
+      [icon]="'fa-solid fa-play'"
+      [markerOptions]="{
+        zIndexOffset: 999999
+      }"
+    ></core-marker>
+    <core-marker
+      *ngIf="destinationPosition"
+      [coordinates]="destinationPosition"
+      [color]="'red'"
+      [icon]="'fa-solid fa-flag-checkered'"
+      [markerOptions]="{
+        zIndexOffset: 999999
+      }"
+    ></core-marker>
+  </core-feature-group>
+
+  <core-route
+    *ngIf="userPosition && destinationPosition"
+    [start]="userPosition!"
+    [destination]="destinationPosition!"
+  ></core-route>
+</core-map>

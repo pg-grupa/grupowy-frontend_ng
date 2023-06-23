@@ -1,14 +1,16 @@
 import { trigger, transition, query, animateChild } from '@angular/animations';
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { IPlaceService } from 'src/app/core/models/location-service';
+import {
+  ILocationOpenhours,
+  IOpenHours,
+} from 'src/app/core/models/location-openhours';
 import { fadeInOutTrigger } from 'src/app/shared/animations/fade/fade-in-out-trigger';
-import { slideInOutTrigger } from 'src/app/shared/animations/slide/slide-in-out-trigger';
 
 @Component({
-  selector: 'app-location-services',
-  templateUrl: './location-services.component.html',
-  styleUrls: ['./location-services.component.scss'],
+  selector: 'app-location-openhours',
+  templateUrl: './location-openhours.component.html',
+  styleUrls: ['./location-openhours.component.scss'],
   animations: [
     fadeInOutTrigger('fadeInOut', {
       from: '0, 100%',
@@ -24,14 +26,14 @@ import { slideInOutTrigger } from 'src/app/shared/animations/slide/slide-in-out-
     '[@fadeInOutOuter]': '',
   },
 })
-export class LocationServicesComponent {
-  locationServices: IPlaceService[] = [];
+export class LocationOpenhoursComponent {
+  openHours!: ILocationOpenhours;
 
   constructor(private _route: ActivatedRoute) {}
 
   ngOnInit(): void {
     this._route.data.subscribe((data) => {
-      this.locationServices = data['locationServices'];
+      this.openHours = data['location'].openHours;
     });
   }
 }

@@ -10,6 +10,7 @@
       [attr.autocomplete]="autocomplete"
       [style.resize]="resize"
       (blur)="onTouched()"
+      [attr.name]="control?.name"
     ></textarea>
     <span class="counter" *ngIf="maxLength"
       >{{ control?.value?.length }} / {{ maxLength }}</span

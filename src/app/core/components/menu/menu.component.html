@@ -40,9 +40,9 @@
     class="menu-item margin:t-auto flex:row justify:space-between"
     *ngIf="isAuthenticated$ | async; else loginButton"
   >
-    <a>
+    <a class="text-truncate">
       <i class="item-icon fa-solid fa-circle-user"></i>
-      <span class="item-text">Account</span>
+      <span class="item-text">{{ (user$ | async)?.name }}</span>
     </a>
     <a
       [routerLink]="[{ outlets: { auth: 'account/auth/logout' } }]"

@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Observable } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
+import { IUser } from '../../models/user';
 
 @Component({
   selector: 'core-menu',
@@ -13,11 +14,13 @@ export class MenuComponent implements OnInit {
   settingsOpen: boolean = false;
 
   isAuthenticated$!: Observable<boolean>;
+  user$!: Observable<IUser | null>;
 
   constructor(private _authService: AuthService) {}
 
   ngOnInit(): void {
     this.isAuthenticated$ = this._authService.isAuthenticated$;
+    this.user$ = this._authService.user$;
   }
 
   toggleSettings() {

@@ -55,6 +55,12 @@ $item-height: 3rem;
   }
 }
 
+.text-truncate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .item-icon {
   width: $item-height;
   height: $item-height;

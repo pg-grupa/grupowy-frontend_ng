@@ -1,0 +1,38 @@
+<div
+  id="favourite-list"
+  class="container flex:column shadow"
+  [class.closed]="!open"
+>
+  <div class="container__icon-header">
+    <i class="icon fa-solid fa-heart"></i>
+    <div class="grow">
+      <h4>
+        Favourite
+      </h4>
+    </div>
+    <a
+      class="close-button"
+      (click)="toggle()"
+    >
+      <i class="fa-solid fa-x"></i>
+    </a>
+  </div>
+  <div class="flex:column">
+    <div class="container__item overflow:y-auto grow padding:0">
+      <div class="location-item" *ngFor="let location of favouriteLocations">
+        <a [routerLink]="['/', 'map', 'location', location.id]" queryParamsHandling="preserve" (click)="toggle()">
+          <h4>{{ location.name }}</h4>
+          <h5>{{ location.type }}</h5>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+<a
+  id="user-location-button"
+  class="shadow"
+  (click)="toggle()"
+  *ngIf="isAuthenticated"
+>
+  <i class="fa-solid fa-heart"></i>
+</a>

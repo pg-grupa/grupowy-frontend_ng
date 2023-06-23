@@ -19,7 +19,7 @@
       </a> -->
   </div>
   <div class="container__icon-header" (click)="toggleOpen()">
-    <i class="icon {{ location.type.icon }}"></i>
+    <i class="icon fa-solid {{ location.type.icon }}"></i>
     <div>
       <h4>
         {{ location.name }}
@@ -31,7 +31,7 @@
   </div>
   <div class="collapsible flex:column" [class.collapsed]="!openMobile">
     <div class="container__item overflow:y-auto grow">
-      <div class="details-item">
+      <!-- <div class="details-item">
         <div id="rating">
           <span class="rating__stars font:fluid-3">
             <shared-rating [value]="location.rating_avg"></shared-rating>
@@ -52,22 +52,22 @@
             >
           </ng-template>
         </div>
-      </div>
+      </div> -->
       <div class="details-item">
         <h5 class="details-label">Address</h5>
         {{ location.address }}
       </div>
       <div class="details-item">
-        <h5 class="details-label">Postal code</h5>
-        {{ location.postal_code }}
+        <h5 class="details-label">Phone</h5>
+        {{ location.phone }}
       </div>
       <div class="details-item">
-        <h5 class="details-label">City</h5>
-        {{ location.city }}
+        <h5 class="details-label">Owner</h5>
+        {{ location.owner }}
       </div>
     </div>
     <nav class="container__nav noshrink nogrow">
-      <a class="disabled">
+      <a (click)="navigateTo()">
         <i class="fa-solid fa-location-arrow"></i>
         <span class="container__link-label">Navigate</span>
       </a>
@@ -87,7 +87,13 @@
         <span class="container__link-label">Reviews</span>
       </a>
       <a
-        class="disabled"
+        [routerLink]="['open-hours']"
+        queryParamsHandling="preserve"
+        routerLinkActive="active"
+        ><i class="fa-solid fa-calendar-days"></i>
+        <span class="container__link-label">Openhours</span>
+      </a>
+      <a
         [routerLink]="['services']"
         queryParamsHandling="preserve"
         routerLinkActive="active"

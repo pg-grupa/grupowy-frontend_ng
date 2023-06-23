@@ -1,20 +1,29 @@
+import { ILocationOpenhours, IOpenHours } from './location-openhours';
 import { ILocationType } from './location-type';
+
+export interface IFavouriteLocation {
+  id: number;
+  name: string;
+  type: string;
+}
 
 export interface ILocation {
   id?: number;
   name: string;
-  type: number;
+  place_type_id: number;
   latitude: number;
   longitude: number;
+  address: string;
 }
 
 export interface ILocationFull extends Omit<ILocation, 'type'> {
   id: number;
   type: ILocationType;
   address: string;
-  city: string;
-  postal_code: string;
+  phone: string;
+  owner: string;
   favourited: boolean;
-  rating_avg: null | number;
-  reviews_count: number;
+  openHours: ILocationOpenhours;
+  // rating_avg: null | number;
+  // reviews_count: number;
 }

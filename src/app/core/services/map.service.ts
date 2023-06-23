@@ -30,4 +30,18 @@ export class MapService {
       this._map.removeLayer(layer);
     }
   }
+
+  addControl(control: L.Control): void {
+    this._map?.addControl(control);
+  }
+
+  removeControl(control: L.Control): void {
+    if (this._map) {
+      this._map.removeControl(control);
+    }
+  }
+
+  flyToBounds(bounds: L.LatLngBoundsExpression): void {
+    this._map!.flyToBounds(bounds);
+  }
 }

@@ -2,19 +2,27 @@ import { Injectable } from '@angular/core';
 import {
   catchError,
   finalize,
+  forkJoin,
   map,
   Observable,
   of,
   ReplaySubject,
+  skip,
   take,
+  tap,
 } from 'rxjs';
 import { IBoundsQueryParams } from '../interfaces/location-query-params';
-import { ILocation } from '../models/location';
+import {
+  IFavouriteLocation,
+  ILocation,
+  ILocationFull,
+} from '../models/location';
 import { ILocationType } from '../models/location-type';
 import { APIService } from './api.service';
 import { LoggerService } from './logger.service';
 import * as L from 'leaflet';
 import { LoadingService } from './loading.service';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root',
@@ -31,29 +39,35 @@ export class CacheService {
 
   private _locationTypes: ILocationType[] = [];
 
+  public favouriteLocations: IFavouriteLocation[] = [];
+
   constructor(
     private _apiService: APIService,
     private _logger: LoggerService,
-    private _loadingService: LoadingService
+    private _loadingService: LoadingService,
+    private _authService: AuthService
   ) {
     this._loadingService.start();
     this._logger.debug('CacheService', 'constructor');
-    this._apiService
-      .getTypes()
+    forkJoin({
+      types: this._apiService.getTypes(),
+      favourites: this.getFavourites(),
+    })
       .pipe(
-        take(1),
-        catchError((error) => {
-          // navigation to error page done in ErrorInterceptor
-          // return of([]);
-          throw error;
-        }),
         finalize(() => {
           this._loadingService.stop();
         })
       )
-      .subscribe((response) => {
-        this._locationTypes = response;
+      .subscribe((results) => {
+        this._locationTypes = results.types;
+        this.favouriteLocations = results.favourites;
         this._initializedSubject.next(true);
+        this._logger.debug('CacheService', 'Types', this._locationTypes);
+        this._logger.debug(
+          'CacheService',
+          'Favourites',
+          this.favouriteLocations
+        );
         this._logger.debug('CacheService', 'Initialized');
       });
 
@@ -73,6 +87,14 @@ export class CacheService {
       this.userPositionSubject.next(null);
       this._logger.warn('CacheService', 'Geolocation not supported');
     }
+
+    this._authService.isAuthenticated$
+      .pipe(skip(1))
+      .subscribe((isAuthenticated) => {
+        this.getFavourites().subscribe((favourites) => {
+          this.favouriteLocations = favourites;
+        });
+      });
   }
 
   getLocationTypes() {
@@ -91,7 +113,45 @@ export class CacheService {
     return this._apiService.getLocations(params, noLoading);
   }
 
-  getLocationDetails(id: number): Observable<ILocation> {
+  getLocationDetails(id: number): Observable<ILocationFull> {
     return this._apiService.getLocationDetails(id);
+  }
+
+  getFavourites(): Observable<IFavouriteLocation[]> {
+    if (!this._authService.isAuthenticated) {
+      return of([]);
+    }
+    return this._apiService.getFavourites();
+  }
+
+  isFavorite(id: number): boolean {
+    return (
+      this.favouriteLocations.find((location) => location.id === id) !==
+      undefined
+    );
+  }
+
+  addFavourite(location: ILocationFull) {
+    return this._apiService.addFavourite(location.id).pipe(
+      tap(() => {
+        if (!this.isFavorite(location.id)) {
+          this.favouriteLocations.push({
+            id: location.id,
+            name: location.name,
+            type: location.type.name,
+          });
+        }
+      })
+    );
+  }
+
+  removeFavourite(id: number) {
+    return this._apiService.removeFavourite(id).pipe(
+      tap(() => {
+        this.favouriteLocations = this.favouriteLocations.filter(
+          (location) => location.id !== id
+        );
+      })
+    );
   }
 }

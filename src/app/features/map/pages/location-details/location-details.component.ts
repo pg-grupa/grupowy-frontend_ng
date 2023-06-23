@@ -21,6 +21,7 @@ import { AuthService } from 'src/app/core/services/auth.service';
 import { APIService } from 'src/app/core/services/api.service';
 import { LoggerService } from 'src/app/core/services/logger.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { CacheService } from 'src/app/core/services/cache.service';
 
 @Component({
   templateUrl: './location-details.component.html',
@@ -57,12 +58,16 @@ export class LocationDetailsComponent {
     private _notificationsService: NotificationService,
     private _authService: AuthService,
     private _apiService: APIService,
+    private _cacheService: CacheService,
     private _logger: LoggerService
   ) {}
 
   ngOnInit(): void {
     this._route.data.subscribe((data) => {
       this.location = data['location'];
+      this.location.favourited = this._cacheService.isFavorite(
+        this.location.id
+      );
 
       const coordinates = new L.LatLng(
         this.location.latitude,
@@ -88,6 +93,14 @@ export class LocationDetailsComponent {
     this.movestartSubscription.unsubscribe();
   }
 
+  navigateTo() {
+    this._router.navigate(['/', 'navigate'], {
+      queryParams: {
+        to: `${this.location.latitude},${this.location.longitude}`,
+      },
+    });
+  }
+
   toggleOpen() {
     this.openMobile = !this.openMobile;
   }
@@ -102,9 +115,9 @@ export class LocationDetailsComponent {
 
     let handler: Observable<any>;
     if (this.location.favourited) {
-      handler = this._apiService.removeFavourite(this.location.id);
+      handler = this._cacheService.removeFavourite(this.location.id);
     } else {
-      handler = this._apiService.addFavourite(this.location.id);
+      handler = this._cacheService.addFavourite(this.location);
     }
 
     handler

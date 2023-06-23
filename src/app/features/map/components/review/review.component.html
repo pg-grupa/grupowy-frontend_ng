@@ -1,9 +1,9 @@
 <div class="review">
   <div class="review__header">
     <div class="review__rating">
-      <shared-rating-integer [value]="review.rating"></shared-rating-integer>
+      <shared-rating-integer [value]="review.score"></shared-rating-integer>
     </div>
-    <div class="review__timestamp">{{ review.created | date }}</div>
+    <!-- <div class="review__timestamp">{{ review.created | date }}</div> -->
   </div>
   <div class="review__text" [class.collapsed]="collapsed" #reviewText>
     {{ review.text }}
@@ -22,6 +22,6 @@
 
   </div>
   <div class="review__footer">
-    <div class="review__author">&#8212; {{ review.user }}</div>
+    <!-- <div class="review__author">&#8212; {{ review.user }}</div> -->
   </div>
 </div>
