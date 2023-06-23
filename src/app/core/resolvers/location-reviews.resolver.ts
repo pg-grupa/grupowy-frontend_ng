@@ -23,7 +23,7 @@ export class LocationReviewsResolver implements Resolve<IReview[]> {
     return this._apiService.getLocationReviews(id).pipe(
       map((reviews) => {
         return reviews.map((review) => {
-          review.created = new Date(review.created);
+          // review.created = new Date(review.created);
           return review;
         });
       })

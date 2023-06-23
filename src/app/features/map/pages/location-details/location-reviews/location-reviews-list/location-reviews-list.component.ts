@@ -33,18 +33,8 @@ export class LocationReviewsListComponent implements OnInit {
       this.refreshReviews();
     });
 
-    // Load myReview if/when user authenticates
-    this.isAuthenticated$ = this._authService.isAuthenticated$.pipe(
-      tap((isAuthenticated) => {
-        if (isAuthenticated && !this.myReview) {
-          this._apiService
-            .getMyReview(this.location.id)
-            .subscribe((myReview) => {
-              this.myReview = myReview;
-            });
-        }
-      })
-    );
+    // // Load myReview if/when user authenticates
+    this.isAuthenticated$ = this._authService.isAuthenticated$;
   }
 
   deleteMyReview(): void {
@@ -66,13 +56,15 @@ export class LocationReviewsListComponent implements OnInit {
         )
         .subscribe((toDelete) => {
           if (toDelete === true) {
-            this._apiService.deleteMyReview(this.location.id).subscribe(() => {
-              this.myReview = undefined;
-              this.refreshReviews();
-              this._notificationsService.success(
-                'Review deleted successfully.'
-              );
-            });
+            this._apiService
+              .deleteMyReview(this.location.id, this.myReview!.id!)
+              .subscribe(() => {
+                this.myReview = undefined;
+                this.refreshReviews();
+                this._notificationsService.success(
+                  'Review deleted successfully.'
+                );
+              });
           }
         });
     }
@@ -83,6 +75,12 @@ export class LocationReviewsListComponent implements OnInit {
       .getLocationReviews(this.location.id)
       .subscribe((reviews) => {
         this.reviews = reviews;
+
+        const user = this._authService.getUser();
+
+        if (user) {
+          this.myReview = reviews.find((review) => review.user_id === user.id);
+        }
       });
   }
 }

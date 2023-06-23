@@ -18,8 +18,11 @@ export class LocationReviewAddComponent
   location!: ILocationFull;
 
   override form: FormGroup = this._fb.group({
-    rating: this._fb.control(0, [Validators.min(1), Validators.max(5)]),
-    text: this._fb.control('', [Validators.maxLength(this.maxLength)]),
+    score: this._fb.control(0, [Validators.min(1), Validators.max(5)]),
+    text: this._fb.control('', [
+      Validators.maxLength(this.maxLength),
+      Validators.required,
+    ]),
   });
 
   constructor(

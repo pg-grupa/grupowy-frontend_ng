@@ -32,9 +32,10 @@ export class APIService {
       postReport: 'report/',
     },
     reviews: {
-      locationReviews: (id: number) => `reviews/location/${id}/`,
+      locationReviews: (id: number) => `location/${id}/reviews`,
       createReview: (id: number) => `reviews/location/${id}/create/`,
-      myReview: (id: number) => `reviews/location/${id}/my-review/`,
+      myReview: (id: number, review_id: number) =>
+        `location/${id}/reviews/${review_id}`,
     },
   };
 
@@ -92,7 +93,11 @@ export class APIService {
   }
 
   getLocationReviews(id: number): Observable<IReview[]> {
-    return this._http.get<IReview[]>(this._apiUrls.reviews.locationReviews(id));
+    return this._http.get<any>(this._apiUrls.reviews.locationReviews(id)).pipe(
+      map((response) => {
+        return response.data.reviews;
+      })
+    );
   }
 
   createReview(
@@ -100,14 +105,16 @@ export class APIService {
     review: { rating: number; text: string }
   ): Observable<IReview> {
     return this._http.post<IReview>(
-      this._apiUrls.reviews.createReview(id),
+      this._apiUrls.reviews.locationReviews(id),
       review
     );
   }
 
   getMyReview(id: number): Observable<IReview | undefined> {
     return this._http
-      .get<IReview>(this._apiUrls.reviews.myReview(id), { observe: 'response' })
+      .get<IReview>(this._apiUrls.reviews.myReview(id, 0), {
+        observe: 'response',
+      })
       .pipe(
         map((response) => {
           // if status HTTP_204_NO_CONTENT (no review for location) return undefined
@@ -121,12 +128,18 @@ export class APIService {
 
   updateMyReview(
     id: number,
+    review_id: number,
     review: { rating: number; text: string }
   ): Observable<IReview> {
-    return this._http.put<IReview>(this._apiUrls.reviews.myReview(id), review);
+    return this._http.put<IReview>(
+      this._apiUrls.reviews.myReview(id, review_id),
+      review
+    );
   }
 
-  deleteMyReview(id: number): Observable<void> {
-    return this._http.delete<void>(this._apiUrls.reviews.myReview(id));
+  deleteMyReview(id: number, review_id: number): Observable<void> {
+    return this._http.delete<void>(
+      this._apiUrls.reviews.myReview(id, review_id)
+    );
   }
 }

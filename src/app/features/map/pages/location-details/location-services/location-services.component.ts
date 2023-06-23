@@ -32,7 +32,6 @@ export class LocationServicesComponent {
   ngOnInit(): void {
     this._route.data.subscribe((data) => {
       this.locationServices = data['locationServices'];
-      console.log(this.locationServices);
     });
   }
 }

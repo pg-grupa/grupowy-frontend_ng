@@ -67,7 +67,7 @@
       </div>
     </div>
     <nav class="container__nav noshrink nogrow">
-      <a class="disabled">
+      <a (click)="navigateTo()">
         <i class="fa-solid fa-location-arrow"></i>
         <span class="container__link-label">Navigate</span>
       </a>
@@ -78,14 +78,14 @@
         ></i>
         <span class="container__link-label">Favourite</span>
       </a>
-      <!-- <a
+      <a
         [routerLink]="['reviews']"
         queryParamsHandling="preserve"
         routerLinkActive="active"
       >
         <i class="fa-solid fa-thumbs-up"></i>
         <span class="container__link-label">Reviews</span>
-      </a> -->
+      </a>
       <a
         [routerLink]="['open-hours']"
         queryParamsHandling="preserve"

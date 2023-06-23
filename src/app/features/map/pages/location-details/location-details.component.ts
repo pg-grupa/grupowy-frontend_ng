@@ -93,6 +93,14 @@ export class LocationDetailsComponent {
     this.movestartSubscription.unsubscribe();
   }
 
+  navigateTo() {
+    this._router.navigate(['/', 'navigate'], {
+      queryParams: {
+        to: `${this.location.latitude},${this.location.longitude}`,
+      },
+    });
+  }
+
   toggleOpen() {
     this.openMobile = !this.openMobile;
   }

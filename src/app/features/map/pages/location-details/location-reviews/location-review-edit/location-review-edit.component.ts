@@ -38,7 +38,7 @@ export class LocationReviewEditComponent
       this.location = data['location'];
       const review: IReview = data['myReview'];
       this.form.setValue({
-        rating: review.rating,
+        rating: review.score,
         text: review.text,
       });
     });
@@ -47,7 +47,7 @@ export class LocationReviewEditComponent
   saveReview(): void {
     if (!this.form.invalid) {
       this._apiService
-        .updateMyReview(this.location.id, this.form.value)
+        .updateMyReview(this.location.id, 0, this.form.value)
         .pipe(this.onSubmit)
         .subscribe((response) => {
           this._notifications.success('Review updated successfully.');

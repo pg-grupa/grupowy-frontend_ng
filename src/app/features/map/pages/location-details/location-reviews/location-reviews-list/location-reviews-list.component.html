@@ -11,13 +11,13 @@
     </a>
   </div>
   <div class="controls flex justify:end" *ngIf="myReview">
-    <a
+    <!-- <a
       class="btn-primary margin:r-2"
       [routerLink]="['../edit']"
       queryParamsHandling="preserve"
     >
       <i class="fa-solid fa-pen-to-square"></i> Edit
-    </a>
+    </a> -->
     <a class="btn-error" (click)="deleteMyReview()"><i class="fa-solid fa-trash"></i> Delete</a>
   </div>
   

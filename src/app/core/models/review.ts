@@ -1,7 +1,7 @@
 export interface IReview {
   id: number | null;
-  user: string;
+  user_id: number;
   text: string;
-  rating: number;
-  created: Date;
+  score: number;
+  // created: Date;
 }
