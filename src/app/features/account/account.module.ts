@@ -9,6 +9,7 @@ import { RegisterComponent } from './pages/register/register.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LogoutComponent } from './pages/logout/logout.component';
+import { AboutComponent } from './pages/about/about.component';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { LogoutComponent } from './pages/logout/logout.component';
     ProfileComponent,
     RegisterComponent,
     LogoutComponent,
+    AboutComponent,
   ],
   imports: [CommonModule, AccountRoutingModule, SharedModule],
 })
