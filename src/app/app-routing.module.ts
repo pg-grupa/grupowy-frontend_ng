@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CacheInitializedResolver } from './core/resolvers/cache-initialized.resolver';
-import { AboutPageComponent } from './pages/about-page/about-page.component';
 
 const routes: Routes = [
   {
@@ -25,11 +24,6 @@ const routes: Routes = [
           import('./features/navigation/navigation.module').then(
             (m) => m.NavigationModule
           ),
-      },
-      {
-        path: 'about',
-        component: AboutPageComponent,
-        outlet: 'background',
       },
     ],
   },

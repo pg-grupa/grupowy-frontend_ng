@@ -16,6 +16,7 @@ import { LocationReviewAddComponent } from './pages/location-details/location-re
 import { LocationReviewEditComponent } from './pages/location-details/location-reviews/location-review-edit/location-review-edit.component';
 import { LocationOpenhoursComponent } from './pages/location-details/location-openhours/location-openhours.component';
 import { FavouriteListComponent } from './components/favourite-list/favourite-list.component';
+import { SearchSidebarComponent } from './components/search-sidebar/search-sidebar.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { FavouriteListComponent } from './components/favourite-list/favourite-li
     LocationReviewEditComponent,
     LocationOpenhoursComponent,
     FavouriteListComponent,
+    SearchSidebarComponent,
   ],
   imports: [CommonModule, MapRoutingModule, CoreModule, SharedModule],
 })

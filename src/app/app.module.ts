@@ -10,13 +10,12 @@ import { APIInterceptor } from './core/interceptors/api.interceptor';
 import { LoadingInterceptor } from './core/interceptors/loading.interceptor';
 import { SharedModule } from './shared/shared.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { AboutPageComponent } from './pages/about-page/about-page.component';
 import { TitleStrategy } from '@angular/router';
 import { ServoMapTitleStrategy } from './core/utils/title-strategy';
 import { ErrorInterceptor } from './core/interceptors/error.interceptor';
 
 @NgModule({
-  declarations: [AppComponent, AboutPageComponent],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,

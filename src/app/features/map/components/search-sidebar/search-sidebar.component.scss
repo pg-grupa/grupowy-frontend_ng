@@ -5,7 +5,7 @@ $margin-top: 5rem;
 $nav-size: 2.75rem;
 $margin-bottom: 1rem;
 
-#favourite-list {
+#search-sidebar {
   position: absolute;
   top: 0;
   right: 0;
@@ -99,7 +99,7 @@ $margin-bottom: 1rem;
 #user-location-button {
   position: absolute;
   right: 1rem;
-  top: 4.5rem;
+  top: 1rem;
   z-index: 8000;
   height: $nav-size;
   width: $nav-size;
@@ -117,7 +117,7 @@ $margin-bottom: 1rem;
     padding-left: 0.5rem;
   }
 
-  #favourite-list {
+  #search-sidebar {
     width: 50%;
   }
 }
