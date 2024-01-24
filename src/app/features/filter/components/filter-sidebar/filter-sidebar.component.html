@@ -1,0 +1,60 @@
+<div
+  id="search-sidebar"
+  class="container flex:column shadow"
+  [class.closed]="!open"
+>
+  <div class="container__icon-header">
+    <i class="icon fa-solid fa-filter"></i>
+    <div class="grow">
+      <h4>Filter</h4>
+    </div>
+    <a class="close-button" (click)="toggle()">
+      <i class="fa-solid fa-x"></i>
+    </a>
+  </div>
+  <div class="flex:column overflow:y-auto">
+    <div class="container__item grow padding:0">
+      <form [formGroup]="form" (ngSubmit)="performSearch()" class="padding:5">
+        <div class="alert warning margin:b-5" *ngIf="!selectedCoords">
+          Right click on map to select coordinates.
+        </div>
+        <number-input formControlName="searchRadius">
+          <label for="searchRadius" class="form-label">Radius (km)</label>
+        </number-input>
+        <core-single-type-selector
+          (selectedTypeChange)="selectType($event)"
+        ></core-single-type-selector>
+        <div class="flex justify:end margin:t-4">
+          <button
+            type="submit"
+            class="btn-lg btn-primary"
+            [disabled]="!form.valid || !selectedCoords"
+          >
+            Search
+          </button>
+        </div>
+      </form>
+      <div
+        *ngFor="let location of results"
+        class="location-item padding:x-3 padding:y-5"
+      >
+        <div class="flex:row align:center justify:space">
+        <a [routerLink]="['/map', 'location', location.id]" target="_blank">
+          <h3>
+            {{ location.name }}
+          </h3>
+        </a>
+          <span class="btn-sm btn-secondary margin:r-3">
+            {{ calcDistance(location) }}
+          </span>
+        </div>
+        <p>
+          {{ location.address }}
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+<a id="open-filters-button" class="shadow" (click)="toggle()">
+  <i class="fa-solid fa-filter"></i>
+</a>

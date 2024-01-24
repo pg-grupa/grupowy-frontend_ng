@@ -6,6 +6,7 @@ import { RegisterComponent } from './pages/register/register.component';
 import * as AuthGuard from 'src/app/core/guards/auth.guard';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { LogoutComponent } from './pages/logout/logout.component';
+import { AboutComponent } from './pages/about/about.component';
 
 const routes: Routes = [
   {
@@ -16,6 +17,10 @@ const routes: Routes = [
         path: '',
         redirectTo: 'profile',
         pathMatch: 'full',
+      },
+      {
+        path: 'about',
+        component: AboutComponent,
       },
       {
         path: 'auth',

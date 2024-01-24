@@ -18,13 +18,33 @@
   </a>
   <a
     class="menu-item"
+    [routerLink]="['/', 'filter']"
+    routerLinkActive="active"
+    queryParamsHandling="preserve"
+    (click)="onMainNavigation()"
+  >
+    <i class="item-icon fa-solid fa-filter"></i>
+    <span class="item-text">Filter</span>
+  </a>
+
+  <a 
+    class="menu-item"
+    [routerLink]="[{ outlets: { auth: 'account/about' } }]"
+    [relativeTo]="null"
+    queryParamsHandling="preserve"
+  >
+    <i class="item-icon fa-solid fa-circle-info"></i>
+    <span class="item-text">About</span>
+  </a>
+  <!-- <a
+    class="menu-item"
     [routerLink]="['/', 'navigate']"
     routerLinkActive="active"
     (click)="onMainNavigation()"
   >
     <i class="item-icon fa-solid fa-location-arrow"></i>
     <span class="item-text">Navigation</span>
-  </a>
+  </a> -->
   <a class="menu-item" (click)="toggleSettings()">
     <i class="item-icon fa-solid fa-gear"></i>
     <span class="item-text">Settings</span>
@@ -32,10 +52,6 @@
   <div class="collapsible" [class.open]="settingsOpen">
     <core-settings></core-settings>
   </div>
-  <a class="menu-item">
-    <i class="item-icon fa-solid fa-circle-info"></i>
-    <span class="item-text">About</span>
-  </a>
   <div
     class="menu-item margin:t-auto flex:row justify:space-between"
     *ngIf="isAuthenticated$ | async; else loginButton"

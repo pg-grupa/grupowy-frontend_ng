@@ -1,0 +1,37 @@
+<div
+  id="search-sidebar"
+  class="container flex:column shadow"
+  [class.closed]="!open"
+>
+  <div class="container__icon-header">
+    <i class="icon fa-solid fa-magnifying-glass"></i>
+    <div class="grow">
+      <h4>Search</h4>
+    </div>
+    <a class="close-button" (click)="toggle()">
+      <i class="fa-solid fa-x"></i>
+    </a>
+  </div>
+  <div class="flex:column">
+    <div class="container__item overflow:y-auto grow padding:0">
+      <div class="form-group">
+        <input
+          type="text"
+          name="geoserch"
+          id="geoserch"
+          class="margin:5 form-control"
+          [(ngModel)]="query"
+          (input)="onQueryChanged()"
+        />
+      </div>
+      <div class="location-item" *ngFor="let result of results">
+        <a [routerLink]="['/', 'map', 'coordinates', result.y + ',' + result.x]" queryParamsHandling="preserve">
+          <h4>{{ result.label }}</h4>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+<a id="user-location-button" class="shadow" (click)="toggle()">
+  <i class="fa-solid fa-magnifying-glass"></i>
+</a>

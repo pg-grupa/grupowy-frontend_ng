@@ -29,6 +29,7 @@ export class GeosearchService {
   }
 
   searchQuery(query: string) {
+    console.log(query);
     return from(this.provider.search({ query: query }));
   }
 }

@@ -5,7 +5,7 @@ $margin-top: 5rem;
 $nav-size: 2.75rem;
 $margin-bottom: 1rem;
 
-#favourite-list {
+#search-sidebar {
   position: absolute;
   top: 0;
   right: 0;
@@ -20,27 +20,6 @@ $margin-bottom: 1rem;
     transform: translateX(100%);
   }
 }
-
-// .controls {
-//   position: absolute;
-//   display: flex;
-//   align-items: center;
-//   top: calc(-1rem - $btn-size);
-//   right: 0.5rem;
-//   background: var(--container-background);
-//   border-radius: 0.5rem;
-
-//   > * {
-//     width: $btn-size;
-//     height: $btn-size;
-//     line-height: $btn-size;
-//     text-align: center;
-//     font-size: calc($btn-size / 2);
-//     text-decoration: none;
-//     color: var(--text-color);
-//     cursor: pointer;
-//   }
-// }
 
 .close-button {
   width: $btn-size;
@@ -84,22 +63,26 @@ $margin-bottom: 1rem;
   }
 }
 
-.location-item a {
-  display: block;
-
-  text-decoration: none;
-  color: var(--text-color);
-  padding: 0.5rem 1.5rem;
-
-  &:hover {
-    background: rgba(126, 126, 126, 0.25);
-  }
+.container__item {
+  max-height: 100%;
 }
 
-#user-location-button {
+// .location-item a {
+//   display: block;
+
+//   text-decoration: none;
+//   color: var(--text-color);
+//   padding: 0.5rem 1.5rem;
+
+//   &:hover {
+//     background: rgba(126, 126, 126, 0.25);
+//   }
+// }
+
+#open-filters-button {
   position: absolute;
   right: 1rem;
-  top: 4.5rem;
+  top: 1rem;
   z-index: 8000;
   height: $nav-size;
   width: $nav-size;
@@ -112,12 +95,20 @@ $margin-bottom: 1rem;
   cursor: pointer;
 }
 
+.location-item {
+  border-bottom: 1px solid var(--shadow-color);
+
+  a {
+    text-decoration: none;
+  }
+}
+
 @include breakpoint.up("sm") {
   .container__icon-header {
     padding-left: 0.5rem;
   }
 
-  #favourite-list {
+  #search-sidebar {
     width: 50%;
   }
 }

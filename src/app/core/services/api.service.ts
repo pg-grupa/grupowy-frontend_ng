@@ -58,6 +58,16 @@ export class APIService {
     });
   }
 
+  getFilteredLocations(params: any): Observable<ILocation[]> {
+    params['lat1'] = 0;
+    params['lat2'] = 1000;
+    params['lng1'] = 0;
+    params['lng2'] = 1000;
+    return this._http.get<ILocation[]>(this._apiUrls.locations.getLocations, {
+      params: params as any,
+    });
+  }
+
   getLocationDetails(id: number): Observable<ILocationFull> {
     return this._http.get<ILocationFull>(
       this._apiUrls.locations.getLocation(id)

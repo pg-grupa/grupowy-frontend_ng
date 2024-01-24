@@ -17,6 +17,7 @@ import { NotificationComponent } from './components/notifications/notification/n
 import { ContentWrapperComponent } from './components/content-wrapper/content-wrapper.component';
 import { ConfirmationModalComponent } from './components/confirmation-modal/confirmation-modal.component';
 import { LeafletRouteComponent } from './components/map/leaflet-route.component';
+import { SingleTypeSelectorComponent } from './components/single-type-selector/single-type-selector.component';
 
 const exports = [
   LoadingComponent,
@@ -25,6 +26,7 @@ const exports = [
   MenuComponent,
   SettingsComponent,
   TypeSelectorComponent,
+  SingleTypeSelectorComponent,
   LeafletMapComponent,
   FeatureGroupComponent,
   ClusterGroupComponent,

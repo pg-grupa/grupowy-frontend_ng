@@ -37,6 +37,7 @@ export class CacheService {
     new ReplaySubject(1);
   readonly userPosition$ = this.userPositionSubject.asObservable();
 
+  private _cachedLocations: ILocation[] | null = null;
   private _locationTypes: ILocationType[] = [];
 
   public favouriteLocations: IFavouriteLocation[] = [];
@@ -52,6 +53,7 @@ export class CacheService {
     forkJoin({
       types: this._apiService.getTypes(),
       favourites: this.getFavourites(),
+      locations: this._apiService.getFilteredLocations({}),
     })
       .pipe(
         finalize(() => {
@@ -68,6 +70,10 @@ export class CacheService {
           'Favourites',
           this.favouriteLocations
         );
+        // timeout as a fix to NG100
+        setTimeout(() => {
+          this._cachedLocations = results.locations;
+        }, 1000);
         this._logger.debug('CacheService', 'Initialized');
       });
 
@@ -109,7 +115,21 @@ export class CacheService {
     params: IBoundsQueryParams,
     noLoading: boolean = false
   ): Observable<ILocation[]> {
-    // TODO: cache locations in memory
+    if (this._cachedLocations) {
+      let results = [];
+      for (let index = 0; index < this._cachedLocations.length; index++) {
+        const location = this._cachedLocations[index];
+        if (
+          location.latitude >= params.lat1 &&
+          location.latitude <= params.lat2 &&
+          location.longitude >= params.lng1 &&
+          location.longitude <= params.lng2
+        ) {
+          results.push(location);
+        }
+      }
+      return of(results);
+    }
     return this._apiService.getLocations(params, noLoading);
   }
 

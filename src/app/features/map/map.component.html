@@ -51,6 +51,17 @@
   <i class="fa-solid fa-street-view"></i>
 </a>
 
+<a
+  id="filter-button"
+  class="shadow"
+  [routerLink]="['/filter']"
+  queryParamsHandling="preserve"
+>
+  <i class="fa-solid fa-filter"></i>
+</a>
+
+
 <router-outlet></router-outlet>
 
 <map-favourite-list></map-favourite-list>
+<map-search-sidebar></map-search-sidebar>

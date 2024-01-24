@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CacheInitializedResolver } from './core/resolvers/cache-initialized.resolver';
-import { AboutPageComponent } from './pages/about-page/about-page.component';
 
 const routes: Routes = [
   {
@@ -13,11 +12,15 @@ const routes: Routes = [
         redirectTo: 'map',
         pathMatch: 'full',
       },
-
       {
         path: 'map',
         loadChildren: () =>
           import('./features/map/map.module').then((m) => m.MapModule),
+      },
+      {
+        path: 'filter',
+        loadChildren: () =>
+          import('./features/filter/filter.module').then((m) => m.FilterModule),
       },
       {
         path: 'navigate',
@@ -25,11 +28,6 @@ const routes: Routes = [
           import('./features/navigation/navigation.module').then(
             (m) => m.NavigationModule
           ),
-      },
-      {
-        path: 'about',
-        component: AboutPageComponent,
-        outlet: 'background',
       },
     ],
   },

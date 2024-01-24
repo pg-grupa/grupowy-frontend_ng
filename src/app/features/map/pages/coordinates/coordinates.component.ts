@@ -8,7 +8,7 @@ import {
   animateChild,
 } from '@angular/animations';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, ParamMap } from '@angular/router';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { GeosearchService } from 'src/app/core/services/geosearch.service';
 import { fadeIn } from 'src/app/shared/animations/fade/fade-in';
@@ -41,6 +41,7 @@ export class CoordinatesComponent implements OnInit, OnDestroy {
 
   constructor(
     private _route: ActivatedRoute,
+    private _router: Router,
     private _mapModuleService: MapModuleService,
     private _geosearchService: GeosearchService
   ) {}
@@ -85,5 +86,13 @@ export class CoordinatesComponent implements OnInit, OnDestroy {
 
   zoomIn() {
     this._mapModuleService.flyTo(this.coords, 18);
+  }
+
+  navigateTo() {
+    this._router.navigate(['/', 'navigate'], {
+      queryParams: {
+        to: `${this.coords.lat},${this.coords.lng}`,
+      },
+    });
   }
 }
