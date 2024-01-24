@@ -16,6 +16,16 @@
     <i class="item-icon fa-solid fa-compass"></i>
     <span class="item-text">Map</span>
   </a>
+  <a
+    class="menu-item"
+    [routerLink]="['/', 'filter']"
+    routerLinkActive="active"
+    queryParamsHandling="preserve"
+    (click)="onMainNavigation()"
+  >
+    <i class="item-icon fa-solid fa-filter"></i>
+    <span class="item-text">Filter</span>
+  </a>
 
   <a 
     class="menu-item"

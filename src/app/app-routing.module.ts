@@ -12,11 +12,15 @@ const routes: Routes = [
         redirectTo: 'map',
         pathMatch: 'full',
       },
-
       {
         path: 'map',
         loadChildren: () =>
           import('./features/map/map.module').then((m) => m.MapModule),
+      },
+      {
+        path: 'filter',
+        loadChildren: () =>
+          import('./features/filter/filter.module').then((m) => m.FilterModule),
       },
       {
         path: 'navigate',

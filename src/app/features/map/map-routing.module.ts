@@ -15,7 +15,6 @@ import { LocationReviewAddComponent } from './pages/location-details/location-re
 import { LocationMyReviewResolver } from 'src/app/core/resolvers/location-my-review.resolver';
 import { LocationServicesResolver } from 'src/app/core/resolvers/location-services.resolver';
 import { LocationOpenhoursComponent } from './pages/location-details/location-openhours/location-openhours.component';
-import { FiltersComponent } from './pages/filters/filters.component';
 
 const routes: Routes = [
   {

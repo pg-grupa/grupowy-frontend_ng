@@ -1,0 +1,39 @@
+<core-map [(center)]="center" [(zoom)]="zoom" (rightClick)="onMapClick($event)">
+  <core-cluster-group name="ClusterGroup">
+    <core-location-marker
+      *ngFor="let location of results"
+      [location]="location"
+      (click)="onLocationClick(location)"
+    ></core-location-marker>
+  </core-cluster-group>
+  <core-feature-group>
+    <core-marker
+      *ngIf="userPosition"
+      [coordinates]="userPosition"
+      [color]="'orange-dark'"
+      [icon]="'fa-solid fa-person'"
+      [markerOptions]="{
+        zIndexOffset: 999999
+      }"
+    ></core-marker>
+    <core-marker
+      *ngIf="selectedCoordinates"
+      [coordinates]="selectedCoordinates"
+      [color]="'red'"
+      [icon]="'fa-solid fa-crosshairs'"
+      [markerOptions]="{
+        zIndexOffset: 999999
+      }"
+    ></core-marker>
+  </core-feature-group>
+</core-map>
+<a
+  id="user-location-button"
+  class="shadow"
+  (click)="flyToUserPosition()"
+  *ngIf="userPosition"
+>
+  <i class="fa-solid fa-street-view"></i>
+</a>
+
+<filter-sidebar (searchResults)="onSearchResults($event)"></filter-sidebar>

@@ -1,0 +1,14 @@
+<a class="type-select" [class.selected]="allTypes" (click)="resetSelection()">
+  All
+</a>
+<ng-container
+  *ngFor="let locationType of locationTypes | keyvalue : preserveOrder"
+>
+  <a
+    class="type-select"
+    [class.selected]="locationType.value.id == _selectedType"
+    (click)="toggleTypeSelection(locationType.value.id)"
+  >
+    {{ locationType.value.name }}
+  </a>
+</ng-container>

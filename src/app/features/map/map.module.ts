@@ -6,7 +6,6 @@ import { MapComponent } from './map.component';
 import { CoreModule } from 'src/app/core/core.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { LocationDetailsComponent } from './pages/location-details/location-details.component';
-import { FiltersComponent } from './pages/filters/filters.component';
 import { LocationServicesComponent } from './pages/location-details/location-services/location-services.component';
 import { CoordinatesComponent } from './pages/coordinates/coordinates.component';
 import { LocationReviewsComponent } from './pages/location-details/location-reviews/location-reviews.component';
@@ -22,7 +21,6 @@ import { SearchSidebarComponent } from './components/search-sidebar/search-sideb
   declarations: [
     MapComponent,
     LocationDetailsComponent,
-    FiltersComponent,
     LocationServicesComponent,
     CoordinatesComponent,
     LocationReviewsComponent,

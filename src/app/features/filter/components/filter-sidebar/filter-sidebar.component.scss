@@ -1,0 +1,114 @@
+@use "/src/styles/mixin/breakpoints.scss" as breakpoint;
+
+$btn-size: 2.5rem;
+$margin-top: 5rem;
+$nav-size: 2.75rem;
+$margin-bottom: 1rem;
+
+#search-sidebar {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: 100%;
+  max-width: 500px;
+  z-index: 999999;
+  transition: transform 0.375s ease-in-out;
+
+  &.closed {
+    // max-width: 0;
+    transform: translateX(100%);
+  }
+}
+
+.close-button {
+  width: $btn-size;
+  height: $btn-size;
+  line-height: $btn-size;
+  text-align: center;
+  font-size: calc($btn-size / 2);
+  text-decoration: none;
+  color: var(--text-color);
+  cursor: pointer;
+}
+
+.open-toggle {
+  border-right: 1px solid var(--shadow-color);
+
+  > i {
+    transition: all 375ms ease-in-out;
+    // opacity: 0.6;
+  }
+
+  &.open > i {
+    transform: rotateX(180deg);
+  }
+}
+
+.container__icon-header {
+  padding-left: 4rem;
+
+  h4 {
+    font-size: 1.3rem;
+    line-height: 1.4rem;
+    margin-top: 0.5rem;
+    margin-bottom: 0;
+    flex-grow: 1;
+  }
+
+  h5 {
+    font-size: 0.9rem;
+    font-weight: normal;
+    color: var(--color-primary);
+  }
+}
+
+.container__item {
+  max-height: 100%;
+}
+
+// .location-item a {
+//   display: block;
+
+//   text-decoration: none;
+//   color: var(--text-color);
+//   padding: 0.5rem 1.5rem;
+
+//   &:hover {
+//     background: rgba(126, 126, 126, 0.25);
+//   }
+// }
+
+#open-filters-button {
+  position: absolute;
+  right: 1rem;
+  top: 1rem;
+  z-index: 8000;
+  height: $nav-size;
+  width: $nav-size;
+  line-height: $nav-size;
+  text-align: center;
+  border-radius: 0.5rem;
+  font-size: calc($nav-size/2);
+  background-color: var(--container-background);
+  color: var(--text-color);
+  cursor: pointer;
+}
+
+.location-item {
+  border-bottom: 1px solid var(--shadow-color);
+
+  a {
+    text-decoration: none;
+  }
+}
+
+@include breakpoint.up("sm") {
+  .container__icon-header {
+    padding-left: 0.5rem;
+  }
+
+  #search-sidebar {
+    width: 50%;
+  }
+}

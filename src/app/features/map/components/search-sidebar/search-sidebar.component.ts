@@ -27,7 +27,6 @@ export class SearchSidebarComponent implements OnInit {
         countrycodes: 'pl', // limit search results to the Poland
       },
     });
-    console.log(this.provider);
   }
 
   onQueryChanged() {
