@@ -5,14 +5,14 @@
   <p class="error" *ngFor="let error of errorMessages">
     {{ error }}
   </p>
-  <input type="hidden" id="location" formControlName="location" />
+  <input type="hidden" id="objectId" formControlName="objectId" />
   <div class="form-group">
     <label class="form-label" for="name">Location</label>
     <input type="text" class="form-control" [value]="location.name" disabled />
   </div>
 
-  <textarea-input formControlName="message" [maxLength]="maxLength">
-    <label class="form-label" for="message">Message</label>
+  <textarea-input formControlName="comment" [maxLength]="maxLength">
+    <label class="form-label" for="comment">Message</label>
   </textarea-input>
   
   <div class="buttons">

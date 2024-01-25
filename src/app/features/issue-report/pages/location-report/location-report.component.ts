@@ -17,8 +17,8 @@ export class LocationReportComponent implements OnInit {
   errorMessages: string[] = [];
 
   form: FormGroup = this._fb.group({
-    location: this._fb.control(null, [Validators.required]),
-    message: this._fb.control('', [
+    objectId: this._fb.control(null, [Validators.required]),
+    comment: this._fb.control('', [
       Validators.required,
       Validators.maxLength(this.maxLength),
     ]),
@@ -42,7 +42,7 @@ export class LocationReportComponent implements OnInit {
     this._route.data.subscribe((data) => {
       this.location = data['location'];
       this.form.patchValue({
-        location: this.location.id,
+        objectId: this.location.id,
       });
     });
   }
