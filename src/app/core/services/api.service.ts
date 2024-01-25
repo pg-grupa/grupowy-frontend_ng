@@ -29,7 +29,7 @@ export class APIService {
       favourite: 'favourite-locations/',
     },
     reports: {
-      postReport: 'report/',
+      postReport: 'comment',
     },
     reviews: {
       locationReviews: (id: number) => `location/${id}/reviews`,
@@ -81,6 +81,7 @@ export class APIService {
   }
 
   postReport(report: IReport): Observable<void> {
+    console.log(report);
     return this._http.post<void>(this._apiUrls.reports.postReport, report);
   }
 
